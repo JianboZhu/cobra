@@ -1,0 +1,15 @@
+.SConstruct.lock
+.sconsign.dblite
+blade-bin
+build64_debug/
+build64_release/
+build32_debug/
+build32_release/
+*.swp
+*.stamp
+*.INFO
+*.ERROR
+*.FATAL
+log
+core
+tags
