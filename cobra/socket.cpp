@@ -1,15 +1,14 @@
-#include "cobra/net/socket.h"
+#include "cobra/socket.h"
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/inet_address.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/inet_address.h"
+#include "cobra/socket_wrapper.h"
 
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <strings.h>  // bzero
 
 namespace cobra {
-namespace net {
 
 Socket::~Socket() {
   internal::close(sockfd_);
@@ -74,5 +73,4 @@ void Socket::setKeepAlive(bool on) {
   // FIXME CHECK
 }
 
-}  // namespace net
 }  // namespace cobra

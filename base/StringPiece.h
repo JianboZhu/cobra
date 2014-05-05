@@ -43,7 +43,7 @@
 #include <string.h>
 #include <iosfwd>    // for ostream forward-declaration
 
-#include <cobra/base/Types.h>
+#include <base/Types.h>
 #ifndef COBRA_STD_STRING
 #include <string>
 #endif

@@ -6,16 +6,15 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Mutex.h"
-#include "cobra/base/StringPiece.h"
-#include "cobra/base/Types.h"
-#include "cobra/net/callbacks.h"
-#include "cobra/net/buffer.h"
-#include "cobra/net/inet_address.h"
+#include "base/macros.h"
+#include "base/Mutex.h"
+#include "base/StringPiece.h"
+#include "base/Types.h"
+#include "cobra/callbacks.h"
+#include "cobra/buffer.h"
+#include "cobra/inet_address.h"
 
 namespace cobra {
-namespace net {
 
 class Channel;
 class EventLoop;
@@ -130,7 +129,6 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
 
 typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TCPCONNECTION_H

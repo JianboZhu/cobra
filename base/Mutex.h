@@ -1,7 +1,7 @@
 #ifndef COBRA_BASE_MUTEX_H_
 #define COBRA_BASE_MUTEX_H_
 
-#include <cobra/base/CurrentThread.h>
+#include <base/CurrentThread.h>
 #include <boost/noncopyable.hpp>
 #include <assert.h>
 #include <pthread.h>

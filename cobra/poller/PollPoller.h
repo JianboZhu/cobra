@@ -1,17 +1,14 @@
 #ifndef COBRA_NET_POLLER_POLLPOLLER_H_
 #define COBRA_NET_POLLER_POLLPOLLER_H_
 
-#include <cobra/net/Poller.h>
+#include <cobra/Poller.h>
 
 #include <map>
 #include <vector>
 
 struct pollfd;
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 ///
 /// IO Multiplexing with poll(2).
@@ -42,6 +39,6 @@ class PollPoller : public Poller
   ChannelMap channels_;
 };
 
-}
-}
+}  // namespace cobra
+
 #endif  // COBRA_NET_POLLER_POLLPOLLER_H_

@@ -1,18 +1,15 @@
-#define __STDC_LIMIT_MACROS
-
-#include "cobra/net/timer_queue.h"
+#include "cobra/timer_queue.h"
 
 #include <sys/timerfd.h>
 
 #include <boost/bind.hpp>
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/timer.h"
-#include "cobra/net/timer_id.h"
+#include "base/Logging.h"
+#include "cobra/event_loop.h"
+#include "cobra/timer.h"
+#include "cobra/timer_id.h"
 
 namespace cobra {
-namespace net {
 
 namespace {
 
@@ -95,17 +92,6 @@ TimerId TimerQueue::addTimer(const TimerCallback& cb,
       boost::bind(&TimerQueue::addTimerInLoop, this, timer));
   return TimerId(timer, timer->sequence());
 }
-
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-TimerId TimerQueue::addTimer(TimerCallback&& cb,
-                             Timestamp when,
-                             double interval) {
-  Timer* timer = new Timer(std::move(cb), when, interval);
-  loop_->runInLoop(
-      boost::bind(&TimerQueue::addTimerInLoop, this, timer));
-  return TimerId(timer, timer->sequence());
-}
-#endif
 
 void TimerQueue::cancel(TimerId timerId) {
   loop_->runInLoop(
@@ -225,5 +211,4 @@ bool TimerQueue::insert(Timer* timer) {
   return earliestChanged;
 }
 
-}  // namespac net
 }  // namespac cobra

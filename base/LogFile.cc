@@ -1,6 +1,6 @@
-#include <cobra/base/LogFile.h>
-#include <cobra/base/Logging.h> // strerror_tl
-#include <cobra/base/ProcessInfo.h>
+#include <base/LogFile.h>
+#include <base/Logging.h> // strerror_tl
+#include <base/ProcessInfo.h>
 
 #include <assert.h>
 #include <stdio.h>

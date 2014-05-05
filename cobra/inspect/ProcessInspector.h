@@ -1,13 +1,10 @@
 #ifndef COBRA_NET_INSPECT_PROCESSINSPECTOR_H_
 #define COBRA_NET_INSPECT_PROCESSINSPECTOR_H_
 
-#include <cobra/net/inspect/Inspector.h>
+#include <cobra/inspect/Inspector.h>
 #include <boost/noncopyable.hpp>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class ProcessInspector : boost::noncopyable
 {
@@ -23,7 +20,6 @@ class ProcessInspector : boost::noncopyable
   static string username_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_INSPECT_PROCESSINSPECTOR_H_

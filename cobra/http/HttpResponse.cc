@@ -1,10 +1,9 @@
-#include <cobra/net/http/HttpResponse.h>
-#include <cobra/net/Buffer.h>
+#include <cobra/http/HttpResponse.h>
+#include <cobra/Buffer.h>
 
 #include <stdio.h>
 
 using namespace cobra;
-using namespace cobra::net;
 
 void HttpResponse::appendToBuffer(Buffer* output) const
 {

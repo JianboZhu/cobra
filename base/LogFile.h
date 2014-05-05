@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_LOGFILE_H_
 #define COBRA_BASE_LOGFILE_H_
 
-#include <cobra/base/Mutex.h>
-#include <cobra/base/Types.h>
+#include <base/Mutex.h>
+#include <base/Types.h>
 
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>

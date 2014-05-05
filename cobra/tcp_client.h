@@ -1,12 +1,11 @@
 #ifndef COBRA_NET_TCPCLIENT_H
 #define COBRA_NET_TCPCLIENT_H
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Mutex.h"
-#include "cobra/net/tcp_connection.h"
+#include "base/macros.h"
+#include "base/Mutex.h"
+#include "cobra/tcp_connection.h"
 
 namespace cobra {
-namespace net {
 
 class Connector;
 typedef boost::shared_ptr<Connector> ConnectorPtr;
@@ -69,7 +68,6 @@ class TcpClient : boost::noncopyable {
   TcpConnectionPtr connection_; // @GuardedBy mutex_
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TCPCLIENT_H

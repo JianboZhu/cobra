@@ -1,4 +1,4 @@
-#include "cobra/net/socket_wrapper.h"
+#include "cobra/socket_wrapper.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -7,12 +7,11 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include "cobra/base/Logging.h"
-#include "cobra/base/Types.h"
-#include "cobra/net/endian.h"
+#include "base/Logging.h"
+#include "base/Types.h"
+#include "cobra/endian.h"
 
 namespace cobra {
-namespace net {
 namespace internal {
 
 namespace {
@@ -221,5 +220,4 @@ bool isSelfConnect(int sockfd) {
 }
 
 }  // namespace internal
-}  // namespace net
 }  // namespace cobra

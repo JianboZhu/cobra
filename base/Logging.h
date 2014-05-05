@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_LOGGING_H_
 #define COBRA_BASE_LOGGING_H_
 
-#include <cobra/base/LogStream.h>
-#include <cobra/base/timestamp.h>
+#include <base/LogStream.h>
+#include <base/timestamp.h>
 
 namespace cobra
 {

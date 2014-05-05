@@ -1,7 +1,7 @@
 #ifndef COBRA_BASE_TIMEZONE_H_
 #define COBRA_BASE_TIMEZONE_H_
 
-#include <cobra/base/copyable.h>
+#include <base/copyable.h>
 #include <boost/shared_ptr.hpp>
 #include <time.h>
 

@@ -6,11 +6,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/timestamp.h"
+#include "base/macros.h"
+#include "base/timestamp.h"
 
 namespace cobra {
-namespace net {
 
 class EventLoop;
 
@@ -135,7 +134,6 @@ class Channel {
   DISABLE_COPY_AND_ASSIGN(Channel);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_CHANNEL_H_

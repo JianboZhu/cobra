@@ -1,18 +1,15 @@
-#include <cobra/net/http/HttpServer.h>
+#include <cobra/http/HttpServer.h>
 
-#include <cobra/base/Logging.h>
-#include <cobra/net/http/HttpContext.h>
-#include <cobra/net/http/HttpRequest.h>
-#include <cobra/net/http/HttpResponse.h>
+#include <base/Logging.h>
+#include <cobra/http/HttpContext.h>
+#include <cobra/http/HttpRequest.h>
+#include <cobra/http/HttpResponse.h>
 
 #include <boost/bind.hpp>
 
 using namespace cobra;
-using namespace cobra::net;
 
 namespace cobra
-{
-namespace net
 {
 namespace detail
 {
@@ -130,9 +127,8 @@ void defaultHttpCallback(const HttpRequest&, HttpResponse* resp)
   resp->setCloseConnection(true);
 }
 
-}
-}
-}
+}  // namespace detail
+}  // namespace cobra
 
 HttpServer::HttpServer(EventLoop* loop,
                        const InetAddress& listenAddr,

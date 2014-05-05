@@ -5,13 +5,12 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Atomic.h"
-#include "cobra/base/Types.h"
-#include "cobra/net/tcp_connection.h"
+#include "base/macros.h"
+#include "base/Atomic.h"
+#include "base/Types.h"
+#include "cobra/tcp_connection.h"
 
 namespace cobra {
-namespace net {
 
 class Acceptor;
 class EventLoop;
@@ -109,7 +108,6 @@ class TcpServer {
   DISABLE_COPY_AND_ASSIGN(TcpServer);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TCPSERVER_H_

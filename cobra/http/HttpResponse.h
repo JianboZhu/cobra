@@ -1,15 +1,12 @@
 #ifndef COBRA_NET_H_TTP_HTTPRESPONSE_H
 #define COBRA_NET_H_TTP_HTTPRESPONSE_H
 
-#include <cobra/base/copyable.h>
-#include <cobra/base/Types.h>
+#include <base/copyable.h>
+#include <base/Types.h>
 
 #include <map>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class Buffer;
 class HttpResponse : public cobra::copyable
@@ -63,7 +60,6 @@ class HttpResponse : public cobra::copyable
   string body_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_H_TTP_HTTPRESPONSE_H

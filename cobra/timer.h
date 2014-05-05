@@ -1,13 +1,12 @@
 #ifndef COBRA_NET_TIMER_H
 #define COBRA_NET_TIMER_H
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Atomic.h"
-#include "cobra/base/timestamp.h"
-#include "cobra/net/callbacks.h"
+#include "base/macros.h"
+#include "base/Atomic.h"
+#include "base/timestamp.h"
+#include "cobra/callbacks.h"
 
 namespace cobra {
-namespace net {
 
 class Timer {
  public:
@@ -43,7 +42,6 @@ class Timer {
   DISABLE_COPY_AND_ASSIGN(Timer);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TIMER_H

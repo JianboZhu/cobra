@@ -1,4 +1,4 @@
-#include <cobra/base/CountDownLatch.h>
+#include <base/CountDownLatch.h>
 
 using namespace cobra;
 

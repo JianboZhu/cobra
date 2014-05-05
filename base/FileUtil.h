@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_FILEUTIL_H_
 #define COBRA_BASE_FILEUTIL_H_
 
-#include <cobra/base/Types.h>
-#include <cobra/base/StringPiece.h>
+#include <base/Types.h>
+#include <base/StringPiece.h>
 #include <boost/noncopyable.hpp>
 
 namespace cobra

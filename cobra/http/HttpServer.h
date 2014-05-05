@@ -1,13 +1,10 @@
 #ifndef COBRA_NET_H_TTP_HTTPSERVER_H
 #define COBRA_NET_H_TTP_HTTPSERVER_H
 
-#include <cobra/net/TcpServer.h>
+#include <cobra/TcpServer.h>
 #include <boost/noncopyable.hpp>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class HttpRequest;
 class HttpResponse;
@@ -55,7 +52,6 @@ class HttpServer : boost::noncopyable
   HttpCallback httpCallback_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_H_TTP_HTTPSERVER_H

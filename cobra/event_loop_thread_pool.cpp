@@ -1,12 +1,11 @@
-#include "cobra/net/event_loop_thread_pool.h"
+#include "cobra/event_loop_thread_pool.h"
 
 #include <boost/bind.hpp>
 
-#include "cobra/net/event_loop.h"
-#include "cobra/net/event_loop_thread.h"
+#include "cobra/event_loop.h"
+#include "cobra/event_loop_thread.h"
 
 namespace cobra {
-namespace net {
 
 EventLoopThreadPool::EventLoopThreadPool(EventLoop* baseLoop)
   : baseLoop_(baseLoop),
@@ -51,5 +50,4 @@ EventLoop* EventLoopThreadPool::getNextLoop() {
   return loop;
 }
 
-}  // namespace net
 }  // namespace cobra

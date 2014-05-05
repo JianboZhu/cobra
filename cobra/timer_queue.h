@@ -4,13 +4,12 @@
 #include <set>
 #include <vector>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/timestamp.h"
-#include "cobra/net/callbacks.h"
-#include "cobra/net/channel.h"
+#include "base/macros.h"
+#include "base/timestamp.h"
+#include "cobra/callbacks.h"
+#include "cobra/channel.h"
 
 namespace cobra {
-namespace net {
 
 class EventLoop;
 class Timer;
@@ -66,7 +65,6 @@ class TimerQueue {
   DISABLE_COPY_AND_ASSIGN(TimerQueue);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TIMERQUEUE_H

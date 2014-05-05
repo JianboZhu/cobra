@@ -1,7 +1,7 @@
-#include <cobra/net/inspect/PerformanceInspector.h>
-#include <cobra/base/FileUtil.h>
-#include <cobra/base/LogStream.h>
-#include <cobra/base/ProcessInfo.h>
+#include <cobra/inspect/PerformanceInspector.h>
+#include <base/FileUtil.h>
+#include <base/LogStream.h>
+#include <base/ProcessInfo.h>
 
 #ifdef HAVE_TCMALLOC
 #include <google/malloc_extension.h>

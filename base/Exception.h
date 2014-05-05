@@ -1,7 +1,7 @@
 #ifndef COBRA_BASE_EXCEPTION_H_
 #define COBRA_BASE_EXCEPTION_H_
 
-#include <cobra/base/Types.h>
+#include <base/Types.h>
 #include <exception>
 
 namespace cobra

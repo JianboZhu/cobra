@@ -5,7 +5,6 @@
 #include <endian.h>
 
 namespace cobra {
-namespace net {
 
 inline uint64_t hostToNetwork64(uint64_t host64) {
   return htobe64(host64);
@@ -31,7 +30,6 @@ inline uint16_t networkToHost16(uint16_t net16) {
   return be16toh(net16);
 }
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_ENDIAN_H_

@@ -1,19 +1,16 @@
 #ifndef COBRA_NET_INSPECT_INSPECTOR_H_
 #define COBRA_NET_INSPECT_INSPECTOR_H_
 
-#include <cobra/base/Mutex.h>
-#include <cobra/net/http/HttpRequest.h>
-#include <cobra/net/http/HttpServer.h>
+#include <base/Mutex.h>
+#include <cobra/http/HttpRequest.h>
+#include <cobra/http/HttpServer.h>
 
 #include <map>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class ProcessInspector;
 class PerformanceInspector;
@@ -50,7 +47,6 @@ class Inspector : boost::noncopyable
   std::map<string, HelpList> helps_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_INSPECT_INSPECTOR_H_

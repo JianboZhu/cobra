@@ -1,18 +1,15 @@
 #ifndef COBRA_NET_H_TTP_HTTPREQUEST_H
 #define COBRA_NET_H_TTP_HTTPREQUEST_H
 
-#include <cobra/base/copyable.h>
-#include <cobra/base/Timestamp.h>
-#include <cobra/base/Types.h>
+#include <base/copyable.h>
+#include <base/Timestamp.h>
+#include <base/Types.h>
 
 #include <map>
 #include <assert.h>
 #include <stdio.h>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class HttpRequest : public cobra::copyable
 {
@@ -170,7 +167,6 @@ class HttpRequest : public cobra::copyable
   std::map<string, string> headers_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_H_TTP_HTTPREQUEST_H

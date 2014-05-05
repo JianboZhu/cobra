@@ -1,17 +1,14 @@
 #ifndef COBRA_NET_POLLER_EPOLLPOLLER_H_
 #define COBRA_NET_POLLER_EPOLLPOLLER_H_
 
-#include <cobra/net/Poller.h>
+#include <cobra/Poller.h>
 
 #include <map>
 #include <vector>
 
 struct epoll_event;
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 ///
 /// IO Multiplexing with epoll(4).
@@ -41,6 +38,6 @@ class EPollPoller : public Poller
   ChannelMap channels_;
 };
 
-}
-}
+}  // namespace cobra
+
 #endif  // COBRA_NET_POLLER_EPOLLPOLLER_H_

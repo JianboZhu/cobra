@@ -1,13 +1,12 @@
-#include "cobra/net/channel.h"
+#include "cobra/channel.h"
 
 #include <poll.h>
 #include <cstdio>
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/event_loop.h"
+#include "base/Logging.h"
+#include "cobra/event_loop.h"
 
 namespace cobra {
-namespace net {
 
 const int Channel::kNoneEvent = 0;
 const int Channel::kReadEvent = POLLIN | POLLPRI;
@@ -119,5 +118,4 @@ string Channel::reventsToString() const {
   return debug_string;
 }
 
-}  // namespace cobra
 }  // namespace net

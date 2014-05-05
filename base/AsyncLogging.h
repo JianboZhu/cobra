@@ -1,13 +1,13 @@
 #ifndef COBRA_BASE_ASYNCLOGGING_H_
 #define COBRA_BASE_ASYNCLOGGING_H_
 
-#include <cobra/base/BlockingQueue.h>
-#include <cobra/base/BoundedBlockingQueue.h>
-#include <cobra/base/CountDownLatch.h>
-#include <cobra/base/Mutex.h>
-#include <cobra/base/Thread.h>
+#include <base/BlockingQueue.h>
+#include <base/BoundedBlockingQueue.h>
+#include <base/CountDownLatch.h>
+#include <base/Mutex.h>
+#include <base/Thread.h>
 
-#include <cobra/base/LogStream.h>
+#include <base/LogStream.h>
 
 #include <boost/bind.hpp>
 #include <boost/noncopyable.hpp>

@@ -1,7 +1,7 @@
 #ifndef COBRA_BASE_TIMESTAMP_H_
 #define COBRA_BASE_TIMESTAMP_H_
 
-#include <cobra/base/Types.h>
+#include <base/Types.h>
 
 #include <boost/operators.hpp>
 

@@ -6,12 +6,11 @@
 #include <boost/function.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Condition.h"
-#include "cobra/base/Mutex.h"
+#include "base/macros.h"
+#include "base/Condition.h"
+#include "base/Mutex.h"
 
 namespace cobra {
-namespace net {
 
 class EventLoop;
 class EventLoopThread;
@@ -38,7 +37,6 @@ class EventLoopThreadPool {
   DISABLE_COPY_AND_ASSIGN(EventLoopThreadPool);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_EVENTLOOPTHREADPOOL_H_

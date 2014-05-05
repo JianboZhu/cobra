@@ -1,12 +1,11 @@
 #ifndef COBRA_NET_INETADDRESS_H
 #define COBRA_NET_INETADDRESS_H
 
-#include "cobra/base/StringPiece.h"
+#include "base/StringPiece.h"
 
 #include <netinet/in.h>
 
 namespace cobra {
-namespace net {
 
 // Wrapper of sockaddr_in.
 class InetAddress {
@@ -42,7 +41,6 @@ class InetAddress {
    sockaddr_in addr_;
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_INETADDRESS_H

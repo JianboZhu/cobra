@@ -2,10 +2,9 @@
 #define COBRA_NET_SOCKET_H
 
 
-#include "cobra/base/macros.h"
+#include "base/macros.h"
 
 namespace cobra {
-namespace net {
 
 class InetAddress;
 
@@ -53,6 +52,6 @@ class Socket {
   DISABLE_COPY_AND_ASSIGN(Socket);
 };
 
-}
-}
+}  // namespace cobra
+
 #endif  // COBRA_NET_SOCKET_H

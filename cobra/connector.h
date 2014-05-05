@@ -5,11 +5,10 @@
 #include <boost/function.hpp>
 #include <boost/scoped_ptr.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/net/inet_address.h"
+#include "base/macros.h"
+#include "cobra/inet_address.h"
 
 namespace cobra {
-namespace net {
 
 class Channel;
 class EventLoop;
@@ -57,7 +56,6 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   int retryDelayMs_;
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_CONNECTOR_H_

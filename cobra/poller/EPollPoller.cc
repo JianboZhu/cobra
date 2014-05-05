@@ -1,7 +1,7 @@
-#include <cobra/net/poller/EPollPoller.h>
+#include <cobra/poller/EPollPoller.h>
 
-#include <cobra/base/Logging.h>
-#include <cobra/net/Channel.h>
+#include <base/Logging.h>
+#include <cobra/Channel.h>
 
 #include <boost/static_assert.hpp>
 
@@ -11,7 +11,6 @@
 #include <sys/epoll.h>
 
 using namespace cobra;
-using namespace cobra::net;
 
 // On Linux, the constants of poll(2) and epoll(4)
 // are expected to be the same.

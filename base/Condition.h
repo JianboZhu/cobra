@@ -1,7 +1,7 @@
 #ifndef COBRA_BASE_CONDITION_H_
 #define COBRA_BASE_CONDITION_H_
 
-#include <cobra/base/Mutex.h>
+#include <base/Mutex.h>
 
 #include <boost/noncopyable.hpp>
 #include <pthread.h>

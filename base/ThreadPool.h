@@ -1,10 +1,10 @@
 #ifndef COBRA_BASE_THREADPOOL_H_
 #define COBRA_BASE_THREADPOOL_H_
 
-#include <cobra/base/Condition.h>
-#include <cobra/base/Mutex.h>
-#include <cobra/base/Thread.h>
-#include <cobra/base/Types.h>
+#include <base/Condition.h>
+#include <base/Mutex.h>
+#include <base/Thread.h>
+#include <base/Types.h>
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>

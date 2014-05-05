@@ -1,7 +1,7 @@
-#include <cobra/base/Thread.h>
-#include <cobra/base/CurrentThread.h>
-#include <cobra/base/Exception.h>
-#include <cobra/base/Logging.h>
+#include <base/Thread.h>
+#include <base/CurrentThread.h>
+#include <base/Exception.h>
+#include <base/Logging.h>
 
 #include <boost/static_assert.hpp>
 #include <boost/type_traits/is_same.hpp>

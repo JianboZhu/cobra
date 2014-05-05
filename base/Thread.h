@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_THREAD_H_
 #define COBRA_BASE_THREAD_H_
 
-#include <cobra/base/Atomic.h>
-#include <cobra/base/Types.h>
+#include <base/Atomic.h>
+#include <base/Types.h>
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>

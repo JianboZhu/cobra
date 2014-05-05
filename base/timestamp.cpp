@@ -1,4 +1,4 @@
-#include "cobra/base/timestamp.h"
+#include "base/timestamp.h"
 
 #include <sys/time.h>
 #include <stdio.h>

@@ -2,7 +2,6 @@
 #define COBRA_NET_TIMERID_H
 
 namespace cobra {
-namespace net {
 
 class Timer;
 
@@ -26,7 +25,6 @@ class TimerId {
   int64_t sequence_;
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_TIMERID_H

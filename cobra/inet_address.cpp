@@ -1,7 +1,7 @@
-#include "cobra/net/inet_address.h"
+#include "cobra/inet_address.h"
 
-#include "cobra/net/endian.h"
-#include "cobra/net/socket_wrapper.h"
+#include "cobra/endian.h"
+#include "cobra/socket_wrapper.h"
 
 #include <strings.h>  // bzero
 #include <netinet/in.h>
@@ -27,7 +27,6 @@ static const in_addr_t kInaddrAny = INADDR_ANY;
 //     };
 
 namespace cobra {
-namespace net {
 
 BOOST_STATIC_ASSERT(sizeof(InetAddress) == sizeof( sockaddr_in));
 
@@ -55,5 +54,4 @@ string InetAddress::toIp() const {
   return buf;
 }
 
-}  // namespace net
 }  // namespace cobra

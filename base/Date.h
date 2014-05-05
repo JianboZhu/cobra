@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_DATE_H_
 #define COBRA_BASE_DATE_H_
 
-#include <cobra/base/copyable.h>
-#include <cobra/base/Types.h>
+#include <base/copyable.h>
+#include <base/Types.h>
 
 struct tm;
 

@@ -1,4 +1,4 @@
-#include <cobra/base/Condition.h>
+#include <base/Condition.h>
 
 #include <errno.h>
 

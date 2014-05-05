@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_BOUNDEDBLOCKINGQUEUE_H_
 #define COBRA_BASE_BOUNDEDBLOCKINGQUEUE_H_
 
-#include <cobra/base/Condition.h>
-#include <cobra/base/Mutex.h>
+#include <base/Condition.h>
+#include <base/Mutex.h>
 
 #include <boost/circular_buffer.hpp>
 #include <boost/noncopyable.hpp>

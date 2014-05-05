@@ -1,17 +1,16 @@
-#include "cobra/net/acceptor.h"
+#include "cobra/acceptor.h"
 
 #include <errno.h>
 #include <fcntl.h>
 
 #include <boost/bind.hpp>
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/inet_address.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/event_loop.h"
+#include "cobra/inet_address.h"
+#include "cobra/socket_wrapper.h"
 
 namespace cobra {
-namespace net {
 
 Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr, bool reuseport)
   : loop_(loop),
@@ -74,5 +73,4 @@ void Acceptor::handleRead() {
   }
 }
 
-}  // namespace net
 }  // namespace cobra

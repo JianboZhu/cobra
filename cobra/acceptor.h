@@ -4,12 +4,11 @@
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/net/channel.h"
-#include "cobra/net/socket.h"
+#include "base/macros.h"
+#include "cobra/channel.h"
+#include "cobra/socket.h"
 
 namespace cobra {
-namespace net {
 
 class EventLoop;
 class InetAddress;
@@ -43,7 +42,6 @@ class Acceptor {
   DISABLE_COPY_AND_ASSIGN(Acceptor);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_ACCEPTOR_H_

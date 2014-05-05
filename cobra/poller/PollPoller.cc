@@ -1,15 +1,14 @@
-#include <cobra/net/poller/PollPoller.h>
+#include <cobra/poller/PollPoller.h>
 
-#include <cobra/base/Logging.h>
-#include <cobra/base/Types.h>
-#include <cobra/net/Channel.h>
+#include <base/Logging.h>
+#include <base/Types.h>
+#include <cobra/Channel.h>
 
 #include <assert.h>
 #include <errno.h>
 #include <poll.h>
 
 using namespace cobra;
-using namespace cobra::net;
 
 PollPoller::PollPoller(EventLoop* loop)
   : Poller(loop)

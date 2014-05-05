@@ -6,15 +6,14 @@
 #include <boost/function.hpp>
 #include <boost/scoped_ptr.hpp>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/Mutex.h"
-#include "cobra/base/Thread.h"
-#include "cobra/base/timestamp.h"
-#include "cobra/net/callbacks.h"
-#include "cobra/net/timer_id.h"
+#include "base/macros.h"
+#include "base/Mutex.h"
+#include "base/Thread.h"
+#include "base/timestamp.h"
+#include "cobra/callbacks.h"
+#include "cobra/timer_id.h"
 
 namespace cobra {
-namespace net {
 
 class Channel;
 class Poller;
@@ -138,7 +137,6 @@ class EventLoop {
   DISABLE_COPY_AND_ASSIGN(EventLoop);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_EVENTLOOP_H_

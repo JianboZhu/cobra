@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_PROCESSINFO_H_
 #define COBRA_BASE_PROCESSINFO_H_
 
-#include <cobra/base/Types.h>
-#include <cobra/base/Timestamp.h>
+#include <base/Types.h>
+#include <base/Timestamp.h>
 #include <vector>
 
 namespace cobra

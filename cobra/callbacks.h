@@ -4,12 +4,12 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "cobra/base/timestamp.h"
+#include "base/timestamp.h"
 
 namespace cobra {
 
 // Adapted from google-protobuf stubs/common.h
-// see License in cobra/base/Types.h
+// see License in base/Types.h
 template<typename To, typename From>
 inline ::boost::shared_ptr<To> down_pointer_cast(const ::boost::shared_ptr<From>& f) {
   if (false) {
@@ -21,8 +21,6 @@ inline ::boost::shared_ptr<To> down_pointer_cast(const ::boost::shared_ptr<From>
 #endif
   return ::boost::static_pointer_cast<To>(f);
 }
-
-namespace net {
 
 // All client visible callbacks go here.
 
@@ -45,7 +43,6 @@ void defaultMessageCallback(const TcpConnectionPtr& conn,
                             Buffer* buffer,
                             Timestamp receiveTime);
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_CALLBACKS_H_

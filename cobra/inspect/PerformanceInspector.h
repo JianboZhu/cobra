@@ -1,13 +1,10 @@
 #ifndef COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_
 #define COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_
 
-#include <cobra/net/inspect/Inspector.h>
+#include <cobra/inspect/Inspector.h>
 #include <boost/noncopyable.hpp>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
 class PerformanceInspector : boost::noncopyable
 {
@@ -24,7 +21,6 @@ class PerformanceInspector : boost::noncopyable
   static string symbol(HttpRequest::Method, const Inspector::ArgList&);
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_

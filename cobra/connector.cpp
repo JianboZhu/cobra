@@ -1,16 +1,15 @@
-#include "cobra/net/connector.h"
+#include "cobra/connector.h"
 
 #include <errno.h>
 
 #include <boost/bind.hpp>
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/channel.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/channel.h"
+#include "cobra/event_loop.h"
+#include "cobra/socket_wrapper.h"
 
 namespace cobra {
-namespace net {
 
 const int Connector::kMaxRetryDelayMs;
 const int Connector::kInitRetryDelayMs;
@@ -185,5 +184,4 @@ void Connector::retry(int sockfd) {
   }
 }
 
-}  // namespace net
 }  // namespace cobra

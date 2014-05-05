@@ -1,8 +1,8 @@
 #ifndef COBRA_BASE_LOGSTREAM_H_
 #define COBRA_BASE_LOGSTREAM_H_
 
-#include <cobra/base/StringPiece.h>
-#include <cobra/base/Types.h>
+#include <base/StringPiece.h>
+#include <base/Types.h>
 #include <assert.h>
 #include <string.h> // memcpy
 #ifndef COBRA_STD_STRING

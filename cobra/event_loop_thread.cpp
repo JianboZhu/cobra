@@ -1,11 +1,10 @@
-#include "cobra/net/event_loop_thread.h"
+#include "cobra/event_loop_thread.h"
 
 #include <boost/bind.hpp>
 
-#include "cobra/net/event_loop.h"
+#include "cobra/event_loop.h"
 
 namespace cobra {
-namespace net {
 
 EventLoopThread::EventLoopThread(const ThreadInitCallback& cb)
   : loop_(NULL),
@@ -59,5 +58,4 @@ void EventLoopThread::threadFunc() {
   loop_ = NULL;
 }
 
-}  // namespace net
 }  // namespace cobra

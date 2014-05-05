@@ -1,8 +1,8 @@
-#include <cobra/base/Logging.h>
+#include <base/Logging.h>
 
-#include <cobra/base/CurrentThread.h>
-#include <cobra/base/StringPiece.h>
-#include <cobra/base/Timestamp.h>
+#include <base/CurrentThread.h>
+#include <base/StringPiece.h>
+#include <base/Timestamp.h>
 
 #include <errno.h>
 #include <stdio.h>

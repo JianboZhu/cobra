@@ -1,11 +1,11 @@
-#include "cobra/net/event_loop.h"
+#include "cobra/event_loop.h"
 
-#include "cobra/base/Logging.h"
-#include "cobra/base/Mutex.h"
-#include "cobra/net/channel.h"
-#include "cobra/net/poller.h"
-#include "cobra/net/socket_wrapper.h"
-#include "cobra/net/timer_queue.h"
+#include "base/Logging.h"
+#include "base/Mutex.h"
+#include "cobra/channel.h"
+#include "cobra/poller.h"
+#include "cobra/socket_wrapper.h"
+#include "cobra/timer_queue.h"
 
 #include <boost/bind.hpp>
 
@@ -13,7 +13,6 @@
 #include <sys/eventfd.h>
 
 namespace cobra {
-namespace net {
 
 namespace {
 // The thread local var.
@@ -228,4 +227,3 @@ void EventLoop::printActiveChannels() const {
 }
 
 }  // namespace cobra
-}  // namespace net

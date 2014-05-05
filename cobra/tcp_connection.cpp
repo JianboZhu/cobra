@@ -1,10 +1,10 @@
-#include "cobra/net/tcp_connection.h"
+#include "cobra/tcp_connection.h"
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/channel.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/socket.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/channel.h"
+#include "cobra/event_loop.h"
+#include "cobra/socket.h"
+#include "cobra/socket_wrapper.h"
 
 #include <boost/bind.hpp>
 
@@ -12,7 +12,6 @@
 #include <stdio.h>
 
 namespace cobra {
-namespace net {
 
 namespace {
 
@@ -279,5 +278,4 @@ void TcpConnection::handleError() {
             << "] - SO_ERROR = " << err << " " << strerror_tl(err);
 }
 
-}  // namespace net
 }  // namespace cobra

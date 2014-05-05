@@ -1,6 +1,6 @@
-#include <cobra/base/AsyncLogging.h>
-#include <cobra/base/LogFile.h>
-#include <cobra/base/Timestamp.h>
+#include <base/AsyncLogging.h>
+#include <base/LogFile.h>
+#include <base/Timestamp.h>
 
 #include <stdio.h>
 

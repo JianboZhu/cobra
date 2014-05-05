@@ -1,12 +1,12 @@
-#include <cobra/net/inspect/Inspector.h>
+#include <cobra/inspect/Inspector.h>
 
-#include <cobra/base/Logging.h>
-#include <cobra/base/Thread.h>
-#include <cobra/net/EventLoop.h>
-#include <cobra/net/http/HttpRequest.h>
-#include <cobra/net/http/HttpResponse.h>
-#include <cobra/net/inspect/ProcessInspector.h>
-#include <cobra/net/inspect/PerformanceInspector.h>
+#include <base/Logging.h>
+#include <base/Thread.h>
+#include <cobra/EventLoop.h>
+#include <cobra/http/HttpRequest.h>
+#include <cobra/http/HttpResponse.h>
+#include <cobra/inspect/ProcessInspector.h>
+#include <cobra/inspect/PerformanceInspector.h>
 
 //#include <iostream>
 //#include <iterator>
@@ -16,7 +16,6 @@
 #include <boost/algorithm/string/split.hpp>
 
 using namespace cobra;
-using namespace cobra::net;
 
 namespace
 {

@@ -1,6 +1,6 @@
-#include <cobra/base/ThreadPool.h>
+#include <base/ThreadPool.h>
 
-#include <cobra/base/Exception.h>
+#include <base/Exception.h>
 
 #include <boost/bind.hpp>
 #include <assert.h>

@@ -1,16 +1,15 @@
-#include "cobra/net/tcp_client.h"
+#include "cobra/tcp_client.h"
 
 #include <cstdio>  // snprintf
 
 #include <boost/bind.hpp>
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/connector.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/connector.h"
+#include "cobra/event_loop.h"
+#include "cobra/socket_wrapper.h"
 
 namespace cobra {
-namespace net {
 
 namespace detail {
 
@@ -138,5 +137,4 @@ void TcpClient::removeConnection(const TcpConnectionPtr& conn) {
   }
 }
 
-}  // namespace net
 }  // namespace cobra

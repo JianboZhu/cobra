@@ -1,7 +1,6 @@
-#include "cobra/net/timer.h"
+#include "cobra/timer.h"
 
 namespace cobra {
-namespace net {
 
 AtomicInt64 Timer::s_numCreated_;
 
@@ -13,5 +12,4 @@ void Timer::restart(Timestamp now) {
   }
 }
 
-}  // namespace net
 }  // namespace cobra

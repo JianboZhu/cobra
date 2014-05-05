@@ -1,17 +1,16 @@
-#include "cobra/net/tcp_server.h"
+#include "cobra/tcp_server.h"
 
-#include "cobra/base/Logging.h"
-#include "cobra/net/acceptor.h"
-#include "cobra/net/event_loop.h"
-#include "cobra/net/event_loop_thread_pool.h"
-#include "cobra/net/socket_wrapper.h"
+#include "base/Logging.h"
+#include "cobra/acceptor.h"
+#include "cobra/event_loop.h"
+#include "cobra/event_loop_thread_pool.h"
+#include "cobra/socket_wrapper.h"
 
 #include <boost/bind.hpp>
 
 #include <stdio.h>  // snprintf
 
 namespace cobra {
-namespace net {
 
 TcpServer::TcpServer(EventLoop* loop,
                      const InetAddress& listenAddr,
@@ -117,5 +116,4 @@ void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn) {
       boost::bind(&TcpConnection::connectDestroyed, conn));
 }
 
-}  // namespace net
 }  // namespace cobra

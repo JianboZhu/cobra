@@ -1,13 +1,12 @@
 #ifndef COBRA_NET_EVENTLOOPTHREAD_H_
 #define COBRA_NET_EVENTLOOPTHREAD_H_
 
-#include "cobra/base/Condition.h"
-#include "cobra/base/macros.h"
-#include "cobra/base/Mutex.h"
-#include "cobra/base/Thread.h"
+#include "base/Condition.h"
+#include "base/macros.h"
+#include "base/Mutex.h"
+#include "base/Thread.h"
 
 namespace cobra {
-namespace net {
 
 class EventLoop;
 
@@ -33,7 +32,6 @@ class EventLoopThread {
   DISABLE_COPY_AND_ASSIGN(EventLoopThread);
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_EVENTLOOPTHREAD_H_

@@ -3,12 +3,11 @@
 
 #include <vector>
 
-#include "cobra/base/macros.h"
-#include "cobra/base/timestamp.h"
-#include "cobra/net/event_loop.h"
+#include "base/macros.h"
+#include "base/timestamp.h"
+#include "cobra/event_loop.h"
 
 namespace cobra {
-namespace net {
 
 class Channel;
 
@@ -45,7 +44,6 @@ class Poller {
   EventLoop* ownerLoop_;
 };
 
-}  // namesapce net
 }  // namesapce cobra
 
 #endif  // COBRA_NET_POLLER_H

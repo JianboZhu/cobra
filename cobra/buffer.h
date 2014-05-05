@@ -1,8 +1,8 @@
 #ifndef COBRA_NET_BUFFER_H_
 #define COBRA_NET_BUFFER_H_
 
-#include "cobra/base/StringPiece.h"
-#include "cobra/base/Types.h"
+#include "base/StringPiece.h"
+#include "base/Types.h"
 
 #include <assert.h>
 #include <string.h>
@@ -11,10 +11,9 @@
 #include <algorithm>
 #include <vector>
 
-#include "cobra/net/endian.h"
+#include "cobra/endian.h"
 
 namespace cobra {
-namespace net {
 
 /// A buffer class modeled after org.jboss.netty.buffer.ChannelBuffer
 ///
@@ -318,7 +317,6 @@ class Buffer {
   static const char kEOL = '\n';
 };
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_BUFFER_H_

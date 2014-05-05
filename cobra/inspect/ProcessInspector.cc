@@ -1,11 +1,10 @@
-#include <cobra/net/inspect/ProcessInspector.h>
-#include <cobra/base/ProcessInfo.h>
+#include <cobra/inspect/ProcessInspector.h>
+#include <base/ProcessInfo.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
 
 using namespace cobra;
-using namespace cobra::net;
 
 string uptime()
 {

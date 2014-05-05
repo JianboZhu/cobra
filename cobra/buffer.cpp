@@ -1,12 +1,11 @@
-#include "cobra/net/buffer.h"
+#include "cobra/buffer.h"
 
-#include "cobra/net/socket_wrapper.h"
+#include "cobra/socket_wrapper.h"
 
 #include <errno.h>
 #include <sys/uio.h>
 
 namespace cobra {
-namespace net {
 
 const char Buffer::kCRLF[] = "\r\n";
 const char Buffer::kEOL;
@@ -27,7 +26,7 @@ ssize_t Buffer::readFd(int fd, int* savedErrno) {
   // when there is enough space in this buffer, don't read into extrabuf.
   // by doing this, we read 128k-1 bytes at most
   const int iovcnt = (writable < sizeof extrabuf) ? 2 : 1;
-  const ssize_t n = cobra::net::internal::readv(fd, vec, iovcnt);
+  const ssize_t n = cobra::internal::readv(fd, vec, iovcnt);
   if (n < 0) {
     *savedErrno = errno;
   } else if (implicit_cast<size_t>(n) <= writable) {
@@ -45,5 +44,4 @@ ssize_t Buffer::readFd(int fd, int* savedErrno) {
   return n;
 }
 
-}  // namespace net
 }  // namespace cobra

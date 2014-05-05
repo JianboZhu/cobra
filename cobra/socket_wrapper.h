@@ -6,7 +6,6 @@
 #include <arpa/inet.h>
 
 namespace cobra {
-namespace net {
 
 namespace internal {
 
@@ -34,7 +33,6 @@ bool isSelfConnect(int sockfd);
 
 }  // namespace internal
 
-}  // namespace net
 }  // namespace cobra
 
 #endif  // COBRA_NET_SOCKETSOPS_H

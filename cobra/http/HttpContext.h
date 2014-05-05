@@ -1,17 +1,13 @@
 #ifndef COBRA_NET_H_TTP_HTTPCONTEXT_H
 #define COBRA_NET_H_TTP_HTTPCONTEXT_H
 
-#include <cobra/base/copyable.h>
+#include <base/copyable.h>
 
-#include <cobra/net/http/HttpRequest.h>
+#include <cobra/http/HttpRequest.h>
 
-namespace cobra
-{
-namespace net
-{
+namespace cobra {
 
-class HttpContext : public cobra::copyable
-{
+class HttpContext : public cobra::copyable {
  public:
   enum HttpRequestParseState
   {
@@ -64,7 +60,6 @@ class HttpContext : public cobra::copyable
   HttpRequest request_;
 };
 
-}
-}
+}  // namespace cobra
 
 #endif  // COBRA_NET_H_TTP_HTTPCONTEXT_H
