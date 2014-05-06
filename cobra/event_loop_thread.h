@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_EVENTLOOPTHREAD_H_
-#define COBRA_NET_EVENTLOOPTHREAD_H_
+#ifndef COBRA_EVENTLOOPTHREAD_H_
+#define COBRA_EVENTLOOPTHREAD_H_
 
 #include "base/Condition.h"
 #include "base/macros.h"
@@ -34,4 +34,4 @@ class EventLoopThread {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_EVENTLOOPTHREAD_H_
+#endif  // COBRA_EVENTLOOPTHREAD_H_

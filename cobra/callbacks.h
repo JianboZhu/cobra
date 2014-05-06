@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_CALLBACKS_H_
-#define COBRA_NET_CALLBACKS_H_
+#ifndef COBRA_CALLBACKS_H_
+#define COBRA_CALLBACKS_H_
 
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
@@ -45,4 +45,4 @@ void defaultMessageCallback(const TcpConnectionPtr& conn,
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_CALLBACKS_H_
+#endif  // COBRA_CALLBACKS_H_

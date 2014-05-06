@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_INSPECT_PROCESSINSPECTOR_H_
-#define COBRA_NET_INSPECT_PROCESSINSPECTOR_H_
+#ifndef COBRA_INSPECT_PROCESSINSPECTOR_H_
+#define COBRA_INSPECT_PROCESSINSPECTOR_H_
 
 #include <cobra/inspect/Inspector.h>
 #include <boost/noncopyable.hpp>
@@ -22,4 +22,4 @@ class ProcessInspector : boost::noncopyable
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_INSPECT_PROCESSINSPECTOR_H_
+#endif  // COBRA_INSPECT_PROCESSINSPECTOR_H_

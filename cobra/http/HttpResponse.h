@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_H_TTP_HTTPRESPONSE_H
-#define COBRA_NET_H_TTP_HTTPRESPONSE_H
+#ifndef COBRA_H_TTP_HTTPRESPONSE_H
+#define COBRA_H_TTP_HTTPRESPONSE_H
 
 #include <base/copyable.h>
 #include <base/Types.h>
@@ -62,4 +62,4 @@ class HttpResponse : public cobra::copyable
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_H_TTP_HTTPRESPONSE_H
+#endif  // COBRA_H_TTP_HTTPRESPONSE_H

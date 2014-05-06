@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_H_TTP_HTTPCONTEXT_H
-#define COBRA_NET_H_TTP_HTTPCONTEXT_H
+#ifndef COBRA_H_TTP_HTTPCONTEXT_H
+#define COBRA_H_TTP_HTTPCONTEXT_H
 
 #include <base/copyable.h>
 
@@ -62,4 +62,4 @@ class HttpContext : public cobra::copyable {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_H_TTP_HTTPCONTEXT_H
+#endif  // COBRA_H_TTP_HTTPCONTEXT_H

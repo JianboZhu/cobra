@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_TCPCONNECTION_H
-#define COBRA_NET_TCPCONNECTION_H
+#ifndef COBRA_TCPCONNECTION_H
+#define COBRA_TCPCONNECTION_H
 
 #include <boost/any.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -131,4 +131,4 @@ typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_TCPCONNECTION_H
+#endif  // COBRA_TCPCONNECTION_H

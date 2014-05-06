@@ -1,7 +1,7 @@
 // The c++ wrapper of linux c-style socket functions.
 
-#ifndef COBRA_NET_SOCKETSOPS_H
-#define COBRA_NET_SOCKETSOPS_H
+#ifndef COBRA_SOCKETSOPS_H
+#define COBRA_SOCKETSOPS_H
 
 #include <arpa/inet.h>
 
@@ -35,4 +35,4 @@ bool isSelfConnect(int sockfd);
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_SOCKETSOPS_H
+#endif  // COBRA_SOCKETSOPS_H

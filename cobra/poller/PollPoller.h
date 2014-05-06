@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_POLLER_POLLPOLLER_H_
-#define COBRA_NET_POLLER_POLLPOLLER_H_
+#ifndef COBRA_POLLER_POLLPOLLER_H_
+#define COBRA_POLLER_POLLPOLLER_H_
 
 #include <cobra/Poller.h>
 
@@ -41,4 +41,4 @@ class PollPoller : public Poller
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_POLLER_POLLPOLLER_H_
+#endif  // COBRA_POLLER_POLLPOLLER_H_

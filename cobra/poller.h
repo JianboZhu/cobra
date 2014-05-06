@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_POLLER_H
-#define COBRA_NET_POLLER_H
+#ifndef COBRA_POLLER_H
+#define COBRA_POLLER_H
 
 #include <vector>
 
@@ -46,4 +46,4 @@ class Poller {
 
 }  // namesapce cobra
 
-#endif  // COBRA_NET_POLLER_H
+#endif  // COBRA_POLLER_H

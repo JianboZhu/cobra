@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_BUFFER_H_
-#define COBRA_NET_BUFFER_H_
+#ifndef COBRA_BUFFER_H_
+#define COBRA_BUFFER_H_
 
 #include "base/StringPiece.h"
 #include "base/Types.h"
@@ -319,4 +319,4 @@ class Buffer {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_BUFFER_H_
+#endif  // COBRA_BUFFER_H_

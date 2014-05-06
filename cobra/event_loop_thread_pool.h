@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_EVENTLOOPTHREADPOOL_H_
-#define COBRA_NET_EVENTLOOPTHREADPOOL_H_
+#ifndef COBRA_EVENTLOOPTHREADPOOL_H_
+#define COBRA_EVENTLOOPTHREADPOOL_H_
 
 #include <vector>
 
@@ -39,4 +39,4 @@ class EventLoopThreadPool {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_EVENTLOOPTHREADPOOL_H_
+#endif  // COBRA_EVENTLOOPTHREADPOOL_H_

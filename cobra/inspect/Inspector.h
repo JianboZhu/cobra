@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_INSPECT_INSPECTOR_H_
-#define COBRA_NET_INSPECT_INSPECTOR_H_
+#ifndef COBRA_INSPECT_INSPECTOR_H_
+#define COBRA_INSPECT_INSPECTOR_H_
 
 #include <base/Mutex.h>
 #include <cobra/http/HttpRequest.h>
@@ -49,4 +49,4 @@ class Inspector : boost::noncopyable
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_INSPECT_INSPECTOR_H_
+#endif  // COBRA_INSPECT_INSPECTOR_H_

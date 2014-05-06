@@ -1,14 +1,14 @@
 #include "cobra/tcp_server.h"
 
+#include <cstdio>
+
+#include <boost/bind.hpp>
+
 #include "base/Logging.h"
 #include "cobra/acceptor.h"
 #include "cobra/event_loop.h"
 #include "cobra/event_loop_thread_pool.h"
 #include "cobra/socket_wrapper.h"
-
-#include <boost/bind.hpp>
-
-#include <stdio.h>  // snprintf
 
 namespace cobra {
 
@@ -34,20 +34,19 @@ TcpServer::~TcpServer() {
   loop_->assertInLoopThread();
   LOG_TRACE << "TcpServer::~TcpServer [" << name_ << "] deing";
 
-  for (ConnectionMap::iterator it(connections_.begin());
-      it != connections_.end(); ++it)
-  {
-    TcpConnectionPtr conn = it->second;
-    it->second.reset();
+  for (ConnectionMap::iterator iter = connections_.begin();
+      iter != connections_.end(); ++iter) {
+    TcpConnectionPtr conn = iter->second;
+    iter->second.reset();
     conn->getLoop()->runInLoop(
       boost::bind(&TcpConnection::connectDestroyed, conn));
     conn.reset();
   }
 }
 
-void TcpServer::setThreadNum(int numThreads) {
-  assert(0 <= numThreads);
-  threadPool_->setThreadNum(numThreads);
+void TcpServer::setThreadNum(int threads) {
+  assert(0 <= threads);
+  threadPool_->setThreadNum(threads);
 }
 
 void TcpServer::start() {

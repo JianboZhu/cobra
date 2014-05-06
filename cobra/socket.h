@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_SOCKET_H
-#define COBRA_NET_SOCKET_H
+#ifndef COBRA_SOCKET_H
+#define COBRA_SOCKET_H
 
 
 #include "base/macros.h"
@@ -54,4 +54,4 @@ class Socket {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_SOCKET_H
+#endif  // COBRA_SOCKET_H

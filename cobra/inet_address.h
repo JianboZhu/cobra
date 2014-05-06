@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_INETADDRESS_H
-#define COBRA_NET_INETADDRESS_H
+#ifndef COBRA_INETADDRESS_H
+#define COBRA_INETADDRESS_H
 
 #include "base/StringPiece.h"
 
@@ -43,4 +43,4 @@ class InetAddress {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_INETADDRESS_H
+#endif  // COBRA_INETADDRESS_H

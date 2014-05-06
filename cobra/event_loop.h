@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_EVENTLOOP_H_
-#define COBRA_NET_EVENTLOOP_H_
+#ifndef COBRA_EVENTLOOP_H_
+#define COBRA_EVENTLOOP_H_
 
 #include <vector>
 
@@ -41,9 +41,13 @@ class EventLoop {
   void quit();
 
   // Time when poll returns, usually means data arrivial.
-  Timestamp pollReturnTime() const { return pollReturnTime_; }
+  inline Timestamp pollReturnTime() const {
+    return pollReturnTime_;
+  }
 
-  int64_t iteration() const { return iteration_; }
+  inline int64_t iteration() const {
+    return iteration_;
+  }
 
   // Runs callback immediately in the loop thread.
   // It wakes up the loop, and run the cb.
@@ -52,7 +56,7 @@ class EventLoop {
   void runInLoop(const Functor& cb);
 
   // Queues callback in the loop thread.
-  // Runs after finish pooling.
+  // Runs after finish polling.
   // Safe to call from other threads.
   void queueInLoop(const Functor& cb);
 
@@ -79,8 +83,9 @@ class EventLoop {
   // Only for internal usage
   void wakeup();
 
-  // Update the monitoring events(read/write/err ect) of an fd(the socket) wrapped in
-  // a channel or adding a new fd to  the system call 'poll' to monitor.
+  // Update the monitoring events(read/write/err ect) of an fd(the socket)
+  // wrapped in a channel or adding a new fd to the system call 'poll' 
+  // to monitor.
   // @see PollPoller::updateChannel().
   void updateChannel(Channel* channel);
 
@@ -94,12 +99,17 @@ class EventLoop {
     }
   }
 
-  bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
+  inline bool isInLoopThread() const {
+    return threadId_ == CurrentThread::tid();
+  }
+  
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
 
   // Is we handling the event(read/write/err etc) now,
   // @see 'channel-->handleEvents()'
-  bool eventHandling() const { return eventHandling_; }
+  inline bool eventHandling() const {
+    return eventHandling_;
+  }
 
   static EventLoop* getEventLoopOfCurrentThread();
 
@@ -119,6 +129,7 @@ class EventLoop {
   // unlike in TimerQueue, which is an internal class,
   // we don't expose Channel to client.
   boost::scoped_ptr<Channel> wakeupChannel_;
+
   // The registered callback function for 'eventfd'.
   void handleRead();  // waked up
 
@@ -139,4 +150,4 @@ class EventLoop {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_EVENTLOOP_H_
+#endif  // COBRA_EVENTLOOP_H_

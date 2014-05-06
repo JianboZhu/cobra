@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_TIMER_H
-#define COBRA_NET_TIMER_H
+#ifndef COBRA_TIMER_H
+#define COBRA_TIMER_H
 
 #include "base/macros.h"
 #include "base/Atomic.h"
@@ -44,4 +44,4 @@ class Timer {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_TIMER_H
+#endif  // COBRA_TIMER_H

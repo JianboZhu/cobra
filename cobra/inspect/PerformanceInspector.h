@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_
-#define COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_
+#ifndef COBRA_INSPECT_PERFORMANCEINSPECTOR_H_
+#define COBRA_INSPECT_PERFORMANCEINSPECTOR_H_
 
 #include <cobra/inspect/Inspector.h>
 #include <boost/noncopyable.hpp>
@@ -23,4 +23,4 @@ class PerformanceInspector : boost::noncopyable
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_INSPECT_PERFORMANCEINSPECTOR_H_
+#endif  // COBRA_INSPECT_PERFORMANCEINSPECTOR_H_

@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_CHANNEL_H_
-#define COBRA_NET_CHANNEL_H_
+#ifndef COBRA_CHANNEL_H_
+#define COBRA_CHANNEL_H_
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -136,4 +136,4 @@ class Channel {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_CHANNEL_H_
+#endif  // COBRA_CHANNEL_H_

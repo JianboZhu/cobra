@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_ACCEPTOR_H_
-#define COBRA_NET_ACCEPTOR_H_
+#ifndef COBRA_ACCEPTOR_H_
+#define COBRA_ACCEPTOR_H_
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -44,4 +44,4 @@ class Acceptor {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_ACCEPTOR_H_
+#endif  // COBRA_ACCEPTOR_H_

@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_ENDIAN_H_
-#define COBRA_NET_ENDIAN_H_
+#ifndef COBRA_ENDIAN_H_
+#define COBRA_ENDIAN_H_
 
 #include <stdint.h>
 #include <endian.h>
@@ -32,4 +32,4 @@ inline uint16_t networkToHost16(uint16_t net16) {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_ENDIAN_H_
+#endif  // COBRA_ENDIAN_H_

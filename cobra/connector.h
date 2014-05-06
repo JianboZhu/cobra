@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_CONNECTOR_H_
-#define COBRA_NET_CONNECTOR_H_
+#ifndef COBRA_CONNECTOR_H_
+#define COBRA_CONNECTOR_H_
 
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/function.hpp>
@@ -58,4 +58,4 @@ class Connector : public boost::enable_shared_from_this<Connector> {
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_CONNECTOR_H_
+#endif  // COBRA_CONNECTOR_H_

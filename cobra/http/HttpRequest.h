@@ -1,5 +1,5 @@
-#ifndef COBRA_NET_H_TTP_HTTPREQUEST_H
-#define COBRA_NET_H_TTP_HTTPREQUEST_H
+#ifndef COBRA_H_TTP_HTTPREQUEST_H
+#define COBRA_H_TTP_HTTPREQUEST_H
 
 #include <base/copyable.h>
 #include <base/Timestamp.h>
@@ -169,4 +169,4 @@ class HttpRequest : public cobra::copyable
 
 }  // namespace cobra
 
-#endif  // COBRA_NET_H_TTP_HTTPREQUEST_H
+#endif  // COBRA_H_TTP_HTTPREQUEST_H
