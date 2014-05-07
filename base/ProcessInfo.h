@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_PROCESSINFO_H_
-#define COBRA_BASE_PROCESSINFO_H_
+#ifndef BASE_PROCESSINFO_H_
+#define BASE_PROCESSINFO_H_
 
 #include <base/Types.h>
 #include <base/Timestamp.h>
@@ -38,4 +38,4 @@ namespace ProcessInfo
 
 }
 
-#endif  // COBRA_BASE_PROCESSINFO_H_
+#endif  // BASE_PROCESSINFO_H_

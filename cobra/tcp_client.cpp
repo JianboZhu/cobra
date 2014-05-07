@@ -1,6 +1,6 @@
 #include "cobra/tcp_client.h"
 
-#include <cstdio>  // snprintf
+#include <cstdio>
 
 #include <boost/bind.hpp>
 

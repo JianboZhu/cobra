@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_EXCEPTION_H_
-#define COBRA_BASE_EXCEPTION_H_
+#ifndef BASE_EXCEPTION_H_
+#define BASE_EXCEPTION_H_
 
 #include <base/Types.h>
 #include <exception>
@@ -25,4 +25,4 @@ class Exception : public std::exception
 
 }
 
-#endif  // COBRA_BASE_EXCEPTION_H_
+#endif  // BASE_EXCEPTION_H_

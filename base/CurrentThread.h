@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_CURRENTTHREAD_H_
-#define COBRA_BASE_CURRENTTHREAD_H_
+#ifndef BASE_CURRENTTHREAD_H_
+#define BASE_CURRENTTHREAD_H_
 
 #include <stdint.h>
 

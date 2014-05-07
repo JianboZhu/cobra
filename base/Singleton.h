@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_SINGLETON_H_
-#define COBRA_BASE_SINGLETON_H_
+#ifndef BASE_SINGLETON_H_
+#define BASE_SINGLETON_H_
 
 #include <boost/noncopyable.hpp>
 #include <pthread.h>

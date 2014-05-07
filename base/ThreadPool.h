@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_THREADPOOL_H_
-#define COBRA_BASE_THREADPOOL_H_
+#ifndef BASE_THREADPOOL_H_
+#define BASE_THREADPOOL_H_
 
 #include <base/Condition.h>
 #include <base/Mutex.h>

@@ -37,8 +37,8 @@
 //
 // Arghh!  I wish C++ literals were automatically of type "string".
 
-#ifndef COBRA_BASE_STRINGPIECE_H_
-#define COBRA_BASE_STRINGPIECE_H_
+#ifndef BASE_STRINGPIECE_H_
+#define BASE_STRINGPIECE_H_
 
 #include <string.h>
 #include <iosfwd>    // for ostream forward-declaration
@@ -180,4 +180,4 @@ template<> struct __type_traits<cobra::StringPiece> {
 // allow StringPiece to be logged
 std::ostream& operator<<(std::ostream& o, const cobra::StringPiece& piece);
 
-#endif  // COBRA_BASE_STRINGPIECE_H_
+#endif  // BASE_STRINGPIECE_H_

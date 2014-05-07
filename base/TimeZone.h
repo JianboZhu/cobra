@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_TIMEZONE_H_
-#define COBRA_BASE_TIMEZONE_H_
+#ifndef BASE_TIMEZONE_H_
+#define BASE_TIMEZONE_H_
 
 #include <base/copyable.h>
 #include <boost/shared_ptr.hpp>
@@ -41,4 +41,4 @@ class TimeZone : public cobra::copyable
 };
 
 }
-#endif  // COBRA_BASE_TIMEZONE_H_
+#endif  // BASE_TIMEZONE_H_

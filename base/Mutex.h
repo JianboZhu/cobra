@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_MUTEX_H_
-#define COBRA_BASE_MUTEX_H_
+#ifndef BASE_MUTEX_H_
+#define BASE_MUTEX_H_
 
 #include <base/CurrentThread.h>
 #include <boost/noncopyable.hpp>
@@ -155,4 +155,4 @@ class MutexLockGuard : boost::noncopyable
 // A tempory object doesn't hold the lock for long!
 #define MutexLockGuard(x) error "Missing guard object name"
 
-#endif  // COBRA_BASE_MUTEX_H_
+#endif  // BASE_MUTEX_H_

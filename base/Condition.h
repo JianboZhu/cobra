@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_CONDITION_H_
-#define COBRA_BASE_CONDITION_H_
+#ifndef BASE_CONDITION_H_
+#define BASE_CONDITION_H_
 
 #include <base/Mutex.h>
 
@@ -48,4 +48,4 @@ class Condition : boost::noncopyable
 };
 
 }
-#endif  // COBRA_BASE_CONDITION_H_
+#endif  // BASE_CONDITION_H_

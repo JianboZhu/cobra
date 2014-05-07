@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_DATE_H_
-#define COBRA_BASE_DATE_H_
+#ifndef BASE_DATE_H_
+#define BASE_DATE_H_
 
 #include <base/copyable.h>
 #include <base/Types.h>
@@ -110,4 +110,4 @@ inline bool operator==(Date x, Date y)
 }
 
 }
-#endif  // COBRA_BASE_DATE_H_
+#endif  // BASE_DATE_H_

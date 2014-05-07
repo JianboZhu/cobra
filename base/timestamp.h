@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_TIMESTAMP_H_
-#define COBRA_BASE_TIMESTAMP_H_
+#ifndef BASE_TIMESTAMP_H_
+#define BASE_TIMESTAMP_H_
 
 #include <base/Types.h>
 
@@ -94,4 +94,4 @@ inline Timestamp addTime(Timestamp timestamp, double seconds)
 }
 
 }
-#endif  // COBRA_BASE_TIMESTAMP_H_
+#endif  // BASE_TIMESTAMP_H_

@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_LOGFILE_H_
-#define COBRA_BASE_LOGFILE_H_
+#ifndef BASE_LOGFILE_H_
+#define BASE_LOGFILE_H_
 
 #include <base/Mutex.h>
 #include <base/Types.h>
@@ -46,4 +46,4 @@ class LogFile : boost::noncopyable
 };
 
 }
-#endif  // COBRA_BASE_LOGFILE_H_
+#endif  // BASE_LOGFILE_H_

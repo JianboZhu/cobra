@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_LOGGING_H_
-#define COBRA_BASE_LOGGING_H_
+#ifndef BASE_LOGGING_H_
+#define BASE_LOGGING_H_
 
 #include <base/LogStream.h>
 #include <base/timestamp.h>
@@ -130,4 +130,4 @@ T* CheckNotNull(Logger::SourceFile file, int line, const char *names, T* ptr) {
 
 }
 
-#endif  // COBRA_BASE_LOGGING_H_
+#endif  // BASE_LOGGING_H_

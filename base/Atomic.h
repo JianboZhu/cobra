@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_ATOMIC_H_
-#define COBRA_BASE_ATOMIC_H_
+#ifndef BASE_ATOMIC_H_
+#define BASE_ATOMIC_H_
 
 #include <boost/noncopyable.hpp>
 #include <stdint.h>
@@ -84,4 +84,4 @@ typedef detail::AtomicIntegerT<int32_t> AtomicInt32;
 typedef detail::AtomicIntegerT<int64_t> AtomicInt64;
 }
 
-#endif  // COBRA_BASE_ATOMIC_H_
+#endif  // BASE_ATOMIC_H_

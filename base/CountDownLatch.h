@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_COUNTDOWNLATCH_H_
-#define COBRA_BASE_COUNTDOWNLATCH_H_
+#ifndef BASE_COUNTDOWNLATCH_H_
+#define BASE_COUNTDOWNLATCH_H_
 
 #include <base/Condition.h>
 #include <base/Mutex.h>
@@ -28,4 +28,4 @@ class CountDownLatch : boost::noncopyable
 };
 
 }
-#endif  // COBRA_BASE_COUNTDOWNLATCH_H_
+#endif  // BASE_COUNTDOWNLATCH_H_

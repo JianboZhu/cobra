@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_ASYNCLOGGING_H_
-#define COBRA_BASE_ASYNCLOGGING_H_
+#ifndef BASE_ASYNCLOGGING_H_
+#define BASE_ASYNCLOGGING_H_
 
 #include <base/BlockingQueue.h>
 #include <base/BoundedBlockingQueue.h>
@@ -75,4 +75,4 @@ class AsyncLogging : boost::noncopyable
 };
 
 }
-#endif  // COBRA_BASE_ASYNCLOGGING_H_
+#endif  // BASE_ASYNCLOGGING_H_

@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_LOGSTREAM_H_
-#define COBRA_BASE_LOGSTREAM_H_
+#ifndef BASE_LOGSTREAM_H_
+#define BASE_LOGSTREAM_H_
 
 #include <base/StringPiece.h>
 #include <base/Types.h>
@@ -176,5 +176,5 @@ inline LogStream& operator<<(LogStream& s, const Fmt& fmt)
 }
 
 }
-#endif  // COBRA_BASE_LOGSTREAM_H_
+#endif  // BASE_LOGSTREAM_H_
 

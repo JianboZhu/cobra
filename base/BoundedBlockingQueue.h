@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_BOUNDEDBLOCKINGQUEUE_H_
-#define COBRA_BASE_BOUNDEDBLOCKINGQUEUE_H_
+#ifndef BASE_BOUNDEDBLOCKINGQUEUE_H_
+#define BASE_BOUNDEDBLOCKINGQUEUE_H_
 
 #include <base/Condition.h>
 #include <base/Mutex.h>
@@ -82,4 +82,4 @@ class BoundedBlockingQueue : boost::noncopyable
 
 }
 
-#endif  // COBRA_BASE_BOUNDEDBLOCKINGQUEUE_H_
+#endif  // BASE_BOUNDEDBLOCKINGQUEUE_H_

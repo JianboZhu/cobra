@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_THREADLOCALSINGLETON_H_
-#define COBRA_BASE_THREADLOCALSINGLETON_H_
+#ifndef BASE_THREADLOCALSINGLETON_H_
+#define BASE_THREADLOCALSINGLETON_H_
 
 #include <boost/noncopyable.hpp>
 #include <assert.h>

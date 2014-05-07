@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_FILEUTIL_H_
-#define COBRA_BASE_FILEUTIL_H_
+#ifndef BASE_FILEUTIL_H_
+#define BASE_FILEUTIL_H_
 
 #include <base/Types.h>
 #include <base/StringPiece.h>
@@ -56,5 +56,5 @@ namespace FileUtil
 
 }
 
-#endif  // COBRA_BASE_FILEUTIL_H_
+#endif  // BASE_FILEUTIL_H_
 

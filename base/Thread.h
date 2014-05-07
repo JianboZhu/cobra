@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_THREAD_H_
-#define COBRA_BASE_THREAD_H_
+#ifndef BASE_THREAD_H_
+#define BASE_THREAD_H_
 
 #include <base/Atomic.h>
 #include <base/Types.h>

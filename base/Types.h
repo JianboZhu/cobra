@@ -1,5 +1,5 @@
-#ifndef COBRA_BASE_TYPES_H_
-#define COBRA_BASE_TYPES_H_
+#ifndef BASE_TYPES_H_
+#define BASE_TYPES_H_
 
 #include <stdint.h>
 #ifdef COBRA_STD_STRING
