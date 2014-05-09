@@ -1,7 +1,7 @@
 #include <base/Logging.h>
 
 #include <base/CurrentThread.h>
-#include <base/StringPiece.h>
+#include <base/string_piece.h>
 #include <base/Timestamp.h>
 
 #include <errno.h>

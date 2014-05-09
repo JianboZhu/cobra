@@ -24,7 +24,7 @@ void removeConnector(const ConnectorPtr& connector) {
 }  // namespace detail
 
 TcpClient::TcpClient(Worker* loop,
-                     const InetAddress& serverAddr,
+                     const Endpoint& serverAddr,
                      const string& name)
   : loop_(CHECK_NOTNULL(loop)),
     connector_(new Connector(loop, serverAddr)),
@@ -90,13 +90,13 @@ void TcpClient::stop() {
 // Called after an connection is established.
 void TcpClient::newConnection(int sockfd) {
   loop_->assertInLoopThread();
-  InetAddress peerAddr(internal::getPeerAddr(sockfd));
+  Endpoint peerAddr(internal::getPeerAddr(sockfd));
   char buf[32];
   snprintf(buf, sizeof buf, ":%s#%d", peerAddr.toIpPort().c_str(), nextConnId_);
   ++nextConnId_;
   string connName = name_ + buf;
 
-  InetAddress localAddr(internal::getLocalAddr(sockfd));
+  Endpoint localAddr(internal::getLocalAddr(sockfd));
   // FIXME poll with zero timeout to double confirm the new connection
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(loop_,

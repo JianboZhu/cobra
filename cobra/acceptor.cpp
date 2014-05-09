@@ -7,12 +7,12 @@
 
 #include "base/Logging.h"
 #include "cobra/worker.h"
-#include "cobra/inet_address.h"
+#include "cobra/endpoint.h"
 #include "cobra/socket_wrapper.h"
 
 namespace cobra {
 
-Acceptor::Acceptor(Worker* loop, const InetAddress& listenAddr)
+Acceptor::Acceptor(Worker* loop, const Endpoint& listenAddr)
   : loop_(loop),
     acceptSocket_(internal::createNonblockingOrDie()),
     acceptChannel_(loop, acceptSocket_.fd()),
@@ -48,7 +48,7 @@ void Acceptor::listen() {
 
 void Acceptor::handleRead() {
   loop_->assertInLoopThread();
-  InetAddress peerAddr(0);
+  Endpoint peerAddr(0);
   //FIXME loop until no more
   int connfd = acceptSocket_.accept(&peerAddr);
   if (connfd >= 0) {

@@ -8,11 +8,11 @@
 
 #include "base/macros.h"
 #include "base/Mutex.h"
-#include "base/StringPiece.h"
+#include "base/string_piece.h"
 #include "base/Types.h"
 #include "cobra/callbacks.h"
 #include "cobra/buffer.h"
-#include "cobra/inet_address.h"
+#include "cobra/endpoint.h"
 
 namespace cobra {
 
@@ -26,14 +26,14 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   TcpConnection(Worker* loop,
                 const string& name,
                 int sockfd,
-                const InetAddress& localAddr,
-                const InetAddress& peerAddr);
+                const Endpoint& localAddr,
+                const Endpoint& peerAddr);
   ~TcpConnection();
 
   Worker* getLoop() const { return loop_; }
   const string& name() const { return name_; }
-  const InetAddress& localAddress() { return localAddr_; }
-  const InetAddress& peerAddress() { return peerAddr_; }
+  const Endpoint& localAddress() { return localAddr_; }
+  const Endpoint& peerAddress() { return peerAddr_; }
   bool connected() const { return state_ == kConnected; }
 
   void send(const void* message, size_t len);
@@ -110,8 +110,8 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   // we don't expose those classes to client.
   boost::scoped_ptr<Socket> socket_;
   boost::scoped_ptr<Channel> channel_;
-  InetAddress localAddr_;
-  InetAddress peerAddr_;
+  Endpoint localAddr_;
+  Endpoint peerAddr_;
   ConnectionCb connectionCb_;
   MessageCb messageCb_;
   WriteCompleteCb writeCompleteCb_;

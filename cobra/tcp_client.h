@@ -13,7 +13,7 @@ typedef boost::shared_ptr<Connector> ConnectorPtr;
 class TcpClient : boost::noncopyable {
  public:
   TcpClient(Worker* loop,
-            const InetAddress& serverAddr,
+            const Endpoint& serverAddr,
             const string& name);
   ~TcpClient();
 

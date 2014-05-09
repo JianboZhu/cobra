@@ -2,7 +2,7 @@
 #define BASE_FILEUTIL_H_
 
 #include <base/Types.h>
-#include <base/StringPiece.h>
+#include <base/string_piece.h>
 #include <boost/noncopyable.hpp>
 
 namespace cobra

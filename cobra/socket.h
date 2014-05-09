@@ -6,7 +6,7 @@
 
 namespace cobra {
 
-class InetAddress;
+class Endpoint;
 
 // Wrapper of socket file descriptor.
 // It closes the sockfd when desctructs.
@@ -22,7 +22,7 @@ class Socket {
   int fd() const { return sockfd_; }
 
   // abort if address in use
-  void bindAddress(const InetAddress& localaddr);
+  void bindAddress(const Endpoint& localaddr);
   // abort if address in use
   void listen();
 
@@ -30,7 +30,7 @@ class Socket {
   // a descriptor for the accepted socket, which has been
   // set to non-blocking and close-on-exec. *peeraddr is assigned.
   // On error, -1 is returned, and *peeraddr is untouched.
-  int accept(InetAddress* peeraddr);
+  int accept(Endpoint* peeraddr);
 
   void shutdownWrite();
 

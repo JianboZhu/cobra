@@ -6,7 +6,7 @@
 #include <boost/scoped_ptr.hpp>
 
 #include "base/macros.h"
-#include "cobra/inet_address.h"
+#include "cobra/endpoint.h"
 
 namespace cobra {
 
@@ -17,7 +17,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
  public:
   typedef boost::function<void (int sockfd)> NewConnectionCb;
 
-  Connector(Worker* loop, const InetAddress& serverAddr);
+  Connector(Worker* loop, const Endpoint& serverAddr);
   ~Connector();
 
   void setNewConnectionCb(const NewConnectionCb& cb)
@@ -27,7 +27,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   void restart();  // must be called in loop thread
   void stop();  // can be called in any thread
 
-  const InetAddress& serverAddress() const { return serverAddr_; }
+  const Endpoint& serverAddress() const { return serverAddr_; }
 
  private:
   enum States { kDisconnected, kConnecting, kConnected };
@@ -49,7 +49,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   void resetChannel();
 
   Worker* loop_;
-  InetAddress serverAddr_;
+  Endpoint serverAddr_;
   bool connect_; // atomic
   boost::scoped_ptr<Channel> channel_;
   NewConnectionCb newConnectionCb_;

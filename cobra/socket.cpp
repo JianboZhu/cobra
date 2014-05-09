@@ -1,7 +1,7 @@
 #include "cobra/socket.h"
 
 #include "base/Logging.h"
-#include "cobra/inet_address.h"
+#include "cobra/endpoint.h"
 #include "cobra/socket_wrapper.h"
 
 #include <netinet/in.h>
@@ -14,7 +14,7 @@ Socket::~Socket() {
   internal::close(sockfd_);
 }
 
-void Socket::bindAddress(const InetAddress& addr) {
+void Socket::bindAddress(const Endpoint& addr) {
   internal::bindOrDie(sockfd_, addr.getSockAddrInet());
 }
 
@@ -22,7 +22,7 @@ void Socket::listen() {
   internal::listenOrDie(sockfd_);
 }
 
-int Socket::accept(InetAddress* peeraddr) {
+int Socket::accept(Endpoint* peeraddr) {
   sockaddr_in addr;
   bzero(&addr, sizeof addr);
   int connfd = internal::accept(sockfd_, &addr);

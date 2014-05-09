@@ -11,15 +11,15 @@
 namespace cobra {
 
 class Worker;
-class InetAddress;
+class Endpoint;
 
 // Acceptor of incoming TCP connections.
 class Acceptor {
  public:
   typedef boost::function<void (int sockfd,
-                                const InetAddress&)> NewConnectionCb;
+                                const Endpoint&)> NewConnectionCb;
 
-  Acceptor(Worker* loop, const InetAddress& listenAddr);
+  Acceptor(Worker* loop, const Endpoint& listenAddr);
   ~Acceptor();
 
   // Called when a new connecion comes

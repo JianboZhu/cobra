@@ -7,7 +7,7 @@ cc_library(
   srcs = 'acceptor.cpp',
   deps = [
     ':channel',
-    ':inet_address',
+    ':endpoint',
     ':socket',
     ':socket_wrapper',
   ]
@@ -33,14 +33,14 @@ cc_library(
   srcs = 'connector.cpp',
   deps = [
     ':channel',
-    ':inet_address',
+    ':endpoint',
     ':socket_wrapper',
   ]
 )
 
 cc_library(
-  name = 'inet_address',
-  srcs = 'inet_address.cpp',
+  name = 'endpoint',
+  srcs = 'endpoint.cpp',
   deps = [
     ':socket_wrapper',
   ]
@@ -62,7 +62,7 @@ cc_library(
   name = 'socket',
   srcs = 'socket.cpp',
   deps = [
-    ':inet_address',
+    ':endpoint',
     ':socket_wrapper',
   ]
 )
@@ -92,7 +92,7 @@ cc_library(
     ':buffer',
     ':channel',
     ':worker',
-    ':inet_address',
+    ':endpoint',
     ':socket',
     ':socket_wrapper',
   ]

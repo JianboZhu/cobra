@@ -1,26 +1,26 @@
-#ifndef COBRA_INETADDRESS_H
-#define COBRA_INETADDRESS_H
+#ifndef COBRA_ENDPOINT_H
+#define COBRA_ENDPOINT_H
 
-#include "base/StringPiece.h"
+#include "base/string_piece.h"
 
 #include <netinet/in.h>
 
 namespace cobra {
 
 // Wrapper of sockaddr_in.
-class InetAddress {
+class Endpoint {
  public:
   // Cons an endpoint with given port number.
   // Mostly used in TcpServer listening.
-  explicit InetAddress(uint16_t port);
+  explicit Endpoint(uint16_t port);
 
   // Cons an endpoint with given ip and port.
   // @c ip should be "1.2.3.4"
-  InetAddress(const StringPiece& ip, uint16_t port);
+  Endpoint(const StringPiece& ip, uint16_t port);
 
   // Cons an endpoint with given @c sockaddr_in
   // Mostly used when accepting new connections
-  InetAddress(const sockaddr_in& addr)
+  Endpoint(const sockaddr_in& addr)
     : addr_(addr){
   }
 
@@ -43,4 +43,4 @@ class InetAddress {
 
 }  // namespace cobra
 
-#endif  // COBRA_INETADDRESS_H
+#endif  // COBRA_ENDPOINT_H

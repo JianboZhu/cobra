@@ -14,7 +14,7 @@ namespace cobra {
 const int Connector::kMaxRetryDelayMs;
 const int Connector::kInitRetryDelayMs;
 
-Connector::Connector(Worker* loop, const InetAddress& serverAddr)
+Connector::Connector(Worker* loop, const Endpoint& serverAddr)
   : state_(kDisconnected),
     loop_(loop),
     serverAddr_(serverAddr),

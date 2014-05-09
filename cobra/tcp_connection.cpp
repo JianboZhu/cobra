@@ -32,8 +32,8 @@ void defaultMessageCb(const TcpConnectionPtr&,
 TcpConnection::TcpConnection(Worker* loop,
                              const string& nameArg,
                              int sockfd,
-                             const InetAddress& localAddr,
-                             const InetAddress& peerAddr)
+                             const Endpoint& localAddr,
+                             const Endpoint& peerAddr)
   : loop_(CHECK_NOTNULL(loop)),
     name_(nameArg),
     state_(kConnecting),

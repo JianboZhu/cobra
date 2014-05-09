@@ -1,12 +1,12 @@
-#include "cobra/inet_address.h"
-
-#include "cobra/endian.h"
-#include "cobra/socket_wrapper.h"
+#include "cobra/endpoint.h"
 
 #include <strings.h>  // bzero
 #include <netinet/in.h>
 
 #include <boost/static_assert.hpp>
+
+#include "cobra/endian.h"
+#include "cobra/socket_wrapper.h"
 
 // INADDR_ANY use (type)value casting.
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -28,27 +28,27 @@ static const in_addr_t kInaddrAny = INADDR_ANY;
 
 namespace cobra {
 
-BOOST_STATIC_ASSERT(sizeof(InetAddress) == sizeof( sockaddr_in));
+BOOST_STATIC_ASSERT(sizeof(Endpoint) == sizeof(sockaddr_in));
 
-InetAddress::InetAddress(uint16_t port) {
+Endpoint::Endpoint(uint16_t port) {
   bzero(&addr_, sizeof addr_);
   addr_.sin_family = AF_INET;
   addr_.sin_addr.s_addr = hostToNetwork32(kInaddrAny);
   addr_.sin_port = hostToNetwork16(port);
 }
 
-InetAddress::InetAddress(const StringPiece& ip, uint16_t port) {
+Endpoint::Endpoint(const StringPiece& ip, uint16_t port) {
   bzero(&addr_, sizeof addr_);
   internal::fromIpPort(ip.data(), port, &addr_);
 }
 
-string InetAddress::toIpPort() const {
+string Endpoint::toIpPort() const {
   char buf[32];
   internal::toIpPort(buf, sizeof buf, addr_);
   return buf;
 }
 
-string InetAddress::toIp() const {
+string Endpoint::toIp() const {
   char buf[32];
   internal::toIp(buf, sizeof buf, addr_);
   return buf;

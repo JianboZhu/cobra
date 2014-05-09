@@ -13,7 +13,7 @@
 namespace cobra {
 
 Server::Server(Worker* loop,
-               const InetAddress& listenAddr,
+               const Endpoint& listenAddr,
                const string& nameArg)
   : loop_(CHECK_NOTNULL(loop)),
     hostport_(listenAddr.toIpPort()),
@@ -61,7 +61,7 @@ void Server::start() {
 }
 
 // Called when an connection is established, @see Acceptor::handleRead
-void Server::newConnection(int32 sockfd, const InetAddress& peerAddr) {
+void Server::newConnection(int32 sockfd, const Endpoint& peerAddr) {
   loop_->assertInLoopThread();
 
   // This new connection is assign to a event_loop thread in a round-robin way.
@@ -74,7 +74,7 @@ void Server::newConnection(int32 sockfd, const InetAddress& peerAddr) {
   LOG_INFO << "Server::newConnection [" << name_
            << "] - new connection [" << connName
            << "] from " << peerAddr.toIpPort();
-  InetAddress localAddr(internal::getLocalAddr(sockfd));
+  Endpoint localAddr(internal::getLocalAddr(sockfd));
   // FIXME poll with zero timeout to double confirm the new connection
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(ioLoop,

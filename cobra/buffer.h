@@ -1,7 +1,7 @@
 #ifndef COBRA_BUFFER_H_
 #define COBRA_BUFFER_H_
 
-#include "base/StringPiece.h"
+#include "base/string_piece.h"
 #include "base/Types.h"
 
 #include <assert.h>
