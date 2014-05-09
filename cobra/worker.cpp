@@ -1,16 +1,15 @@
 #include "cobra/worker.h"
 
+#include <signal.h>
+#include <sys/eventfd.h>
+
+#include <boost/bind.hpp>
+
 #include "base/Logging.h"
-#include "base/Mutex.h"
 #include "cobra/channel.h"
 #include "cobra/poller.h"
 #include "cobra/socket_wrapper.h"
 #include "cobra/timer_queue.h"
-
-#include <boost/bind.hpp>
-
-#include <signal.h>
-#include <sys/eventfd.h>
 
 namespace cobra {
 
@@ -50,7 +49,7 @@ Worker* Worker::getWorkerOfCurrentThread() {
 Worker::Worker()
   : looping_(false),
     quit_(false),
-    threadId_(CurrentThread::tid()),
+    threadId_(boost::this_thread::get_id()),
     timerQueue_(new TimerQueue(this)),
     poller_(Poller::newDefaultPoller(this)), // TODO(zhujianbo): Don't call this in ctor.
     wakeupFd_(createEventfd()),
@@ -58,10 +57,10 @@ Worker::Worker()
     eventHandling_(false),
     currentActiveChannel_(NULL),
     callingPendingFunctors_(false) {
-  LOG_DEBUG << "Worker created " << this << " in thread " << threadId_;
+  //LOG_DEBUG << "Worker created " << this << " in thread " << threadId_;
   if (t_loopInThisThread) {
-    LOG_FATAL << "Another Worker " << t_loopInThisThread
-              << " exists in this thread " << threadId_;
+    //LOG_FATAL << "Another Worker " << t_loopInThisThread
+    //          << " exists in this thread " << threadId_;
   } else {
     t_loopInThisThread = this;
   }
@@ -74,17 +73,17 @@ Worker::Worker()
 }
 
 Worker::~Worker() {
-  LOG_DEBUG << "Worker " << this << " of thread " << threadId_
-            << " des in thread " << CurrentThread::tid();
+  //LOG_DEBUG << "Worker " << this << " of thread " << threadId_
+  //          << " des in thread " << boost::this_thread::get_id();
   ::close(wakeupFd_);
   t_loopInThisThread = NULL;
 }
 
-void Worker::run() {
+void Worker::Loop() {
   assert(!looping_);
   assertInLoopThread();
   looping_ = true;
-  quit_ = false;  // FIXME: what if someone calls quit() before run() ?
+  quit_ = false;  // FIXME: what if someone calls quit() before loop() ?
   LOG_TRACE << "Worker " << this << " start looping";
 
   while (!quit_) {
@@ -111,9 +110,9 @@ void Worker::run() {
   looping_ = false;
 }
 
-void Worker::quit() {
+void Worker::Quit() {
   quit_ = true;
-  // There is a chance that run() just executes while(!quit_) and exists,
+  // There is a chance that loop() just executes while(!quit_) and exists,
   // then Worker des, then we are accessing an invalid object.
   // Can be fixed using mutex_ in both places.
   if (!isInLoopThread()) {
@@ -131,7 +130,7 @@ void Worker::runInLoop(const Functor& cb) {
 
 void Worker::queueInLoop(const Functor& cb) {
   {
-    MutexLockGuard lock(mutex_);
+    boost::mutex::scoped_lock lock(mutex_);
     pendingFunctors_.push_back(cb);
   }
 
@@ -176,9 +175,9 @@ void Worker::removeChannel(Channel* channel) {
 }
 
 void Worker::abortNotInLoopThread() {
-  LOG_FATAL << "Worker::abortNotInLoopThread - Worker " << this
-            << " was created in threadId_ = " << threadId_
-            << ", current thread id = " <<  CurrentThread::tid();
+  //LOG_FATAL << "Worker::abortNotInLoopThread - Worker " << this
+            //<< " was created in threadId_ = " << threadId_
+            //<< ", current thread id = " << boost::this_thread::get_id();
 }
 
 void Worker::wakeup() {
@@ -202,7 +201,7 @@ void Worker::doPendingFunctors() {
   callingPendingFunctors_ = true;
 
   {
-    MutexLockGuard lock(mutex_);
+    boost::mutex::scoped_lock lock(mutex_);
     functors.swap(pendingFunctors_);
   }
 

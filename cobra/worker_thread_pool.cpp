@@ -27,7 +27,7 @@ void WorkerThreadPool::start(const ThreadInitCb& cb) {
   for (int i = 0; i < numThreads_; ++i) {
     WorkerThread* t = new WorkerThread(cb);
     threads_.push_back(t);
-    loops_.push_back(t->startLoop());
+    loops_.push_back(t->StartLoop());
   }
 
   if (numThreads_ == 0 && cb) {

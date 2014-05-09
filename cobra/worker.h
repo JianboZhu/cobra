@@ -11,10 +11,10 @@
 
 #include <boost/function.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
 
 #include "base/macros.h"
-#include "base/Mutex.h"
-#include "base/Thread.h"
 #include "base/timestamp.h"
 #include "cobra/callbacks.h"
 #include "cobra/timer_id.h"
@@ -38,13 +38,13 @@ class Worker {
   // Loops forever.
   //
   // Must be called in the same thread as creation of the object.
-  void run();
+  void Loop();
 
   // Quits the event loop.
   //
   // This is not 100% thread safe, if you call through a raw pointer,
   // better to call through shared_ptr<Worker> for 100% safety.
-  void quit();
+  void Quit();
 
   // Time when poll returns, usually means data arrivial.
   inline Timestamp pollReturnTime() const {
@@ -102,7 +102,7 @@ class Worker {
   }
 
   inline bool isInLoopThread() const {
-    return threadId_ == CurrentThread::tid();
+    return threadId_ == boost::this_thread::get_id();
   }
 
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
@@ -120,7 +120,7 @@ class Worker {
 
   bool looping_; /* atomic */
   bool quit_; /* atomic and shared between threads, okay on x86, I guess. */
-  const pid_t threadId_;
+  const boost::thread::id threadId_;
   Timestamp pollReturnTime_;
   boost::scoped_ptr<TimerQueue> timerQueue_;
   boost::scoped_ptr<Poller> poller_;
@@ -139,7 +139,7 @@ class Worker {
   ChannelList activeChannels_;
   Channel* currentActiveChannel_;
 
-  MutexLock mutex_;
+  boost::mutex mutex_;
   bool callingPendingFunctors_; /* atomic */
   std::vector<Functor> pendingFunctors_; // @GuardedBy mutex_
   // Execute the pending functions in the pendingFunctors_.

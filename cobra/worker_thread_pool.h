@@ -7,8 +7,6 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include "base/macros.h"
-#include "base/Condition.h"
-#include "base/Mutex.h"
 
 namespace cobra {
 

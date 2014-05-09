@@ -1,10 +1,17 @@
+// Author: Jianbo Zhu
+//
+// The worker thread.
+// One worker thread own and only own one worker (one event loop).
+
 #ifndef COBRA_WORKERTHREAD_H_
 #define COBRA_WORKERTHREAD_H_
 
-#include "base/Condition.h"
+#include <boost/function.hpp>
+#include <boost/thread/condition_variable.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
+
 #include "base/macros.h"
-#include "base/Mutex.h"
-#include "base/Thread.h"
 
 namespace cobra {
 
@@ -17,17 +24,19 @@ class WorkerThread {
   WorkerThread(const ThreadInitCb& cb = ThreadInitCb());
   ~WorkerThread();
 
-  Worker* startLoop();
+  Worker* StartLoop();
 
  private:
-  void threadFunc();
+  void ThreadFunc();
+  ThreadInitCb init_cb_;
 
   Worker* worker_;
+
+  boost::thread thread_;
+  boost::mutex mutex_;
+  boost::condition_variable cond_;
+
   bool exiting_;
-  Thread thread_;
-  MutexLock mutex_;
-  Condition cond_;
-  ThreadInitCb callback_;
 
   DISABLE_COPY_AND_ASSIGN(WorkerThread);
 };
