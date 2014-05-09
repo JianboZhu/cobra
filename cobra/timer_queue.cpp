@@ -5,7 +5,7 @@
 #include <boost/bind.hpp>
 
 #include "base/Logging.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 #include "cobra/timer.h"
 #include "cobra/timer_id.h"
 
@@ -63,7 +63,7 @@ void resetTimerfd(int timerfd, Timestamp expiration) {
 
 }  // Anonymous namespace
 
-TimerQueue::TimerQueue(EventLoop* loop)
+TimerQueue::TimerQueue(Worker* loop)
   : loop_(loop),
     timerfd_(createTimerfd()),
     timerfdChannel_(loop, timerfd_),
@@ -77,7 +77,7 @@ TimerQueue::TimerQueue(EventLoop* loop)
 
 TimerQueue::~TimerQueue() {
   ::close(timerfd_);
-  // do not remove channel, since we're in EventLoop::dtor();
+  // do not remove channel, since we're in Worker::dtor();
   for (TimerList::iterator it = timers_.begin();
       it != timers_.end(); ++it) {
     delete it->second;

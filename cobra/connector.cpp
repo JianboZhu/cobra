@@ -6,7 +6,7 @@
 
 #include "base/Logging.h"
 #include "cobra/channel.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 #include "cobra/socket_wrapper.h"
 
 namespace cobra {
@@ -14,7 +14,7 @@ namespace cobra {
 const int Connector::kMaxRetryDelayMs;
 const int Connector::kInitRetryDelayMs;
 
-Connector::Connector(EventLoop* loop, const InetAddress& serverAddr)
+Connector::Connector(Worker* loop, const InetAddress& serverAddr)
   : state_(kDisconnected),
     loop_(loop),
     serverAddr_(serverAddr),

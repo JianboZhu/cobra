@@ -12,7 +12,7 @@ typedef boost::shared_ptr<Connector> ConnectorPtr;
 
 class TcpClient : boost::noncopyable {
  public:
-  TcpClient(EventLoop* loop,
+  TcpClient(Worker* loop,
             const InetAddress& serverAddr,
             const string& name);
   ~TcpClient();
@@ -26,7 +26,7 @@ class TcpClient : boost::noncopyable {
     return connection_;
   }
 
-  EventLoop* getLoop() const { return loop_; }
+  Worker* getLoop() const { return loop_; }
   bool retry() const;
   void enableRetry() { retry_ = true; }
 
@@ -51,7 +51,7 @@ class TcpClient : boost::noncopyable {
   // Not thread safe, but in loop
   void removeConnection(const TcpConnectionPtr& conn);
 
-  EventLoop* loop_;
+  Worker* loop_;
   ConnectorPtr connector_; // avoid revealing Connector
   const string name_;
 

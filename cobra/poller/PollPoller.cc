@@ -10,7 +10,7 @@
 
 using namespace cobra;
 
-PollPoller::PollPoller(EventLoop* loop)
+PollPoller::PollPoller(Worker* loop)
   : Poller(loop) {
 }
 

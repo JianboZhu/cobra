@@ -17,20 +17,20 @@
 namespace cobra {
 
 class Channel;
-class EventLoop;
+class Worker;
 class Socket;
 
 // TCP connection, for both client and server usage.
 class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
  public:
-  TcpConnection(EventLoop* loop,
+  TcpConnection(Worker* loop,
                 const string& name,
                 int sockfd,
                 const InetAddress& localAddr,
                 const InetAddress& peerAddr);
   ~TcpConnection();
 
-  EventLoop* getLoop() const { return loop_; }
+  Worker* getLoop() const { return loop_; }
   const string& name() const { return name_; }
   const InetAddress& localAddress() { return localAddr_; }
   const InetAddress& peerAddress() { return peerAddr_; }
@@ -104,7 +104,7 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   void shutdownInLoop();
   void setState(StateE s) { state_ = s; }
 
-  EventLoop* loop_;
+  Worker* loop_;
   string name_;
   StateE state_;  // FIXME: use atomic variable
   // we don't expose those classes to client.

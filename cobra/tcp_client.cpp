@@ -6,14 +6,14 @@
 
 #include "base/Logging.h"
 #include "cobra/connector.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 #include "cobra/socket_wrapper.h"
 
 namespace cobra {
 
 namespace detail {
 
-void removeConnection(EventLoop* loop, const TcpConnectionPtr& conn) {
+void removeConnection(Worker* loop, const TcpConnectionPtr& conn) {
   loop->queueInLoop(boost::bind(&TcpConnection::connectDestroyed, conn));
 }
 
@@ -23,7 +23,7 @@ void removeConnector(const ConnectorPtr& connector) {
 
 }  // namespace detail
 
-TcpClient::TcpClient(EventLoop* loop,
+TcpClient::TcpClient(Worker* loop,
                      const InetAddress& serverAddr,
                      const string& name)
   : loop_(CHECK_NOTNULL(loop)),

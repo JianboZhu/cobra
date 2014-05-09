@@ -6,13 +6,13 @@
 #include <boost/bind.hpp>
 
 #include "base/Logging.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 #include "cobra/inet_address.h"
 #include "cobra/socket_wrapper.h"
 
 namespace cobra {
 
-Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr)
+Acceptor::Acceptor(Worker* loop, const InetAddress& listenAddr)
   : loop_(loop),
     acceptSocket_(internal::createNonblockingOrDie()),
     acceptChannel_(loop, acceptSocket_.fd()),

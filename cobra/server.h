@@ -19,19 +19,19 @@
 namespace cobra {
 
 class Acceptor;
-class EventLoop;
-class EventLoopThreadPool;
+class Worker;
+class WorkerThreadPool;
 
 class Server {
  public:
-  typedef boost::function<void(EventLoop*)> ThreadInitCb;
+  typedef boost::function<void(Worker*)> ThreadInitCb;
 
-  Server(EventLoop* loop,
+  Server(Worker* loop,
          const InetAddress& listenAddr,
          const string& nameArg);
   virtual ~Server();
 
-  inline EventLoop* GetEventLoop() const {
+  inline Worker* GetWorker() const {
     return loop_;
   }
 
@@ -94,12 +94,12 @@ class Server {
   void removeConnectionInLoop(const TcpConnectionPtr& conn);
 
   AtomicInt32 started_;
-  EventLoop* loop_;  // the acceptor loop
+  Worker* loop_;  // the acceptor loop
   const string hostport_;
   const string name_;
 
   boost::scoped_ptr<Acceptor> acceptor_;
-  boost::scoped_ptr<EventLoopThreadPool> thread_pool_;
+  boost::scoped_ptr<WorkerThreadPool> thread_pool_;
 
   // The callback functions
   ThreadInitCb threadInitCb_;

@@ -11,13 +11,13 @@
 namespace cobra {
 
 class Channel;
-class EventLoop;
+class Worker;
 
 class Connector : public boost::enable_shared_from_this<Connector> {
  public:
   typedef boost::function<void (int sockfd)> NewConnectionCb;
 
-  Connector(EventLoop* loop, const InetAddress& serverAddr);
+  Connector(Worker* loop, const InetAddress& serverAddr);
   ~Connector();
 
   void setNewConnectionCb(const NewConnectionCb& cb)
@@ -48,7 +48,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   int removeAndResetChannel();
   void resetChannel();
 
-  EventLoop* loop_;
+  Worker* loop_;
   InetAddress serverAddr_;
   bool connect_; // atomic
   boost::scoped_ptr<Channel> channel_;

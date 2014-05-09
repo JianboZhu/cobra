@@ -1,23 +1,23 @@
-#include "cobra/event_loop_thread_pool.h"
+#include "cobra/worker_thread_pool.h"
 
 #include <boost/bind.hpp>
 
-#include "cobra/event_loop.h"
-#include "cobra/event_loop_thread.h"
+#include "cobra/worker.h"
+#include "cobra/worker_thread.h"
 
 namespace cobra {
 
-EventLoopThreadPool::EventLoopThreadPool(EventLoop* baseLoop)
+WorkerThreadPool::WorkerThreadPool(Worker* baseLoop)
   : baseLoop_(baseLoop),
     started_(false),
     numThreads_(0),
     next_(0) {
 }
 
-EventLoopThreadPool::~EventLoopThreadPool() {
+WorkerThreadPool::~WorkerThreadPool() {
 }
 
-void EventLoopThreadPool::start(const ThreadInitCb& cb) {
+void WorkerThreadPool::start(const ThreadInitCb& cb) {
   assert(!started_);
   baseLoop_->assertInLoopThread();
 
@@ -25,7 +25,7 @@ void EventLoopThreadPool::start(const ThreadInitCb& cb) {
 
   // Start event loop threads
   for (int i = 0; i < numThreads_; ++i) {
-    EventLoopThread* t = new EventLoopThread(cb);
+    WorkerThread* t = new WorkerThread(cb);
     threads_.push_back(t);
     loops_.push_back(t->startLoop());
   }
@@ -35,9 +35,9 @@ void EventLoopThreadPool::start(const ThreadInitCb& cb) {
   }
 }
 
-EventLoop* EventLoopThreadPool::getNextLoop() {
+Worker* WorkerThreadPool::getNextLoop() {
   baseLoop_->assertInLoopThread();
-  EventLoop* loop = baseLoop_;
+  Worker* loop = baseLoop_;
 
   if (!loops_.empty()) {
     // round-robin

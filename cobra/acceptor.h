@@ -10,7 +10,7 @@
 
 namespace cobra {
 
-class EventLoop;
+class Worker;
 class InetAddress;
 
 // Acceptor of incoming TCP connections.
@@ -19,7 +19,7 @@ class Acceptor {
   typedef boost::function<void (int sockfd,
                                 const InetAddress&)> NewConnectionCb;
 
-  Acceptor(EventLoop* loop, const InetAddress& listenAddr);
+  Acceptor(Worker* loop, const InetAddress& listenAddr);
   ~Acceptor();
 
   // Called when a new connecion comes
@@ -33,7 +33,7 @@ class Acceptor {
  private:
   void handleRead();
 
-  EventLoop* loop_;
+  Worker* loop_;
   Socket acceptSocket_;
   Channel acceptChannel_;
   NewConnectionCb newConnectionCb_;

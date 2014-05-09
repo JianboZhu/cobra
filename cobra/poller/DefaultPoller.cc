@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-Poller* Poller::newDefaultPoller(EventLoop* loop) {
+Poller* Poller::newDefaultPoller(Worker* loop) {
   if (::getenv("COBRA_USE_POLL"))
   {
     return new PollPoller(loop);

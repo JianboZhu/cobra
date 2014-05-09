@@ -1,5 +1,11 @@
-#ifndef COBRA_EVENTLOOP_H_
-#define COBRA_EVENTLOOP_H_
+// Author: Jianbo Zhu
+//
+// The worker, running a loop to handle events.
+// Each worker belongs to a thread, and this thread can only
+// own one worker which is actually an event loop.
+
+#ifndef COBRA_WORKER_H_
+#define COBRA_WORKER_H_
 
 #include <vector>
 
@@ -21,23 +27,23 @@ class TimerQueue;
 
 // The reactor.
 // Realized as one reactor per thread.
-class EventLoop {
+class Worker {
  public:
   // User callbacks.
   typedef boost::function<void()> Functor;
 
-  EventLoop();
-  ~EventLoop();
+  Worker();
+  ~Worker();
 
   // Loops forever.
   //
   // Must be called in the same thread as creation of the object.
-  void loop();
+  void run();
 
-  // Quits loop.
+  // Quits the event loop.
   //
   // This is not 100% thread safe, if you call through a raw pointer,
-  // better to call through shared_ptr<EventLoop> for 100% safety.
+  // better to call through shared_ptr<Worker> for 100% safety.
   void quit();
 
   // Time when poll returns, usually means data arrivial.
@@ -107,7 +113,7 @@ class EventLoop {
     return eventHandling_;
   }
 
-  static EventLoop* getEventLoopOfCurrentThread();
+  static Worker* getWorkerOfCurrentThread();
 
  private:
   void abortNotInLoopThread();
@@ -139,9 +145,9 @@ class EventLoop {
   // Execute the pending functions in the pendingFunctors_.
   void doPendingFunctors();
 
-  DISABLE_COPY_AND_ASSIGN(EventLoop);
+  DISABLE_COPY_AND_ASSIGN(Worker);
 };
 
 }  // namespace cobra
 
-#endif  // COBRA_EVENTLOOP_H_
+#endif  // COBRA_WORKER_H_

@@ -28,7 +28,7 @@ const int kAdded = 1;
 const int kDeleted = 2;
 }
 
-EPollPoller::EPollPoller(EventLoop* loop)
+EPollPoller::EPollPoller(Worker* loop)
   : Poller(loop),
     epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
     events_(kInitEventListSize)

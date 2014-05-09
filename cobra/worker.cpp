@@ -1,4 +1,4 @@
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 
 #include "base/Logging.h"
 #include "base/Mutex.h"
@@ -16,7 +16,7 @@ namespace cobra {
 
 namespace {
 // The thread local var.
-__thread EventLoop* t_loopInThisThread = 0;
+__thread Worker* t_loopInThisThread = 0;
 
 const int kPollTimeMs = 10000;
 
@@ -43,11 +43,11 @@ struct IgnoreSigPipe {
 
 }  // Anonymous namespace
 
-EventLoop* EventLoop::getEventLoopOfCurrentThread() {
+Worker* Worker::getWorkerOfCurrentThread() {
   return t_loopInThisThread;
 }
 
-EventLoop::EventLoop()
+Worker::Worker()
   : looping_(false),
     quit_(false),
     threadId_(CurrentThread::tid()),
@@ -58,34 +58,34 @@ EventLoop::EventLoop()
     eventHandling_(false),
     currentActiveChannel_(NULL),
     callingPendingFunctors_(false) {
-  LOG_DEBUG << "EventLoop created " << this << " in thread " << threadId_;
+  LOG_DEBUG << "Worker created " << this << " in thread " << threadId_;
   if (t_loopInThisThread) {
-    LOG_FATAL << "Another EventLoop " << t_loopInThisThread
+    LOG_FATAL << "Another Worker " << t_loopInThisThread
               << " exists in this thread " << threadId_;
   } else {
     t_loopInThisThread = this;
   }
 
   wakeupChannel_->setReadCb(
-      boost::bind(&EventLoop::handleRead, this));
+      boost::bind(&Worker::handleRead, this));
 
   // We are always reading the wakeupfd
   wakeupChannel_->enableReading();
 }
 
-EventLoop::~EventLoop() {
-  LOG_DEBUG << "EventLoop " << this << " of thread " << threadId_
+Worker::~Worker() {
+  LOG_DEBUG << "Worker " << this << " of thread " << threadId_
             << " des in thread " << CurrentThread::tid();
   ::close(wakeupFd_);
   t_loopInThisThread = NULL;
 }
 
-void EventLoop::loop() {
+void Worker::run() {
   assert(!looping_);
   assertInLoopThread();
   looping_ = true;
-  quit_ = false;  // FIXME: what if someone calls quit() before loop() ?
-  LOG_TRACE << "EventLoop " << this << " start looping";
+  quit_ = false;  // FIXME: what if someone calls quit() before run() ?
+  LOG_TRACE << "Worker " << this << " start looping";
 
   while (!quit_) {
     activeChannels_.clear();
@@ -107,21 +107,21 @@ void EventLoop::loop() {
     doPendingFunctors();
   }
 
-  LOG_TRACE << "EventLoop " << this << " stop looping";
+  LOG_TRACE << "Worker " << this << " stop looping";
   looping_ = false;
 }
 
-void EventLoop::quit() {
+void Worker::quit() {
   quit_ = true;
-  // There is a chance that loop() just executes while(!quit_) and exists,
-  // then EventLoop des, then we are accessing an invalid object.
+  // There is a chance that run() just executes while(!quit_) and exists,
+  // then Worker des, then we are accessing an invalid object.
   // Can be fixed using mutex_ in both places.
   if (!isInLoopThread()) {
     wakeup();
   }
 }
 
-void EventLoop::runInLoop(const Functor& cb) {
+void Worker::runInLoop(const Functor& cb) {
   if (isInLoopThread()) {
     cb();
   } else {
@@ -129,7 +129,7 @@ void EventLoop::runInLoop(const Functor& cb) {
   }
 }
 
-void EventLoop::queueInLoop(const Functor& cb) {
+void Worker::queueInLoop(const Functor& cb) {
   {
     MutexLockGuard lock(mutex_);
     pendingFunctors_.push_back(cb);
@@ -140,31 +140,31 @@ void EventLoop::queueInLoop(const Functor& cb) {
   }
 }
 
-TimerId EventLoop::runAt(const Timestamp& time, const TimerCb& cb) {
+TimerId Worker::runAt(const Timestamp& time, const TimerCb& cb) {
   return timerQueue_->addTimer(cb, time, 0.0);
 }
 
-TimerId EventLoop::runAfter(double delay, const TimerCb& cb) {
+TimerId Worker::runAfter(double delay, const TimerCb& cb) {
   Timestamp time(addTime(Timestamp::now(), delay));
   return runAt(time, cb);
 }
 
-TimerId EventLoop::runEvery(double interval, const TimerCb& cb) {
+TimerId Worker::runEvery(double interval, const TimerCb& cb) {
   Timestamp time(addTime(Timestamp::now(), interval));
   return timerQueue_->addTimer(cb, time, interval);
 }
 
-void EventLoop::cancel(TimerId timerId) {
+void Worker::cancel(TimerId timerId) {
   return timerQueue_->cancel(timerId);
 }
 
-void EventLoop::updateChannel(Channel* channel) {
+void Worker::updateChannel(Channel* channel) {
   assert(channel->ownerLoop() == this);
   assertInLoopThread();
   poller_->updateChannel(channel);
 }
 
-void EventLoop::removeChannel(Channel* channel) {
+void Worker::removeChannel(Channel* channel) {
   assert(channel->ownerLoop() == this);
   assertInLoopThread();
   if (eventHandling_) {
@@ -175,29 +175,29 @@ void EventLoop::removeChannel(Channel* channel) {
   poller_->removeChannel(channel);
 }
 
-void EventLoop::abortNotInLoopThread() {
-  LOG_FATAL << "EventLoop::abortNotInLoopThread - EventLoop " << this
+void Worker::abortNotInLoopThread() {
+  LOG_FATAL << "Worker::abortNotInLoopThread - Worker " << this
             << " was created in threadId_ = " << threadId_
             << ", current thread id = " <<  CurrentThread::tid();
 }
 
-void EventLoop::wakeup() {
+void Worker::wakeup() {
   uint64_t one = 1;
   ssize_t n = internal::write(wakeupFd_, &one, sizeof one);
   if (n != sizeof one) {
-    LOG_ERROR << "EventLoop::wakeup() writes " << n << " bytes instead of 8";
+    LOG_ERROR << "Worker::wakeup() writes " << n << " bytes instead of 8";
   }
 }
 
-void EventLoop::handleRead() {
+void Worker::handleRead() {
   uint64_t one = 1;
   ssize_t n = internal::read(wakeupFd_, &one, sizeof one);
   if (n != sizeof one) {
-    LOG_ERROR << "EventLoop::handleRead() reads " << n << " bytes instead of 8";
+    LOG_ERROR << "Worker::handleRead() reads " << n << " bytes instead of 8";
   }
 }
 
-void EventLoop::doPendingFunctors() {
+void Worker::doPendingFunctors() {
   std::vector<Functor> functors;
   callingPendingFunctors_ = true;
 

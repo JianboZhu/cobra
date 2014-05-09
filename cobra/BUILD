@@ -39,33 +39,6 @@ cc_library(
 )
 
 cc_library(
-  name = 'event_loop',
-  srcs = 'event_loop.cpp',
-  deps = [
-    ':channel',
-    ':socket_wrapper',
-    ':timer_queue',
-  ]
-)
-
-cc_library(
-  name = 'event_loop_thread',
-  srcs = 'event_loop_thread.cpp',
-  deps = [
-    ':event_loop',
-  ]
-)
-
-cc_library(
-  name = 'event_loop_thread_pool',
-  srcs = 'event_loop_thread_pool.cpp',
-  deps = [
-    ':event_loop',
-    ':event_loop_thread',
-  ]
-)
-
-cc_library(
   name = 'inet_address',
   srcs = 'inet_address.cpp',
   deps = [
@@ -78,8 +51,8 @@ cc_library(
   srcs = 'server.cpp',
   deps = [
     ':acceptor',
-    ':event_loop',
-    ':event_loop_thread_pool',
+    ':worker',
+    ':worker_thread_pool',
     ':socket_wrapper',
     ':tcp_connection',
   ]
@@ -106,7 +79,7 @@ cc_library(
   srcs = 'tcp_client.cpp',
   deps = [
     ':connector',
-    ':event_loop',
+    ':worker',
     ':socket_wrapper',
     ':tcp_connection',
   ]
@@ -118,7 +91,7 @@ cc_library(
   deps = [
     ':buffer',
     ':channel',
-    ':event_loop',
+    ':worker',
     ':inet_address',
     ':socket',
     ':socket_wrapper',
@@ -130,8 +103,8 @@ cc_library(
   srcs = 'tcp_server.cpp',
   deps = [
     ':acceptor',
-    ':event_loop',
-    ':event_loop_thread_pool',
+    ':worker',
+    ':worker_thread_pool',
     ':socket_wrapper',
     ':tcp_connection',
   ]
@@ -150,5 +123,32 @@ cc_library(
   deps = [
     ':channel',
     ':timer',
+  ]
+)
+
+cc_library(
+  name = 'worker',
+  srcs = 'worker.cpp',
+  deps = [
+    ':channel',
+    ':socket_wrapper',
+    ':timer_queue',
+  ]
+)
+
+cc_library(
+  name = 'worker_thread',
+  srcs = 'worker_thread.cpp',
+  deps = [
+    ':worker',
+  ]
+)
+
+cc_library(
+  name = 'worker_thread_pool',
+  srcs = 'worker_thread_pool.cpp',
+  deps = [
+    ':worker',
+    ':worker_thread',
   ]
 )

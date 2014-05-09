@@ -5,7 +5,7 @@
 
 #include "base/macros.h"
 #include "base/timestamp.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 
 namespace cobra {
 
@@ -17,7 +17,7 @@ class Poller {
  public:
   typedef std::vector<Channel*> ChannelList;
 
-  Poller(EventLoop* loop) : ownerLoop_(loop) {
+  Poller(Worker* loop) : ownerLoop_(loop) {
   }
 
   virtual ~Poller();
@@ -36,14 +36,14 @@ class Poller {
   // Must be called in the loop thread.
   virtual void removeChannel(Channel* channel) = 0;
 
-  static Poller* newDefaultPoller(EventLoop* loop);
+  static Poller* newDefaultPoller(Worker* loop);
 
   void assertInLoopThread() {
     ownerLoop_->assertInLoopThread();
   }
 
  private:
-  EventLoop* ownerLoop_;
+  Worker* ownerLoop_;
 };
 
 }  // namesapce cobra

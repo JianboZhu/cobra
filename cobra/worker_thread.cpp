@@ -1,62 +1,62 @@
-#include "cobra/event_loop_thread.h"
+#include "cobra/worker_thread.h"
 
 #include <boost/bind.hpp>
 
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 
 namespace cobra {
 
-EventLoopThread::EventLoopThread(const ThreadInitCb& cb)
-  : loop_(NULL),
+WorkerThread::WorkerThread(const ThreadInitCb& cb)
+  : worker_(NULL),
     exiting_(false),
-    thread_(boost::bind(&EventLoopThread::threadFunc, this)),
+    thread_(boost::bind(&WorkerThread::threadFunc, this)),
     mutex_(),
     cond_(mutex_),
     callback_(cb) {
 }
 
-EventLoopThread::~EventLoopThread() {
+WorkerThread::~WorkerThread() {
   exiting_ = true;
   // not 100% race-free, eg. threadFunc could be running callback_.
-  if (loop_ != NULL) {
+  if (worker_ != NULL) {
     // still a tiny chance to call deed object, if threadFunc exits just now.
-    // but when EventLoopThread des, usually programming is exiting anyway.
-    loop_->quit();
+    // but when WorkerThread des, usually programming is exiting anyway.
+    worker_->quit();
     thread_.join();
   }
 }
 
-EventLoop* EventLoopThread::startLoop() {
+Worker* WorkerThread::startLoop() {
   assert(!thread_.started());
   thread_.start();
 
   {
     MutexLockGuard lock(mutex_);
-    while (loop_ == NULL) {
+    while (worker_ == NULL) {
       cond_.wait();
     }
   }
 
-  return loop_;
+  return worker_;
 }
 
 // Start an event loop in every thread from the thread pool.
-void EventLoopThread::threadFunc() {
-  EventLoop loop;
+void WorkerThread::threadFunc() {
+  Worker worker;
 
   if (callback_) {
-    callback_(&loop);
+    callback_(&worker);
   }
 
   {
     MutexLockGuard lock(mutex_);
-    loop_ = &loop;
+    worker_ = &worker;
     cond_.notify();
   }
 
-  loop.loop();
+  worker.run();
 
-  loop_ = NULL;
+  worker_ = NULL;
 }
 
 }  // namespace cobra

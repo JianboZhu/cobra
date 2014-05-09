@@ -2,7 +2,7 @@
 
 #include "base/Logging.h"
 #include "cobra/channel.h"
-#include "cobra/event_loop.h"
+#include "cobra/worker.h"
 #include "cobra/socket.h"
 #include "cobra/socket_wrapper.h"
 
@@ -29,7 +29,7 @@ void defaultMessageCb(const TcpConnectionPtr&,
 
 }  // Anonymous namespace
 
-TcpConnection::TcpConnection(EventLoop* loop,
+TcpConnection::TcpConnection(Worker* loop,
                              const string& nameArg,
                              int sockfd,
                              const InetAddress& localAddr,

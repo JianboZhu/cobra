@@ -16,7 +16,7 @@ namespace cobra {
 class EPollPoller : public Poller
 {
  public:
-  EPollPoller(EventLoop* loop);
+  EPollPoller(Worker* loop);
   virtual ~EPollPoller();
 
   virtual Timestamp poll(int timeoutMs, ChannelList* activeChannels);

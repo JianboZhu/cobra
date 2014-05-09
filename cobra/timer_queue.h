@@ -11,14 +11,14 @@
 
 namespace cobra {
 
-class EventLoop;
+class Worker;
 class Timer;
 class TimerId;
 
 // A best efforts timer queue.
 class TimerQueue {
  public:
-  TimerQueue(EventLoop* loop);
+  TimerQueue(Worker* loop);
   ~TimerQueue();
 
   // Schedules the callback to be run at given time,
@@ -51,7 +51,7 @@ class TimerQueue {
 
   bool insert(Timer* timer);
 
-  EventLoop* loop_;
+  Worker* loop_;
   const int timerfd_;
   Channel timerfdChannel_;
   // Timer list sorted by expiration

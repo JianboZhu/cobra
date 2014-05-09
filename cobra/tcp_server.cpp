@@ -6,13 +6,13 @@
 
 #include "base/Logging.h"
 #include "cobra/acceptor.h"
-#include "cobra/event_loop.h"
-#include "cobra/event_loop_thread_pool.h"
+#include "cobra/worker.h"
+#include "cobra/worker_thread_pool.h"
 #include "cobra/socket_wrapper.h"
 
 namespace cobra {
 
-TcpServer::TcpServer(EventLoop* loop,
+TcpServer::TcpServer(Worker* loop,
                      const InetAddress& listenAddr,
                      const string& nameArg,
                      Option option)
@@ -20,7 +20,7 @@ TcpServer::TcpServer(EventLoop* loop,
     hostport_(listenAddr.toIpPort()),
     name_(nameArg),
     acceptor_(new Acceptor(loop, listenAddr, option == kReusePort)),
-    threadPool_(new EventLoopThreadPool(loop)),
+    threadPool_(new WorkerThreadPool(loop)),
     connectionCb_(defaultConnectionCb),
     messageCb_(defaultMessageCb),
     nextConnId_(1) {
@@ -66,7 +66,7 @@ void TcpServer::newConnection(int sockfd, const InetAddress& peerAddr) {
   loop_->assertInLoopThread();
 
   // This new connection is assign to a event_loop thread in a round-robin way.
-  EventLoop* ioLoop = threadPool_->getNextLoop();
+  Worker* ioLoop = threadPool_->getNextLoop();
   char buf[32];
   snprintf(buf, sizeof buf, ":%s#%d", hostport_.c_str(), nextConnId_);
   ++nextConnId_;
@@ -110,7 +110,7 @@ void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn) {
   size_t n = connections_.erase(conn->name());
   (void)n;
   assert(n == 1);
-  EventLoop* ioLoop = conn->getLoop();
+  Worker* ioLoop = conn->getLoop();
   ioLoop->queueInLoop(
       boost::bind(&TcpConnection::connectDestroyed, conn));
 }

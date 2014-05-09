@@ -11,7 +11,7 @@
 
 namespace cobra {
 
-class EventLoop;
+class Worker;
 
 // A selectable I/O channel.
 //
@@ -23,7 +23,7 @@ class Channel {
   typedef boost::function<void()> EventCb;
   typedef boost::function<void(Timestamp)> ReadEventCb;
 
-  Channel(EventLoop* loop, int fd);
+  Channel(Worker* loop, int fd);
   ~Channel();
 
   // The core interface of 'Channel'.
@@ -62,7 +62,7 @@ class Channel {
   void enableReading() {
     events_ |= kReadEvent;
 
-    // This will call EventLoop::updateChannel, which then called
+    // This will call Worker::updateChannel, which then called
     // PollPoller::updateChannel.
     update();
   }
@@ -87,7 +87,7 @@ class Channel {
 
   void doNotLogHup() { logHup_ = false; }
 
-  EventLoop* ownerLoop() { return loop_; }
+  Worker* ownerLoop() { return loop_; }
   void remove();
 
  private:
@@ -101,7 +101,7 @@ class Channel {
   static const int kReadEvent;
   static const int kWriteEvent;
 
-  EventLoop* loop_;
+  Worker* loop_;
 
   // The file descriptor, maybe a socket, an eventfd, signalfd or timerfd.
   const int  fd_;
