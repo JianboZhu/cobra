@@ -157,8 +157,8 @@ void shutdownWrite(int sockfd) {
 }
 
 void toIpPort(char* buf,
-                       size_t size,
-                       const sockaddr_in& addr) {
+              size_t size,
+              const sockaddr_in& addr) {
   char host[INET_ADDRSTRLEN] = "INVALID";
   toIp(host, sizeof host, addr);
   uint16_t port = networkToHost16(addr.sin_port);
@@ -166,14 +166,15 @@ void toIpPort(char* buf,
 }
 
 void toIp(char* buf,
-                   size_t size,
-                   const  sockaddr_in& addr) {
+          size_t size,
+          const  sockaddr_in& addr) {
   assert(size >= INET_ADDRSTRLEN);
   ::inet_ntop(AF_INET, &addr.sin_addr, buf, static_cast<socklen_t>(size));
 }
 
-void fromIpPort(const char* ip, uint16_t port,
-                            sockaddr_in* addr) {
+void fromIpPort(const char* ip,
+                uint16_t port,
+                sockaddr_in* addr) {
   addr->sin_family = AF_INET;
   addr->sin_port = hostToNetwork16(port);
   if (::inet_pton(AF_INET, ip, &addr->sin_addr) <= 0) {

@@ -40,6 +40,7 @@ EventLoop* EventLoopThread::startLoop() {
   return loop_;
 }
 
+// Start an event loop in every thread from the thread pool.
 void EventLoopThread::threadFunc() {
   EventLoop loop;
 
@@ -54,7 +55,7 @@ void EventLoopThread::threadFunc() {
   }
 
   loop.loop();
-  //assert(exiting_);
+
   loop_ = NULL;
 }
 

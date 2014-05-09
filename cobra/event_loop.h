@@ -27,7 +27,7 @@ class EventLoop {
   typedef boost::function<void()> Functor;
 
   EventLoop();
-  ~EventLoop();  // force out-line dtor, for scoped_ptr members.
+  ~EventLoop();
 
   // Loops forever.
   //
@@ -84,7 +84,7 @@ class EventLoop {
   void wakeup();
 
   // Update the monitoring events(read/write/err ect) of an fd(the socket)
-  // wrapped in a channel or adding a new fd to the system call 'poll' 
+  // wrapped in a channel or adding a new fd to the system call 'poll'
   // to monitor.
   // @see PollPoller::updateChannel().
   void updateChannel(Channel* channel);
@@ -102,7 +102,7 @@ class EventLoop {
   inline bool isInLoopThread() const {
     return threadId_ == CurrentThread::tid();
   }
-  
+
   // bool callingPendingFunctors() const { return callingPendingFunctors_; }
 
   // Is we handling the event(read/write/err etc) now,

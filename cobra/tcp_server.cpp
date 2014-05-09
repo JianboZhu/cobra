@@ -32,7 +32,7 @@ TcpServer::TcpServer(EventLoop* loop,
 
 TcpServer::~TcpServer() {
   loop_->assertInLoopThread();
-  LOG_TRACE << "TcpServer::~TcpServer [" << name_ << "] deing";
+  LOG_TRACE << "TcpServer::~TcpServer [" << name_ << "] dying";
 
   for (ConnectionMap::iterator iter = connections_.begin();
       iter != connections_.end(); ++iter) {

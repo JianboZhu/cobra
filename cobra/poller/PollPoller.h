@@ -10,13 +10,11 @@ struct pollfd;
 
 namespace cobra {
 
-///
-/// IO Multiplexing with poll(2).
-///
-class PollPoller : public Poller
-{
+//
+// IO Multiplexing with poll(2).
+//
+class PollPoller : public Poller {
  public:
-
   PollPoller(EventLoop* loop);
   virtual ~PollPoller();
 

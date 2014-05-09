@@ -3,6 +3,7 @@
 
 #include <map>
 
+#include <boost/function.hpp>
 #include <boost/scoped_ptr.hpp>
 
 #include "base/macros.h"
@@ -39,7 +40,7 @@ class TcpServer {
   }
 
   inline EventLoop* getLoop() const {
-    return loop_; 
+    return loop_;
   }
 
   // Set the number of threads for handling input.
@@ -63,10 +64,10 @@ class TcpServer {
   // Thread safe.
   void start();
 
-  /// Set connection callback.
-  /// Not thread safe.
+  // Set connection callback.
+  // Not thread safe.
   //
-  /// Called when a connection is established.
+  // Called when a connection is established.
   inline void setConnectionCallback(const ConnectionCallback& cb) {
     connectionCallback_ = cb;
   }
@@ -108,12 +109,13 @@ class TcpServer {
   boost::scoped_ptr<Acceptor> acceptor_;
   boost::scoped_ptr<EventLoopThreadPool> threadPool_;
 
+  // The callbacks
+  ThreadInitCallback threadInitCallback_;
   ConnectionCallback connectionCallback_;
   MessageCallback messageCallback_;
   WriteCompleteCallback writeCompleteCallback_;
-  ThreadInitCallback threadInitCallback_;
 
-  // The established connections with tcp client.
+  // The established connections
   typedef std::map<string, TcpConnectionPtr> ConnectionMap;
   ConnectionMap connections_;
   // Always in loop thread

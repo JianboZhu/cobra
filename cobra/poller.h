@@ -22,16 +22,18 @@ class Poller {
 
   virtual ~Poller();
 
-  /// Polls the I/O events.
-  /// Must be called in the loop thread.
+  // Poll and Get active channels.
+  //
+  // Polls the I/O events.
+  // Must be called in the loop thread.
   virtual Timestamp poll(int timeoutMs, ChannelList* activeChannels) = 0;
 
-  /// Changes the interested I/O events.
-  /// Must be called in the loop thread.
+  // Changes the interested I/O events.
+  // Must be called in the loop thread.
   virtual void updateChannel(Channel* channel) = 0;
 
-  /// Remove the channel, when it des.
-  /// Must be called in the loop thread.
+  // Remove the channel, when it destroy.
+  // Must be called in the loop thread.
   virtual void removeChannel(Channel* channel) = 0;
 
   static Poller* newDefaultPoller(EventLoop* loop);

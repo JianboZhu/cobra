@@ -20,7 +20,7 @@ class InetAddress {
 
   // Cons an endpoint with given @c sockaddr_in
   // Mostly used when accepting new connections
-  InetAddress(const  sockaddr_in& addr)
+  InetAddress(const sockaddr_in& addr)
     : addr_(addr){
   }
 

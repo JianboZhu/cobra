@@ -23,6 +23,7 @@ void EventLoopThreadPool::start(const ThreadInitCallback& cb) {
 
   started_ = true;
 
+  // Start event loop threads
   for (int i = 0; i < numThreads_; ++i) {
     EventLoopThread* t = new EventLoopThread(cb);
     threads_.push_back(t);

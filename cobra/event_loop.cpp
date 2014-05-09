@@ -97,9 +97,9 @@ void EventLoop::loop() {
     ++iteration_;
 
     eventHandling_ = true;
-    for (ChannelList::iterator it = activeChannels_.begin();
-        it != activeChannels_.end(); ++it) {
-      currentActiveChannel_ = *it;
+    for (ChannelList::iterator iter = activeChannels_.begin();
+        iter != activeChannels_.end(); ++iter) {
+      currentActiveChannel_ = *iter;
 
       // Handle the read/write/err/close etc events.
       currentActiveChannel_->handleEvent(pollReturnTime_);
