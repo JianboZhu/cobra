@@ -6,7 +6,7 @@
 
 namespace cobra {
 
-EventLoopThread::EventLoopThread(const ThreadInitCallback& cb)
+EventLoopThread::EventLoopThread(const ThreadInitCb& cb)
   : loop_(NULL),
     exiting_(false),
     thread_(boost::bind(&EventLoopThread::threadFunc, this)),

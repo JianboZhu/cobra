@@ -32,18 +32,18 @@ class TcpClient : boost::noncopyable {
 
   // Set connection callback.
   // Not thread safe.
-  void setConnectionCallback(const ConnectionCallback& cb)
-  { connectionCallback_ = cb; }
+  void setConnectionCb(const ConnectionCb& cb)
+  { connectionCb_ = cb; }
 
   // Set message callback.
   // Not thread safe.
-  void setMessageCallback(const MessageCallback& cb)
-  { messageCallback_ = cb; }
+  void setMessageCb(const MessageCb& cb)
+  { messageCb_ = cb; }
 
   // Set write complete callback.
   // Not thread safe.
-  void setWriteCompleteCallback(const WriteCompleteCallback& cb)
-  { writeCompleteCallback_ = cb; }
+  void setWriteCompleteCb(const WriteCompleteCb& cb)
+  { writeCompleteCb_ = cb; }
 
  private:
   // Not thread safe, but in loop
@@ -55,9 +55,9 @@ class TcpClient : boost::noncopyable {
   ConnectorPtr connector_; // avoid revealing Connector
   const string name_;
 
-  ConnectionCallback connectionCallback_;
-  MessageCallback messageCallback_;
-  WriteCompleteCallback writeCompleteCallback_;
+  ConnectionCb connectionCb_;
+  MessageCb messageCb_;
+  WriteCompleteCb writeCompleteCb_;
 
   bool retry_;   // atmoic
   bool connect_; // atomic

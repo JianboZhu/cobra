@@ -15,13 +15,13 @@ class EventLoop;
 
 class Connector : public boost::enable_shared_from_this<Connector> {
  public:
-  typedef boost::function<void (int sockfd)> NewConnectionCallback;
+  typedef boost::function<void (int sockfd)> NewConnectionCb;
 
   Connector(EventLoop* loop, const InetAddress& serverAddr);
   ~Connector();
 
-  void setNewConnectionCallback(const NewConnectionCallback& cb)
-  { newConnectionCallback_ = cb; }
+  void setNewConnectionCb(const NewConnectionCb& cb)
+  { newConnectionCb_ = cb; }
 
   void start();  // can be called in any thread
   void restart();  // must be called in loop thread
@@ -52,7 +52,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   InetAddress serverAddr_;
   bool connect_; // atomic
   boost::scoped_ptr<Channel> channel_;
-  NewConnectionCallback newConnectionCallback_;
+  NewConnectionCb newConnectionCb_;
   int retryDelayMs_;
 };
 

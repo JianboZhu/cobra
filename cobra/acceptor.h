@@ -17,13 +17,14 @@ class InetAddress;
 class Acceptor {
  public:
   typedef boost::function<void (int sockfd,
-                                const InetAddress&)> NewConnectionCallback;
+                                const InetAddress&)> NewConnectionCb;
 
-  Acceptor(EventLoop* loop, const InetAddress& listenAddr, bool reuseport);
+  Acceptor(EventLoop* loop, const InetAddress& listenAddr);
   ~Acceptor();
 
-  void setNewConnectionCallback(const NewConnectionCallback& cb) {
-    newConnectionCallback_ = cb;
+  // Called when a new connecion comes
+  void setNewConnectionCb(const NewConnectionCb& cb) {
+    newConnectionCb_ = cb;
   }
 
   bool listenning() const { return listenning_; }
@@ -35,7 +36,7 @@ class Acceptor {
   EventLoop* loop_;
   Socket acceptSocket_;
   Channel acceptChannel_;
-  NewConnectionCallback newConnectionCallback_;
+  NewConnectionCb newConnectionCb_;
   bool listenning_;
   int idleFd_;
 

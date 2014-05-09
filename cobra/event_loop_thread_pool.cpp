@@ -17,7 +17,7 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop* baseLoop)
 EventLoopThreadPool::~EventLoopThreadPool() {
 }
 
-void EventLoopThreadPool::start(const ThreadInitCallback& cb) {
+void EventLoopThreadPool::start(const ThreadInitCb& cb) {
   assert(!started_);
   baseLoop_->assertInLoopThread();
 

@@ -45,10 +45,6 @@ class EventLoop {
     return pollReturnTime_;
   }
 
-  inline int64_t iteration() const {
-    return iteration_;
-  }
-
   // Runs callback immediately in the loop thread.
   // It wakes up the loop, and run the cb.
   // If in the same loop thread, cb is run within the function.
@@ -65,15 +61,15 @@ class EventLoop {
 
   // Runs callback at 'time'.
   // Safe to call from other threads.
-  TimerId runAt(const Timestamp& time, const TimerCallback& cb);
+  TimerId runAt(const Timestamp& time, const TimerCb& cb);
 
   // Runs callback after @c delay seconds.
   // Safe to call from other threads.
-  TimerId runAfter(double delay, const TimerCallback& cb);
+  TimerId runAfter(double delay, const TimerCb& cb);
 
   // Runs callback every @c interval seconds.
   // Safe to call from other threads.
-  TimerId runEvery(double interval, const TimerCallback& cb);
+  TimerId runEvery(double interval, const TimerCb& cb);
 
   // Cancels the timer.
   // Safe to call from other threads.
@@ -118,7 +114,6 @@ class EventLoop {
 
   bool looping_; /* atomic */
   bool quit_; /* atomic and shared between threads, okay on x86, I guess. */
-  int64_t iteration_;
   const pid_t threadId_;
   Timestamp pollReturnTime_;
   boost::scoped_ptr<TimerQueue> timerQueue_;
@@ -137,7 +132,6 @@ class EventLoop {
   typedef std::vector<Channel*> ChannelList;
   ChannelList activeChannels_;
   Channel* currentActiveChannel_;
-  void printActiveChannels() const; // DEBUG
 
   MutexLock mutex_;
   bool callingPendingFunctors_; /* atomic */

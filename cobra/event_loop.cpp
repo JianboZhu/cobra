@@ -50,7 +50,6 @@ EventLoop* EventLoop::getEventLoopOfCurrentThread() {
 EventLoop::EventLoop()
   : looping_(false),
     quit_(false),
-    iteration_(0),
     threadId_(CurrentThread::tid()),
     timerQueue_(new TimerQueue(this)),
     poller_(Poller::newDefaultPoller(this)), // TODO(zhujianbo): Don't call this in ctor.
@@ -67,7 +66,7 @@ EventLoop::EventLoop()
     t_loopInThisThread = this;
   }
 
-  wakeupChannel_->setReadCallback(
+  wakeupChannel_->setReadCb(
       boost::bind(&EventLoop::handleRead, this));
 
   // We are always reading the wakeupfd
@@ -90,11 +89,8 @@ void EventLoop::loop() {
 
   while (!quit_) {
     activeChannels_.clear();
-
     // Get available fds in current.
     pollReturnTime_ = poller_->poll(kPollTimeMs, &activeChannels_);
-
-    ++iteration_;
 
     eventHandling_ = true;
     for (ChannelList::iterator iter = activeChannels_.begin();
@@ -144,16 +140,16 @@ void EventLoop::queueInLoop(const Functor& cb) {
   }
 }
 
-TimerId EventLoop::runAt(const Timestamp& time, const TimerCallback& cb) {
+TimerId EventLoop::runAt(const Timestamp& time, const TimerCb& cb) {
   return timerQueue_->addTimer(cb, time, 0.0);
 }
 
-TimerId EventLoop::runAfter(double delay, const TimerCallback& cb) {
+TimerId EventLoop::runAfter(double delay, const TimerCb& cb) {
   Timestamp time(addTime(Timestamp::now(), delay));
   return runAt(time, cb);
 }
 
-TimerId EventLoop::runEvery(double interval, const TimerCallback& cb) {
+TimerId EventLoop::runEvery(double interval, const TimerCb& cb) {
   Timestamp time(addTime(Timestamp::now(), interval));
   return timerQueue_->addTimer(cb, time, interval);
 }
@@ -216,14 +212,6 @@ void EventLoop::doPendingFunctors() {
   }
 
   callingPendingFunctors_ = false;
-}
-
-void EventLoop::printActiveChannels() const {
-  ChannelList::const_iterator iter = activeChannels_.begin();
-  for (; iter != activeChannels_.end(); ++iter) {
-    const Channel* ch = *iter;
-    LOG_TRACE << "{" << ch->reventsToString() << "} ";
-  }
 }
 
 }  // namespace cobra

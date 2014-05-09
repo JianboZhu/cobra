@@ -20,8 +20,8 @@ class EventLoop;
 // an eventfd, a timerfd, or a signalfd
 class Channel {
  public:
-  typedef boost::function<void()> EventCallback;
-  typedef boost::function<void(Timestamp)> ReadEventCallback;
+  typedef boost::function<void()> EventCb;
+  typedef boost::function<void(Timestamp)> ReadEventCb;
 
   Channel(EventLoop* loop, int fd);
   ~Channel();
@@ -32,21 +32,21 @@ class Channel {
   void handleEvent();
   void handleEvent(Timestamp receiveTime);
 
-  // Callbacks
-  void setReadCallback(const ReadEventCallback& cb) {
-    readCallback_ = cb;
+  // Cbs
+  void setReadCb(const ReadEventCb& cb) {
+    readCb_ = cb;
   }
 
-  void setWriteCallback(const EventCallback& cb) {
-    writeCallback_ = cb;
+  void setWriteCb(const EventCb& cb) {
+    writeCb_ = cb;
   }
 
-  void setCloseCallback(const EventCallback& cb) {
-    closeCallback_ = cb;
+  void setCloseCb(const EventCb& cb) {
+    closeCb_ = cb;
   }
 
-  void setErrorCallback(const EventCallback& cb) {
-    errorCallback_ = cb;
+  void setErrorCb(const EventCb& cb) {
+    errorCb_ = cb;
   }
 
   // Tie this channel to the owner object managed by shared_ptr,
@@ -84,9 +84,6 @@ class Channel {
   // For Poller
   int index() { return index_; }
   void set_index(int idx) { index_ = idx; }
-
-  // For debug
-  string reventsToString() const;
 
   void doNotLogHup() { logHup_ = false; }
 
@@ -126,10 +123,10 @@ class Channel {
   bool tied_;
   bool eventHandling_;
 
-  ReadEventCallback readCallback_;
-  EventCallback writeCallback_;
-  EventCallback closeCallback_;
-  EventCallback errorCallback_;
+  ReadEventCb readCb_;
+  EventCb writeCb_;
+  EventCb closeCb_;
+  EventCb errorCb_;
 
   DISABLE_COPY_AND_ASSIGN(Channel);
 };

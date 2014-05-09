@@ -27,21 +27,21 @@ inline ::boost::shared_ptr<To> down_pointer_cast(const ::boost::shared_ptr<From>
 class Buffer;
 class TcpConnection;
 typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
-typedef boost::function<void()> TimerCallback;
-typedef boost::function<void (const TcpConnectionPtr&)> ConnectionCallback;
-typedef boost::function<void (const TcpConnectionPtr&)> CloseCallback;
-typedef boost::function<void (const TcpConnectionPtr&)> WriteCompleteCallback;
-typedef boost::function<void (const TcpConnectionPtr&, size_t)> HighWaterMarkCallback;
+typedef boost::function<void()> TimerCb;
+typedef boost::function<void (const TcpConnectionPtr&)> ConnectionCb;
+typedef boost::function<void (const TcpConnectionPtr&)> CloseCb;
+typedef boost::function<void (const TcpConnectionPtr&)> WriteCompleteCb;
+typedef boost::function<void (const TcpConnectionPtr&, size_t)> HighWaterMarkCb;
 
 // the data has been read to (buf, len)
 typedef boost::function<void (const TcpConnectionPtr&,
                               Buffer*,
-                              Timestamp)> MessageCallback;
+                              Timestamp)> MessageCb;
 
-void defaultConnectionCallback(const TcpConnectionPtr& conn);
-void defaultMessageCallback(const TcpConnectionPtr& conn,
-                            Buffer* buffer,
-                            Timestamp receiveTime);
+void defaultConnectionCb(const TcpConnectionPtr& conn);
+void defaultMessageCb(const TcpConnectionPtr& conn,
+                      Buffer* buffer,
+                      Timestamp receiveTime);
 
 }  // namespace cobra
 

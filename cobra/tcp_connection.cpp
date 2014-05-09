@@ -15,13 +15,13 @@ namespace cobra {
 
 namespace {
 
-void defaultConnectionCallback(const TcpConnectionPtr& conn) {
+void defaultConnectionCb(const TcpConnectionPtr& conn) {
   LOG_TRACE << conn->localAddress().toIpPort() << " -> "
             << conn->peerAddress().toIpPort() << " is "
             << (conn->connected() ? "UP" : "DOWN");
 }
 
-void defaultMessageCallback(const TcpConnectionPtr&,
+void defaultMessageCb(const TcpConnectionPtr&,
                             Buffer* buf,
                             Timestamp) {
   buf->retrieveAll();
@@ -43,13 +43,13 @@ TcpConnection::TcpConnection(EventLoop* loop,
     peerAddr_(peerAddr),
     highWaterMark_(64*1024*1024) {
   // Set callbacks for Channel.
-  channel_->setReadCallback(
+  channel_->setReadCb(
       boost::bind(&TcpConnection::handleRead, this, _1));
-  channel_->setWriteCallback(
+  channel_->setWriteCb(
       boost::bind(&TcpConnection::handleWrite, this));
-  channel_->setCloseCallback(
+  channel_->setCloseCb(
       boost::bind(&TcpConnection::handleClose, this));
-  channel_->setErrorCallback(
+  channel_->setErrorCb(
       boost::bind(&TcpConnection::handleError, this));
   LOG_DEBUG << "TcpConnection::ctor[" <<  name_ << "] at " << this
             << " fd=" << sockfd;
@@ -123,8 +123,8 @@ void TcpConnection::sendInLoop(const void* data, size_t len) {
     nwrote = internal::write(channel_->fd(), data, len);
     if (nwrote >= 0) {
       remaining = len - nwrote;
-      if (remaining == 0 && writeCompleteCallback_) {
-        loop_->queueInLoop(boost::bind(writeCompleteCallback_, shared_from_this()));
+      if (remaining == 0 && writeCompleteCb_) {
+        loop_->queueInLoop(boost::bind(writeCompleteCb_, shared_from_this()));
       }
     } else {
     // nwrote < 0
@@ -144,8 +144,8 @@ void TcpConnection::sendInLoop(const void* data, size_t len) {
     size_t oldLen = outputBuffer_.readableBytes();
     if (oldLen + remaining >= highWaterMark_
         && oldLen < highWaterMark_
-        && highWaterMarkCallback_) {
-      loop_->queueInLoop(boost::bind(highWaterMarkCallback_, shared_from_this(), oldLen + remaining));
+        && highWaterMarkCb_) {
+      loop_->queueInLoop(boost::bind(highWaterMarkCb_, shared_from_this(), oldLen + remaining));
     }
     outputBuffer_.append(static_cast<const char*>(data) + nwrote, remaining);
     if (!channel_->isWriting()) {
@@ -191,7 +191,7 @@ void TcpConnection::connectEstablished() {
   channel_->enableReading();
 
   // This cb function is set by user, @see TcpServer::SetConnectionCallBack().
-  connectionCallback_(shared_from_this());
+  connectionCb_(shared_from_this());
 }
 
 void TcpConnection::connectDestroyed() {
@@ -201,7 +201,7 @@ void TcpConnection::connectDestroyed() {
     setState(kDisconnected);
     channel_->disableAll();
 
-    connectionCallback_(shared_from_this());
+    connectionCb_(shared_from_this());
   }
   channel_->remove();
 }
@@ -218,7 +218,7 @@ void TcpConnection::handleRead(Timestamp receiveTime) {
   ssize_t n = inputBuffer_.readFd(channel_->fd(), &savedErrno);
   if (n > 0) {
     // Now, the message passed from tcp client has been stored in the input buffer.
-    messageCallback_(shared_from_this(), &inputBuffer_, receiveTime);
+    messageCb_(shared_from_this(), &inputBuffer_, receiveTime);
   } else if (n == 0) {
     handleClose();
   } else {
@@ -238,8 +238,8 @@ void TcpConnection::handleWrite() {
       outputBuffer_.retrieve(n);
       if (outputBuffer_.readableBytes() == 0) {
         channel_->disableWriting();
-        if (writeCompleteCallback_) {
-          loop_->queueInLoop(boost::bind(writeCompleteCallback_, shared_from_this()));
+        if (writeCompleteCb_) {
+          loop_->queueInLoop(boost::bind(writeCompleteCb_, shared_from_this()));
         }
         if (state_ == kDisconnecting) {
           shutdownInLoop();
@@ -267,9 +267,9 @@ void TcpConnection::handleClose() {
   channel_->disableAll();
 
   TcpConnectionPtr guardThis(shared_from_this());
-  connectionCallback_(guardThis);
+  connectionCb_(guardThis);
   // must be the last line
-  closeCallback_(guardThis);
+  closeCb_(guardThis);
 }
 
 void TcpConnection::handleError() {

@@ -17,13 +17,13 @@ class EventLoopThread;
 
 class EventLoopThreadPool {
  public:
-  typedef boost::function<void(EventLoop*)> ThreadInitCallback;
+  typedef boost::function<void(EventLoop*)> ThreadInitCb;
 
   EventLoopThreadPool(EventLoop* baseLoop);
   ~EventLoopThreadPool();
 
   void setThreadNum(int numThreads) { numThreads_ = numThreads; }
-  void start(const ThreadInitCallback& cb = ThreadInitCallback());
+  void start(const ThreadInitCb& cb = ThreadInitCb());
   EventLoop* getNextLoop();
 
  private:

@@ -12,7 +12,7 @@
 
 namespace cobra {
 
-Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr, bool reuseport)
+Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr)
   : loop_(loop),
     acceptSocket_(internal::createNonblockingOrDie()),
     acceptChannel_(loop, acceptSocket_.fd()),
@@ -20,12 +20,12 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& listenAddr, bool reusepor
     idleFd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
   assert(idleFd_ >= 0);
   acceptSocket_.setReuseAddr(true);
-  acceptSocket_.setReusePort(reuseport);
+  //acceptSocket_.setReusePort(reuseport);
   acceptSocket_.bindAddress(listenAddr);
 
   // When there is a connection_request coming on the listening port,
   // call the callback function. here refers to 'Acceptor::handleRead'.
-  acceptChannel_.setReadCallback(
+  acceptChannel_.setReadCb(
       boost::bind(&Acceptor::handleRead, this));
 }
 
@@ -54,8 +54,8 @@ void Acceptor::handleRead() {
   if (connfd >= 0) {
     // string hostport = peerAddr.toIpPort();
     // LOG_TRACE << "Accepts of " << hostport;
-    if (newConnectionCallback_) {
-      newConnectionCallback_(connfd, peerAddr);
+    if (newConnectionCb_) {
+      newConnectionCb_(connfd, peerAddr);
     } else {
       internal::close(connfd);
     }

@@ -12,9 +12,9 @@ class EventLoop;
 
 class EventLoopThread {
  public:
-  typedef boost::function<void(EventLoop*)> ThreadInitCallback;
+  typedef boost::function<void(EventLoop*)> ThreadInitCb;
 
-  EventLoopThread(const ThreadInitCallback& cb = ThreadInitCallback());
+  EventLoopThread(const ThreadInitCb& cb = ThreadInitCb());
   ~EventLoopThread();
 
   EventLoop* startLoop();
@@ -27,7 +27,7 @@ class EventLoopThread {
   Thread thread_;
   MutexLock mutex_;
   Condition cond_;
-  ThreadInitCallback callback_;
+  ThreadInitCb callback_;
 
   DISABLE_COPY_AND_ASSIGN(EventLoopThread);
 };

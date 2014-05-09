@@ -74,6 +74,18 @@ cc_library(
 )
 
 cc_library(
+  name = 'server',
+  srcs = 'server.cpp',
+  deps = [
+    ':acceptor',
+    ':event_loop',
+    ':event_loop_thread_pool',
+    ':socket_wrapper',
+    ':tcp_connection',
+  ]
+)
+
+cc_library(
   name = 'socket',
   srcs = 'socket.cpp',
   deps = [

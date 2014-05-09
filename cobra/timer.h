@@ -10,7 +10,7 @@ namespace cobra {
 
 class Timer {
  public:
-  Timer(const TimerCallback& cb, Timestamp when, double interval)
+  Timer(const TimerCb& cb, Timestamp when, double interval)
     : callback_(cb),
       expiration_(when),
       interval_(interval),
@@ -31,7 +31,7 @@ class Timer {
   static int64_t numCreated() { return s_numCreated_.get(); }
 
  private:
-  const TimerCallback callback_;
+  const TimerCb callback_;
   Timestamp expiration_;
   const double interval_;
   const bool repeat_;

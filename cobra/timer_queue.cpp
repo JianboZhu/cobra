@@ -69,7 +69,7 @@ TimerQueue::TimerQueue(EventLoop* loop)
     timerfdChannel_(loop, timerfd_),
     timers_(),
     callingExpiredTimers_(false) {
-  timerfdChannel_.setReadCallback(
+  timerfdChannel_.setReadCb(
       boost::bind(&TimerQueue::handleRead, this));
   // we are always reading the timerfd, we disarm it with timerfd_settime.
   timerfdChannel_.enableReading();
@@ -84,7 +84,7 @@ TimerQueue::~TimerQueue() {
   }
 }
 
-TimerId TimerQueue::addTimer(const TimerCallback& cb,
+TimerId TimerQueue::addTimer(const TimerCb& cb,
                              Timestamp when,
                              double interval) {
   Timer* timer = new Timer(cb, when, interval);

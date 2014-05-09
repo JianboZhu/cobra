@@ -1,4 +1,4 @@
-#include "cobra/tcp_server.h"
+#include "cobra/server.h"
 
 #include <cstdio>
 
@@ -12,27 +12,26 @@
 
 namespace cobra {
 
-TcpServer::TcpServer(EventLoop* loop,
-                     const InetAddress& listenAddr,
-                     const string& nameArg,
-                     Option option)
+Server::Server(EventLoop* loop,
+               const InetAddress& listenAddr,
+               const string& nameArg)
   : loop_(CHECK_NOTNULL(loop)),
     hostport_(listenAddr.toIpPort()),
     name_(nameArg),
-    acceptor_(new Acceptor(loop, listenAddr, option == kReusePort)),
-    threadPool_(new EventLoopThreadPool(loop)),
+    acceptor_(new Acceptor(loop, listenAddr)),
+    thread_pool_(new EventLoopThreadPool(loop)),
     connectionCb_(defaultConnectionCb),
     messageCb_(defaultMessageCb),
     nextConnId_(1) {
   // Called when an connection is accpeted, @see Acceptor::HandleRead which is
   // called when a connection request is listened on 'listen fd'.
   acceptor_->setNewConnectionCb(
-      boost::bind(&TcpServer::newConnection, this, _1, _2));
+      boost::bind(&Server::newConnection, this, _1, _2));
 }
 
-TcpServer::~TcpServer() {
+Server::~Server() {
   loop_->assertInLoopThread();
-  LOG_TRACE << "TcpServer::~TcpServer [" << name_ << "] dying";
+  LOG_TRACE << "Server::~Server [" << name_ << "] dying";
 
   for (ConnectionMap::iterator iter = connections_.begin();
       iter != connections_.end(); ++iter) {
@@ -44,14 +43,14 @@ TcpServer::~TcpServer() {
   }
 }
 
-void TcpServer::setThreadNum(int threads) {
+void Server::SetThreadNum(uint32 threads) {
   assert(0 <= threads);
-  threadPool_->setThreadNum(threads);
+  thread_pool_->setThreadNum(threads);
 }
 
-void TcpServer::start() {
+void Server::start() {
   if (started_.getAndSet(1) == 0) {
-    threadPool_->start(threadInitCb_);
+    thread_pool_->start(threadInitCb_);
 
     assert(!acceptor_->listenning());
 
@@ -62,17 +61,17 @@ void TcpServer::start() {
 }
 
 // Called when an connection is established, @see Acceptor::handleRead
-void TcpServer::newConnection(int sockfd, const InetAddress& peerAddr) {
+void Server::newConnection(int32 sockfd, const InetAddress& peerAddr) {
   loop_->assertInLoopThread();
 
   // This new connection is assign to a event_loop thread in a round-robin way.
-  EventLoop* ioLoop = threadPool_->getNextLoop();
+  EventLoop* ioLoop = thread_pool_->getNextLoop();
   char buf[32];
   snprintf(buf, sizeof buf, ":%s#%d", hostport_.c_str(), nextConnId_);
   ++nextConnId_;
   string connName = name_ + buf;
 
-  LOG_INFO << "TcpServer::newConnection [" << name_
+  LOG_INFO << "Server::newConnection [" << name_
            << "] - new connection [" << connName
            << "] from " << peerAddr.toIpPort();
   InetAddress localAddr(internal::getLocalAddr(sockfd));
@@ -92,20 +91,20 @@ void TcpServer::newConnection(int sockfd, const InetAddress& peerAddr) {
   conn->setMessageCb(messageCb_);
   conn->setWriteCompleteCb(writeCompleteCb_);
   conn->setCloseCb(
-      boost::bind(&TcpServer::removeConnection, this, _1)); // FIXME: unsafe
+      boost::bind(&Server::removeConnection, this, _1)); // FIXME: unsafe
 
   // Run TcpConnection::connectEstablished immediately.
   ioLoop->runInLoop(boost::bind(&TcpConnection::connectEstablished, conn));
 }
 
-void TcpServer::removeConnection(const TcpConnectionPtr& conn) {
+void Server::removeConnection(const TcpConnectionPtr& conn) {
   // FIXME: unsafe
-  loop_->runInLoop(boost::bind(&TcpServer::removeConnectionInLoop, this, conn));
+  loop_->runInLoop(boost::bind(&Server::removeConnectionInLoop, this, conn));
 }
 
-void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn) {
+void Server::removeConnectionInLoop(const TcpConnectionPtr& conn) {
   loop_->assertInLoopThread();
-  LOG_INFO << "TcpServer::removeConnectionInLoop [" << name_
+  LOG_INFO << "Server::removeConnectionInLoop [" << name_
            << "] - connection " << conn->name();
   size_t n = connections_.erase(conn->name());
   (void)n;

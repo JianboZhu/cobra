@@ -93,7 +93,7 @@ void Connector::connect() {
     default:
       LOG_SYSERR << "Unexpected error in Connector::startInLoop " << savedErrno;
       internal::close(sockfd);
-      // connectErrorCallback_();
+      // connectErrorCb_();
       break;
   }
 }
@@ -110,9 +110,9 @@ void Connector::connecting(int sockfd) {
   setState(kConnecting);
   assert(!channel_);
   channel_.reset(new Channel(loop_, sockfd));
-  channel_->setWriteCallback(
+  channel_->setWriteCb(
       boost::bind(&Connector::handleWrite, this)); // FIXME: unsafe
-  channel_->setErrorCallback(
+  channel_->setErrorCb(
       boost::bind(&Connector::handleError, this)); // FIXME: unsafe
 
   // channel_->tie(shared_from_this()); is not working,
@@ -149,7 +149,7 @@ void Connector::handleWrite() {
     } else {
       setState(kConnected);
       if (connect_) {
-        newConnectionCallback_(sockfd);
+        newConnectionCb_(sockfd);
       } else {
         internal::close(sockfd);
       }

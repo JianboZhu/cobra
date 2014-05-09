@@ -1,11 +1,16 @@
-#ifndef COBRA_TCPSERVER_H_
-#define COBRA_TCPSERVER_H_
+// Author: Jianbo Zhu
+//
+// Interface for the server side.
+
+#ifndef COBRA_SERVER_H_
+#define COBRA_SERVER_H_
 
 #include <map>
 
 #include <boost/function.hpp>
 #include <boost/scoped_ptr.hpp>
 
+#include "base/basic_types.h"
 #include "base/macros.h"
 #include "base/Atomic.h"
 #include "base/Types.h"
@@ -17,29 +22,16 @@ class Acceptor;
 class EventLoop;
 class EventLoopThreadPool;
 
-class TcpServer {
+class Server {
  public:
   typedef boost::function<void(EventLoop*)> ThreadInitCb;
-  enum Option {
-    kNoReusePort,
-    kReusePort,
-  };
 
-  TcpServer(EventLoop* loop,
-            const InetAddress& listenAddr, // ip and port
-            const string& nameArg,
-            Option option = kNoReusePort);
-  ~TcpServer();
+  Server(EventLoop* loop,
+         const InetAddress& listenAddr,
+         const string& nameArg);
+  virtual ~Server();
 
-  inline const string& hostport() const {
-    return hostport_;
-  }
-
-  inline const string& name() const {
-    return name_;
-  }
-
-  inline EventLoop* getLoop() const {
+  inline EventLoop* GetEventLoop() const {
     return loop_;
   }
 
@@ -53,8 +45,8 @@ class TcpServer {
   // - 1 means all I/O in another thread.
   // - N means a thread pool with N threads, new connections
   //   are assigned on a round-robin basis.
-  void setThreadNum(int numThreads);
-  inline void setThreadInitCb(const ThreadInitCb& cb) {
+  void SetThreadNum(uint32 numThreads);
+  inline void SetThreadInitCb(const ThreadInitCb& cb) {
     threadInitCb_ = cb;
   }
 
@@ -93,7 +85,7 @@ class TcpServer {
   //
   // It can be used as callback functions,
   // called when an connetion is established.
-  void newConnection(int sockfd, const InetAddress& peerAddr);
+  void newConnection(int32 sockfd, const InetAddress& peerAddr);
 
   // Thread safe.
   void removeConnection(const TcpConnectionPtr& conn);
@@ -107,9 +99,9 @@ class TcpServer {
   const string name_;
 
   boost::scoped_ptr<Acceptor> acceptor_;
-  boost::scoped_ptr<EventLoopThreadPool> threadPool_;
+  boost::scoped_ptr<EventLoopThreadPool> thread_pool_;
 
-  // The callbacks
+  // The callback functions
   ThreadInitCb threadInitCb_;
   ConnectionCb connectionCb_;
   MessageCb messageCb_;
@@ -119,11 +111,11 @@ class TcpServer {
   typedef std::map<string, TcpConnectionPtr> ConnectionMap;
   ConnectionMap connections_;
   // Always in loop thread
-  int nextConnId_;
+  uint32 nextConnId_;
 
-  DISABLE_COPY_AND_ASSIGN(TcpServer);
+  DISABLE_COPY_AND_ASSIGN(Server);
 };
 
 }  // namespace cobra
 
-#endif  // COBRA_TCPSERVER_H_
+#endif  // COBRA_SERVER_H_

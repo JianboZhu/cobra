@@ -29,16 +29,16 @@ TcpClient::TcpClient(EventLoop* loop,
   : loop_(CHECK_NOTNULL(loop)),
     connector_(new Connector(loop, serverAddr)),
     name_(name),
-    connectionCallback_(defaultConnectionCallback),
-    messageCallback_(defaultMessageCallback),
+    connectionCb_(defaultConnectionCb),
+    messageCb_(defaultMessageCb),
     retry_(false),
     connect_(true),
     nextConnId_(1) {
   // Called when a new connection is established.
-  connector_->setNewConnectionCallback(
+  connector_->setNewConnectionCb(
       boost::bind(&TcpClient::newConnection, this, _1));
 
-  // FIXME setConnectFailedCallback
+  // FIXME setConnectFailedCb
   LOG_INFO << "TcpClient::TcpClient[" << name_
            << "] - connector " << get_pointer(connector_);
 }
@@ -53,9 +53,9 @@ TcpClient::~TcpClient() {
   }
   if (conn) {
     // FIXME: not 100% safe, if we are in different thread
-    CloseCallback cb = boost::bind(&detail::removeConnection, loop_, _1);
+    CloseCb cb = boost::bind(&detail::removeConnection, loop_, _1);
     loop_->runInLoop(
-        boost::bind(&TcpConnection::setCloseCallback, conn, cb));
+        boost::bind(&TcpConnection::setCloseCb, conn, cb));
   } else {
     connector_->stop();
     // FIXME: HACK
@@ -105,10 +105,10 @@ void TcpClient::newConnection(int sockfd) {
                                           localAddr,
                                           peerAddr));
 
-  conn->setConnectionCallback(connectionCallback_);
-  conn->setMessageCallback(messageCallback_);
-  conn->setWriteCompleteCallback(writeCompleteCallback_);
-  conn->setCloseCallback(
+  conn->setConnectionCb(connectionCb_);
+  conn->setMessageCb(messageCb_);
+  conn->setWriteCompleteCb(writeCompleteCb_);
+  conn->setCloseCb(
       boost::bind(&TcpClient::removeConnection, this, _1)); // FIXME: unsafe
   {
     MutexLockGuard lock(mutex_);

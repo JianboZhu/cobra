@@ -25,7 +25,7 @@ class TimerQueue {
   // repeats if @c interval > 0.0.
   //
   // Must be thread safe. Usually be called from other threads.
-  TimerId addTimer(const TimerCallback& cb,
+  TimerId addTimer(const TimerCb& cb,
                    Timestamp when,
                    double interval);
 

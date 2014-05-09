@@ -56,22 +56,22 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
 
   //////////////////////////////////// begin //////////////////////////////
   // These callback functions are set by user, @see TcpServer::SetConnectionCallBack
-  void setConnectionCallback(const ConnectionCallback& cb)
-  { connectionCallback_ = cb; }
+  void setConnectionCb(const ConnectionCb& cb)
+  { connectionCb_ = cb; }
 
   // @see TcpServer::SetMessageCallBack
-  void setMessageCallback(const MessageCallback& cb)
-  { messageCallback_ = cb; }
+  void setMessageCb(const MessageCb& cb)
+  { messageCb_ = cb; }
 
   // @see TcpServer::SetWriteCompleteCallBack
-  void setWriteCompleteCallback(const WriteCompleteCallback& cb)
-  { writeCompleteCallback_ = cb; }
+  void setWriteCompleteCb(const WriteCompleteCb& cb)
+  { writeCompleteCb_ = cb; }
   /////////////////////////////////// end //////////////////////////////////////
 
 
-  void setHighWaterMarkCallback(const HighWaterMarkCallback& cb,
+  void setHighWaterMarkCb(const HighWaterMarkCb& cb,
                                 size_t highWaterMark) {
-    highWaterMarkCallback_ = cb;
+    highWaterMarkCb_ = cb;
     highWaterMark_ = highWaterMark;
   }
 
@@ -85,8 +85,8 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   }
 
   // Internal use only.
-  void setCloseCallback(const CloseCallback& cb)
-  { closeCallback_ = cb; }
+  void setCloseCb(const CloseCb& cb)
+  { closeCb_ = cb; }
 
   // Called when TcpServer accepts a new connection
   void connectEstablished();   // should be called only once
@@ -112,11 +112,11 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   boost::scoped_ptr<Channel> channel_;
   InetAddress localAddr_;
   InetAddress peerAddr_;
-  ConnectionCallback connectionCallback_;
-  MessageCallback messageCallback_;
-  WriteCompleteCallback writeCompleteCallback_;
-  HighWaterMarkCallback highWaterMarkCallback_;
-  CloseCallback closeCallback_;
+  ConnectionCb connectionCb_;
+  MessageCb messageCb_;
+  WriteCompleteCb writeCompleteCb_;
+  HighWaterMarkCb highWaterMarkCb_;
+  CloseCb closeCb_;
   size_t highWaterMark_;
   Buffer inputBuffer_;
   Buffer outputBuffer_; // FIXME: use list<Buffer> as output buffer.
