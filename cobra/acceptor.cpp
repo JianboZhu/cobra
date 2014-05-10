@@ -19,13 +19,13 @@ Acceptor::Acceptor(Worker* loop, const Endpoint& listenAddr)
     listenning_(false),
     idle_fd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
   assert(idle_fd_ >= 0);
-  accept_socket_.setReuseAddr(true);
-  //accept_socket_.setReusePort(reuseport);
-  accept_socket_.bindAddress(listenAddr);
+  accept_socket_.SetReuseAddr(true);
+  //accept_socket_.SetReusePort(reuseport);
+  accept_socket_.Bind(listenAddr);
 
   // When there is a connection_request coming on the listening port,
   // call the callback function. here refers to 'Acceptor::handleRead'.
-  accept_channel_.setReadCb(
+  accept_channel_.SetReadCb(
       boost::bind(&Acceptor::handleRead, this));
 }
 
@@ -35,12 +35,12 @@ Acceptor::~Acceptor() {
   ::close(idle_fd_);
 }
 
-void Acceptor::listen() {
+void Acceptor::Listen() {
   loop_->assertInLoopThread();
   listenning_ = true;
 
   // Start listening for connections on 'accept_socket_'.
-  accept_socket_.listen();
+  accept_socket_.Listen();
 
   // Enable the 'read' event of the 'fd'.
   accept_channel_.enableReading();
@@ -51,7 +51,7 @@ void Acceptor::handleRead() {
 
   Endpoint peer_address(0);
   //FIXME loop until no more
-  int connfd = accept_socket_.accept(&peer_address);
+  int connfd = accept_socket_.Accept(&peer_address);
   if (connfd >= 0) {
     if (new_conn_cb_) {
       new_conn_cb_(connfd, peer_address);

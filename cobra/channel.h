@@ -35,19 +35,19 @@ class Channel {
   void handleEvent(Timestamp receiveTime);
 
   // Cbs
-  void setReadCb(const ReadEventCb& cb) {
+  void SetReadCb(const ReadEventCb& cb) {
     readCb_ = cb;
   }
 
-  void setWriteCb(const EventCb& cb) {
+  void SetWriteCb(const EventCb& cb) {
     writeCb_ = cb;
   }
 
-  void setCloseCb(const EventCb& cb) {
+  void SetCloseCb(const EventCb& cb) {
     closeCb_ = cb;
   }
 
-  void setErrorCb(const EventCb& cb) {
+  void SetErrorCb(const EventCb& cb) {
     errorCb_ = cb;
   }
 

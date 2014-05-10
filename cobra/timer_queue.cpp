@@ -69,7 +69,7 @@ TimerQueue::TimerQueue(Worker* loop)
     timerfdChannel_(loop, timerfd_),
     timers_(),
     callingExpiredTimers_(false) {
-  timerfdChannel_.setReadCb(
+  timerfdChannel_.SetReadCb(
       boost::bind(&TimerQueue::handleRead, this));
   // we are always reading the timerfd, we disarm it with timerfd_settime.
   timerfdChannel_.enableReading();

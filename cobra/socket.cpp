@@ -1,12 +1,12 @@
 #include "cobra/socket.h"
 
-#include "base/Logging.h"
-#include "cobra/endpoint.h"
-#include "cobra/socket_wrapper.h"
-
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <strings.h>  // bzero
+
+#include "base/Logging.h"
+#include "cobra/endpoint.h"
+#include "cobra/socket_wrapper.h"
 
 namespace cobra {
 
@@ -14,44 +14,44 @@ Socket::~Socket() {
   internal::close(sockfd_);
 }
 
-void Socket::bindAddress(const Endpoint& addr) {
+void Socket::Bind(const Endpoint& addr) {
   internal::bindOrDie(sockfd_, addr.getSockAddrInet());
 }
 
-void Socket::listen() {
+void Socket::Listen() {
   internal::listenOrDie(sockfd_);
 }
 
-int Socket::accept(Endpoint* peeraddr) {
+int Socket::Accept(Endpoint* peer_addr) {
   sockaddr_in addr;
-  bzero(&addr, sizeof addr);
-  int connfd = internal::accept(sockfd_, &addr);
-  if (connfd >= 0) {
-    peeraddr->setSockAddrInet(addr);
+  bzero(&addr, sizeof(addr));
+  int conn_fd = internal::accept(sockfd_, &addr);
+  if (conn_fd >= 0) {
+    peer_addr->setSockAddrInet(addr);
   }
 
-  return connfd;
+  return conn_fd;
 }
 
-void Socket::shutdownWrite() {
+void Socket::ShutdownWrite() {
   internal::shutdownWrite(sockfd_);
 }
 
-void Socket::setTcpNoDelay(bool on) {
+void Socket::SetTcpNoDelay(bool on) {
   int optval = on ? 1 : 0;
   ::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY,
                &optval, static_cast<socklen_t>(sizeof optval));
   // FIXME CHECK
 }
 
-void Socket::setReuseAddr(bool on) {
+void Socket::SetReuseAddr(bool on) {
   int optval = on ? 1 : 0;
   ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,
                &optval, static_cast<socklen_t>(sizeof optval));
   // FIXME CHECK
 }
 
-void Socket::setReusePort(bool on) {
+void Socket::SetReusePort(bool on) {
 #ifdef SO_REUSEPORT
   int optval = on ? 1 : 0;
   int ret = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT,
@@ -66,7 +66,7 @@ void Socket::setReusePort(bool on) {
 #endif
 }
 
-void Socket::setKeepAlive(bool on) {
+void Socket::SetKeepAlive(bool on) {
   int optval = on ? 1 : 0;
   ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE,
                &optval, static_cast<socklen_t>(sizeof optval));

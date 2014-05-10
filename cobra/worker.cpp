@@ -65,7 +65,7 @@ Worker::Worker()
     t_loopInThisThread = this;
   }
 
-  wakeupChannel_->setReadCb(
+  wakeupChannel_->SetReadCb(
       boost::bind(&Worker::handleRead, this));
 
   // We are always reading the wakeupfd

@@ -33,7 +33,7 @@ class Acceptor {
   }
 
   inline bool listenning() const { return listenning_; }
-  void listen();
+  void Listen();
 
  private:
   void handleRead();

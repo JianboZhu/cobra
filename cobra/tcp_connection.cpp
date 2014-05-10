@@ -43,19 +43,19 @@ TcpConnection::TcpConnection(Worker* loop,
     peerAddr_(peer_address),
     highWaterMark_(64*1024*1024) {
   // Set callbacks for Channel.
-  channel_->setReadCb(
+  channel_->SetReadCb(
       boost::bind(&TcpConnection::handleRead, this, _1));
-  channel_->setWriteCb(
+  channel_->SetWriteCb(
       boost::bind(&TcpConnection::handleWrite, this));
-  channel_->setCloseCb(
+  channel_->SetCloseCb(
       boost::bind(&TcpConnection::handleClose, this));
-  channel_->setErrorCb(
+  channel_->SetErrorCb(
       boost::bind(&TcpConnection::handleError, this));
   LOG_DEBUG << "TcpConnection::ctor[" <<  name_ << "] at " << this
             << " fd=" << conn_fd;
 
   // Keep the conn-socket alive.
-  socket_->setKeepAlive(true);
+  socket_->SetKeepAlive(true);
 }
 
 TcpConnection::~TcpConnection() {
@@ -170,12 +170,12 @@ void TcpConnection::shutdownInLoop()
   if (!channel_->isWriting())
   {
     // we are not writing
-    socket_->shutdownWrite();
+    socket_->ShutdownWrite();
   }
 }
 
 void TcpConnection::setTcpNoDelay(bool on) {
-  socket_->setTcpNoDelay(on);
+  socket_->SetTcpNoDelay(on);
 }
 
 // Called when the connetion on the corresponding conn socket is established.

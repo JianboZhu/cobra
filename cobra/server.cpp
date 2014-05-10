@@ -56,7 +56,7 @@ void Server::start() {
 
     // Start listening and then accepting connections right now.
     loop_->runInLoop(
-        boost::bind(&Acceptor::listen, get_pointer(acceptor_)));
+        boost::bind(&Acceptor::Listen, get_pointer(acceptor_)));
   }
 }
 

@@ -1,7 +1,6 @@
 #ifndef COBRA_SOCKET_H_
 #define COBRA_SOCKET_H_
 
-
 #include "base/macros.h"
 
 namespace cobra {
@@ -22,30 +21,31 @@ class Socket {
   int fd() const { return sockfd_; }
 
   // Abort if address is in use
-  void bindAddress(const Endpoint& localaddr);
+  void Bind(const Endpoint& local_address);
 
   // Abort if address is in use
-  void listen();
+  void Listen();
 
   // On success, returns a non-negative integer that is
   // a descriptor for the accepted socket, which has been
   // set to non-blocking and close-on-exec. *peeraddr is assigned.
   // On error, -1 is returned, and *peeraddr is untouched.
-  int accept(Endpoint* peeraddr);
+  int Accept(Endpoint* peeraddr);
 
-  void shutdownWrite();
+  void ShutdownWrite();
 
+  /////////////////// optional settings //////////////////
   // Enable/disable TCP_NODELAY (disable/enable Nagle's algorithm).
-  void setTcpNoDelay(bool on);
+  void SetTcpNoDelay(bool on);
 
   // Enable/disable SO_REUSEADDR
-  void setReuseAddr(bool on);
+  void SetReuseAddr(bool on);
 
   // Enable/disable SO_REUSEPORT
-  void setReusePort(bool on);
+  void SetReusePort(bool on);
 
   // Enable/disable SO_KEEPALIVE
-  void setKeepAlive(bool on);
+  void SetKeepAlive(bool on);
 
  private:
   const int sockfd_;
