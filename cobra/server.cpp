@@ -78,7 +78,7 @@ void Server::EstablishConnection(int32 conn_fd, const Endpoint& peer_address) {
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(ioLoop,
                                           connName,
-                                          conn_fd, // the connection socket.
+                                          conn_fd,
                                           local_address,
                                           peer_address));
 

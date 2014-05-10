@@ -6,7 +6,7 @@
 
 #include "base/Logging.h"
 #include "base/Types.h"
-#include "cobra/Channel.h"
+#include "cobra/channel.h"
 
 using namespace cobra;
 

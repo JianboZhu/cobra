@@ -1,4 +1,4 @@
-#include "cobra/poller/ePoll_poller.h"
+#include "cobra/poller/epoll_poller.h"
 
 #include <assert.h>
 #include <errno.h>
@@ -8,7 +8,7 @@
 #include <boost/static_assert.hpp>
 
 #include "base/Logging.h"
-#include "cobra/Channel.h"
+#include "cobra/channel.h"
 
 using namespace cobra;
 
@@ -95,8 +95,7 @@ void EPollPoller::fillActiveChannels(int numEvents,
   }
 }
 
-void EPollPoller::updateChannel(Channel* channel)
-{
+void EPollPoller::UpdateChannel(Channel* channel) {
   Poller::assertInLoopThread();
   LOG_TRACE << "fd = " << channel->fd() << " events = " << channel->events();
   const int index = channel->index();

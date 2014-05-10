@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 
+namespace cobra {
+
 Poller* Poller::newDefaultPoller(Worker* loop) {
   if (::getenv("COBRA_USE_POLL")) {
     return new PollPoller(loop);
@@ -11,3 +13,5 @@ Poller* Poller::newDefaultPoller(Worker* loop) {
     return new EPollPoller(loop);
   }
 }
+
+}  // namespace cobra

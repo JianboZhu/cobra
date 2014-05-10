@@ -1,7 +1,7 @@
 #ifndef COBRA_POLLER_EPOLL_POLLER_H_
 #define COBRA_POLLER_EPOLL_POLLER_H_
 
-#include "cobra/Poller.h"
+#include "cobra/poller.h"
 
 #include <map>
 #include <vector>

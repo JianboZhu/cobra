@@ -39,6 +39,7 @@ class Poller {
   // Must be called in the loop thread.
   virtual void removeChannel(Channel* channel) = 0;
 
+  // @see poller/default_poller.cpp
   static Poller* newDefaultPoller(Worker* loop);
 
   void assertInLoopThread() {
