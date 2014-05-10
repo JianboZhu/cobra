@@ -1,12 +1,12 @@
-#include <cobra/poller/PollPoller.h>
-
-#include <base/Logging.h>
-#include <base/Types.h>
-#include <cobra/Channel.h>
+#include "cobra/poller/poll_poller.h"
 
 #include <assert.h>
 #include <errno.h>
 #include <poll.h>
+
+#include "base/Logging.h"
+#include "base/Types.h"
+#include "cobra/Channel.h"
 
 using namespace cobra;
 
@@ -50,11 +50,12 @@ void PollPoller::fillActiveChannels(int numEvents,
   }
 }
 
-void PollPoller::updateChannel(Channel* channel) {
+void PollPoller::UpdateChannel(Channel* channel) {
   Poller::assertInLoopThread();
   LOG_TRACE << "fd = " << channel->fd() << " events = " << channel->events();
+
   if (channel->index() < 0) {
-    // a new one, add to pollfds_
+    // A new one, add to 'pollfds_'
     assert(channels_.find(channel->fd()) == channels_.end());
     struct pollfd pfd;
     pfd.fd = channel->fd();

@@ -1,7 +1,7 @@
-#ifndef COBRA_POLLER_EPOLLPOLLER_H_
-#define COBRA_POLLER_EPOLLPOLLER_H_
+#ifndef COBRA_POLLER_EPOLL_POLLER_H_
+#define COBRA_POLLER_EPOLL_POLLER_H_
 
-#include <cobra/Poller.h>
+#include "cobra/Poller.h"
 
 #include <map>
 #include <vector>
@@ -40,4 +40,4 @@ class EPollPoller : public Poller
 
 }  // namespace cobra
 
-#endif  // COBRA_POLLER_EPOLLPOLLER_H_
+#endif  // COBRA_POLLER_EPOLL_POLLER_H_
