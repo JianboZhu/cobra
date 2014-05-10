@@ -33,7 +33,7 @@ void Channel::tie(const boost::shared_ptr<void>& obj) {
 }
 
 void Channel::update() {
-  loop_->updateChannel(this);
+  loop_->UpdateChannel(this);
 }
 
 void Channel::remove() {

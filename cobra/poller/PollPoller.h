@@ -23,7 +23,7 @@ class PollPoller : public Poller {
   // Update a channel.
   //   1. Adding a new channel.
   //   2. update an existing channel's warpped fd's 'events'(in the struct pollfd).
-  virtual void updateChannel(Channel* channel);
+  virtual void UpdateChannel(Channel* channel);
   virtual void removeChannel(Channel* channel);
 
  private:

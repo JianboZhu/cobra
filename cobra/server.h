@@ -27,8 +27,8 @@ class Server {
   typedef boost::function<void(Worker*)> ThreadInitCb;
 
   Server(Worker* loop,
-         const Endpoint& listenAddr,
-         const string& nameArg);
+         const Endpoint& listen_address,
+         const string& server_name = "server");
   virtual ~Server();
 
   inline Worker* GetWorker() const {
@@ -83,9 +83,9 @@ class Server {
  private:
   // Not thread safe, but in loop
   //
-  // It can be used as callback functions,
-  // called when an connetion is established.
-  void newConnection(int32 sockfd, const Endpoint& peerAddr);
+  // Establish a connection.
+  // It's used as callback function.
+  void EstablishConnection(int32 sockfd, const Endpoint& peerAddr);
 
   // Thread safe.
   void removeConnection(const TcpConnectionPtr& conn);

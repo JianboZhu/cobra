@@ -1,3 +1,7 @@
+// Author: Jianbo Zhu
+//
+// A selectable I/O channel.
+
 #ifndef COBRA_CHANNEL_H_
 #define COBRA_CHANNEL_H_
 
@@ -13,8 +17,6 @@ namespace cobra {
 
 class Worker;
 
-// A selectable I/O channel.
-//
 // This class doesn't own the file descriptor.
 // The file descriptor could be a socket,
 // an eventfd, a timerfd, or a signalfd
@@ -66,22 +68,26 @@ class Channel {
     // PollPoller::updateChannel.
     update();
   }
+
   // void disableReading() { events_ &= ~kReadEvent; update(); }
   void enableWriting() {
     events_ |= kWriteEvent;
     update();
   }
+
   void disableWriting() {
     events_ &= ~kWriteEvent;
     update();
   }
+
   void disableAll() {
     events_ = kNoneEvent;
     update();
   }
+
   bool isWriting() const { return events_ & kWriteEvent; }
 
-  // For Poller
+  // Only for Poller
   int index() { return index_; }
   void set_index(int idx) { index_ = idx; }
 

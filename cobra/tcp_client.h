@@ -1,5 +1,5 @@
-#ifndef COBRA_TCPCLIENT_H
-#define COBRA_TCPCLIENT_H
+#ifndef COBRA_TCPCLIENT_H_
+#define COBRA_TCPCLIENT_H_
 
 #include "base/macros.h"
 #include "base/Mutex.h"
@@ -70,4 +70,4 @@ class TcpClient : boost::noncopyable {
 
 }  // namespace cobra
 
-#endif  // COBRA_TCPCLIENT_H
+#endif  // COBRA_TCPCLIENT_H_

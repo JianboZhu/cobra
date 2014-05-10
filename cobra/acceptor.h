@@ -1,9 +1,14 @@
+// Author: Jianbo Zhu
+//
+// The acceptor.
+
 #ifndef COBRA_ACCEPTOR_H_
 #define COBRA_ACCEPTOR_H_
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 
+#include "base/basic_types.h"
 #include "base/macros.h"
 #include "cobra/channel.h"
 #include "cobra/socket.h"
@@ -19,26 +24,26 @@ class Acceptor {
   typedef boost::function<void (int sockfd,
                                 const Endpoint&)> NewConnectionCb;
 
-  Acceptor(Worker* loop, const Endpoint& listenAddr);
+  Acceptor(Worker* loop, const Endpoint& listen_address);
   ~Acceptor();
 
   // Called when a new connecion comes
   void setNewConnectionCb(const NewConnectionCb& cb) {
-    newConnectionCb_ = cb;
+    new_conn_cb_ = cb;
   }
 
-  bool listenning() const { return listenning_; }
+  inline bool listenning() const { return listenning_; }
   void listen();
 
  private:
   void handleRead();
 
   Worker* loop_;
-  Socket acceptSocket_;
-  Channel acceptChannel_;
-  NewConnectionCb newConnectionCb_;
+  Socket accept_socket_;
+  Channel accept_channel_;
+  NewConnectionCb new_conn_cb_;
   bool listenning_;
-  int idleFd_;
+  int32 idle_fd_;
 
   DISABLE_COPY_AND_ASSIGN(Acceptor);
 };

@@ -1,5 +1,8 @@
-#ifndef COBRA_POLLER_H
-#define COBRA_POLLER_H
+// Author: Jianbo Zhu
+//
+
+#ifndef COBRA_POLLER_H_
+#define COBRA_POLLER_H_
 
 #include <vector>
 
@@ -30,7 +33,7 @@ class Poller {
 
   // Changes the interested I/O events.
   // Must be called in the loop thread.
-  virtual void updateChannel(Channel* channel) = 0;
+  virtual void UpdateChannel(Channel* channel) = 0;
 
   // Remove the channel, when it destroy.
   // Must be called in the loop thread.
@@ -48,4 +51,4 @@ class Poller {
 
 }  // namesapce cobra
 
-#endif  // COBRA_POLLER_H
+#endif  // COBRA_POLLER_H_

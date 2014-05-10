@@ -88,8 +88,8 @@ class Worker {
   // Update the monitoring events(read/write/err ect) of an fd(the socket)
   // wrapped in a channel or adding a new fd to the system call 'poll'
   // to monitor.
-  // @see PollPoller::updateChannel().
-  void updateChannel(Channel* channel);
+  // @see PollPoller::UpdateChannel().
+  void UpdateChannel(Channel* channel);
 
   // Remove a fd, which is monotoring by the 'poll'.
   void removeChannel(Channel* channel);

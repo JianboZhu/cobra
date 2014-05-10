@@ -149,7 +149,7 @@ void Connector::handleWrite() {
     } else {
       setState(kConnected);
       if (connect_) {
-        newConnectionCb_(sockfd);
+        new_conn_cb_(sockfd);
       } else {
         internal::close(sockfd);
       }

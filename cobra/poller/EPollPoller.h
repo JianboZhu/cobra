@@ -20,7 +20,7 @@ class EPollPoller : public Poller
   virtual ~EPollPoller();
 
   virtual Timestamp poll(int timeoutMs, ChannelList* activeChannels);
-  virtual void updateChannel(Channel* channel);
+  virtual void UpdateChannel(Channel* channel);
   virtual void removeChannel(Channel* channel);
 
  private:

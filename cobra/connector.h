@@ -21,7 +21,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   ~Connector();
 
   void setNewConnectionCb(const NewConnectionCb& cb)
-  { newConnectionCb_ = cb; }
+  { new_conn_cb_ = cb; }
 
   void start();  // can be called in any thread
   void restart();  // must be called in loop thread
@@ -52,7 +52,7 @@ class Connector : public boost::enable_shared_from_this<Connector> {
   Endpoint serverAddr_;
   bool connect_; // atomic
   boost::scoped_ptr<Channel> channel_;
-  NewConnectionCb newConnectionCb_;
+  NewConnectionCb new_conn_cb_;
   int retryDelayMs_;
 };
 

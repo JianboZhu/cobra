@@ -1,5 +1,5 @@
-#ifndef COBRA_ENDPOINT_H
-#define COBRA_ENDPOINT_H
+#ifndef COBRA_ENDPOINT_H_
+#define COBRA_ENDPOINT_H_
 
 #include "base/string_piece.h"
 
@@ -43,4 +43,4 @@ class Endpoint {
 
 }  // namespace cobra
 
-#endif  // COBRA_ENDPOINT_H
+#endif  // COBRA_ENDPOINT_H_

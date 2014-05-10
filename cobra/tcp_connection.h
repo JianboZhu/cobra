@@ -1,5 +1,5 @@
-#ifndef COBRA_TCPCONNECTION_H
-#define COBRA_TCPCONNECTION_H
+#ifndef COBRA_TCPCONNECTION_H_
+#define COBRA_TCPCONNECTION_H_
 
 #include <boost/any.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -55,17 +55,20 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   }
 
   //////////////////////////////////// begin //////////////////////////////
-  // These callback functions are set by user, @see TcpServer::SetConnectionCallBack
-  void setConnectionCb(const ConnectionCb& cb)
-  { connectionCb_ = cb; }
+  // These callback functions are set by user, @see Server::SetConnectionCallBack
+  inline void setConnectionCb(const ConnectionCb& cb) {
+    connectionCb_ = cb;
+  }
 
   // @see TcpServer::SetMessageCallBack
-  void setMessageCb(const MessageCb& cb)
-  { messageCb_ = cb; }
+  inline void setMessageCb(const MessageCb& cb) {
+    messageCb_ = cb;
+  }
 
   // @see TcpServer::SetWriteCompleteCallBack
-  void setWriteCompleteCb(const WriteCompleteCb& cb)
-  { writeCompleteCb_ = cb; }
+  inline void setWriteCompleteCb(const WriteCompleteCb& cb) { 
+    writeCompleteCb_ = cb;
+  }
   /////////////////////////////////// end //////////////////////////////////////
 
 
@@ -89,9 +92,9 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   { closeCb_ = cb; }
 
   // Called when TcpServer accepts a new connection
-  void connectEstablished();   // should be called only once
+  void ConnectionEstablished();   // should be called only once
   // Called when TcpServer has removed me from its map
-  void connectDestroyed();  // should be called only once
+  void ConnectionDestroyed();  // should be called only once
 
  private:
   enum StateE { kDisconnected, kConnecting, kConnected, kDisconnecting };
@@ -131,4 +134,4 @@ typedef boost::shared_ptr<TcpConnection> TcpConnectionPtr;
 
 }  // namespace cobra
 
-#endif  // COBRA_TCPCONNECTION_H
+#endif  // COBRA_TCPCONNECTION_H_

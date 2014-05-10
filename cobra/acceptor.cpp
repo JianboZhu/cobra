@@ -14,48 +14,47 @@ namespace cobra {
 
 Acceptor::Acceptor(Worker* loop, const Endpoint& listenAddr)
   : loop_(loop),
-    acceptSocket_(internal::createNonblockingOrDie()),
-    acceptChannel_(loop, acceptSocket_.fd()),
+    accept_socket_(internal::createNonblockingOrDie()),
+    accept_channel_(loop, accept_socket_.fd()),
     listenning_(false),
-    idleFd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
-  assert(idleFd_ >= 0);
-  acceptSocket_.setReuseAddr(true);
-  //acceptSocket_.setReusePort(reuseport);
-  acceptSocket_.bindAddress(listenAddr);
+    idle_fd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
+  assert(idle_fd_ >= 0);
+  accept_socket_.setReuseAddr(true);
+  //accept_socket_.setReusePort(reuseport);
+  accept_socket_.bindAddress(listenAddr);
 
   // When there is a connection_request coming on the listening port,
   // call the callback function. here refers to 'Acceptor::handleRead'.
-  acceptChannel_.setReadCb(
+  accept_channel_.setReadCb(
       boost::bind(&Acceptor::handleRead, this));
 }
 
 Acceptor::~Acceptor() {
-  acceptChannel_.disableAll();
-  acceptChannel_.remove();
-  ::close(idleFd_);
+  accept_channel_.disableAll();
+  accept_channel_.remove();
+  ::close(idle_fd_);
 }
 
 void Acceptor::listen() {
   loop_->assertInLoopThread();
   listenning_ = true;
 
-  // Start listening for connections on 'acceptSocket_'.
-  acceptSocket_.listen();
+  // Start listening for connections on 'accept_socket_'.
+  accept_socket_.listen();
 
   // Enable the 'read' event of the 'fd'.
-  acceptChannel_.enableReading();
+  accept_channel_.enableReading();
 }
 
 void Acceptor::handleRead() {
   loop_->assertInLoopThread();
-  Endpoint peerAddr(0);
+
+  Endpoint peer_address(0);
   //FIXME loop until no more
-  int connfd = acceptSocket_.accept(&peerAddr);
+  int connfd = accept_socket_.accept(&peer_address);
   if (connfd >= 0) {
-    // string hostport = peerAddr.toIpPort();
-    // LOG_TRACE << "Accepts of " << hostport;
-    if (newConnectionCb_) {
-      newConnectionCb_(connfd, peerAddr);
+    if (new_conn_cb_) {
+      new_conn_cb_(connfd, peer_address);
     } else {
       internal::close(connfd);
     }
@@ -65,10 +64,10 @@ void Acceptor::handleRead() {
     // accept()ing when you can't" in libev's doc.
     // By Marc Lehmann, author of libev.
     if (errno == EMFILE) {
-      ::close(idleFd_);
-      idleFd_ = ::accept(acceptSocket_.fd(), NULL, NULL);
-      ::close(idleFd_);
-      idleFd_ = ::open("/dev/null", O_RDONLY | O_CLOEXEC);
+      ::close(idle_fd_);
+      idle_fd_ = ::accept(accept_socket_.fd(), NULL, NULL);
+      ::close(idle_fd_);
+      idle_fd_ = ::open("/dev/null", O_RDONLY | O_CLOEXEC);
     }
   }
 }

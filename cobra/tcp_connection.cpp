@@ -30,17 +30,17 @@ void defaultMessageCb(const TcpConnectionPtr&,
 }  // Anonymous namespace
 
 TcpConnection::TcpConnection(Worker* loop,
-                             const string& nameArg,
-                             int sockfd,
-                             const Endpoint& localAddr,
-                             const Endpoint& peerAddr)
+                             const string& connection_name,
+                             int conn_fd,
+                             const Endpoint& local_address,
+                             const Endpoint& peer_address)
   : loop_(CHECK_NOTNULL(loop)),
-    name_(nameArg),
+    name_(connection_name),
     state_(kConnecting),
-    socket_(new Socket(sockfd)),
-    channel_(new Channel(loop, sockfd)), // the conn socket.
-    localAddr_(localAddr),
-    peerAddr_(peerAddr),
+    socket_(new Socket(conn_fd)),
+    channel_(new Channel(loop, conn_fd)),
+    localAddr_(local_address),
+    peerAddr_(peer_address),
     highWaterMark_(64*1024*1024) {
   // Set callbacks for Channel.
   channel_->setReadCb(
@@ -52,7 +52,7 @@ TcpConnection::TcpConnection(Worker* loop,
   channel_->setErrorCb(
       boost::bind(&TcpConnection::handleError, this));
   LOG_DEBUG << "TcpConnection::ctor[" <<  name_ << "] at " << this
-            << " fd=" << sockfd;
+            << " fd=" << conn_fd;
 
   // Keep the conn-socket alive.
   socket_->setKeepAlive(true);
@@ -179,7 +179,7 @@ void TcpConnection::setTcpNoDelay(bool on) {
 }
 
 // Called when the connetion on the corresponding conn socket is established.
-void TcpConnection::connectEstablished() {
+void TcpConnection::ConnectionEstablished() {
   loop_->assertInLoopThread();
   assert(state_ == kConnecting);
   setState(kConnected);
@@ -194,10 +194,9 @@ void TcpConnection::connectEstablished() {
   connectionCb_(shared_from_this());
 }
 
-void TcpConnection::connectDestroyed() {
+void TcpConnection::ConnectionDestroyed() {
   loop_->assertInLoopThread();
-  if (state_ == kConnected)
-  {
+  if (state_ == kConnected) {
     setState(kDisconnected);
     channel_->disableAll();
 

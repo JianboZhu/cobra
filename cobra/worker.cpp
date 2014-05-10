@@ -157,10 +157,11 @@ void Worker::cancel(TimerId timerId) {
   return timerQueue_->cancel(timerId);
 }
 
-void Worker::updateChannel(Channel* channel) {
+void Worker::UpdateChannel(Channel* channel) {
   assert(channel->ownerLoop() == this);
   assertInLoopThread();
-  poller_->updateChannel(channel);
+
+  poller_->UpdateChannel(channel);
 }
 
 void Worker::removeChannel(Channel* channel) {

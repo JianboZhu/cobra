@@ -1,5 +1,5 @@
-#ifndef COBRA_SOCKET_H
-#define COBRA_SOCKET_H
+#ifndef COBRA_SOCKET_H_
+#define COBRA_SOCKET_H_
 
 
 #include "base/macros.h"
@@ -21,9 +21,10 @@ class Socket {
 
   int fd() const { return sockfd_; }
 
-  // abort if address in use
+  // Abort if address is in use
   void bindAddress(const Endpoint& localaddr);
-  // abort if address in use
+
+  // Abort if address is in use
   void listen();
 
   // On success, returns a non-negative integer that is
@@ -54,4 +55,4 @@ class Socket {
 
 }  // namespace cobra
 
-#endif  // COBRA_SOCKET_H
+#endif  // COBRA_SOCKET_H_

@@ -14,10 +14,10 @@ namespace cobra {
 
 Server::Server(Worker* loop,
                const Endpoint& listenAddr,
-               const string& nameArg)
+               const string& server_name)
   : loop_(CHECK_NOTNULL(loop)),
     hostport_(listenAddr.toIpPort()),
-    name_(nameArg),
+    name_(server_name),
     acceptor_(new Acceptor(loop, listenAddr)),
     thread_pool_(new WorkerThreadPool(loop)),
     connectionCb_(defaultConnectionCb),
@@ -26,7 +26,7 @@ Server::Server(Worker* loop,
   // Called when an connection is accpeted, @see Acceptor::HandleRead which is
   // called when a connection request is listened on 'listen fd'.
   acceptor_->setNewConnectionCb(
-      boost::bind(&Server::newConnection, this, _1, _2));
+      boost::bind(&Server::EstablishConnection, this, _1, _2));
 }
 
 Server::~Server() {
@@ -38,7 +38,7 @@ Server::~Server() {
     TcpConnectionPtr conn = iter->second;
     iter->second.reset();
     conn->getLoop()->runInLoop(
-      boost::bind(&TcpConnection::connectDestroyed, conn));
+      boost::bind(&TcpConnection::ConnectionDestroyed, conn));
     conn.reset();
   }
 }
@@ -60,8 +60,7 @@ void Server::start() {
   }
 }
 
-// Called when an connection is established, @see Acceptor::handleRead
-void Server::newConnection(int32 sockfd, const Endpoint& peerAddr) {
+void Server::EstablishConnection(int32 conn_fd, const Endpoint& peer_address) {
   loop_->assertInLoopThread();
 
   // This new connection is assign to a event_loop thread in a round-robin way.
@@ -71,17 +70,17 @@ void Server::newConnection(int32 sockfd, const Endpoint& peerAddr) {
   ++nextConnId_;
   string connName = name_ + buf;
 
-  LOG_INFO << "Server::newConnection [" << name_
+  LOG_INFO << "Server::EstablishConnection [" << name_
            << "] - new connection [" << connName
-           << "] from " << peerAddr.toIpPort();
-  Endpoint localAddr(internal::getLocalAddr(sockfd));
+           << "] from " << peer_address.toIpPort();
+  Endpoint local_address(internal::getLocalAddr(conn_fd));
   // FIXME poll with zero timeout to double confirm the new connection
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(ioLoop,
                                           connName,
-                                          sockfd, // the connection socket.
-                                          localAddr,
-                                          peerAddr));
+                                          conn_fd, // the connection socket.
+                                          local_address,
+                                          peer_address));
 
   // Records the new connection.
   connections_[connName] = conn;
@@ -94,7 +93,7 @@ void Server::newConnection(int32 sockfd, const Endpoint& peerAddr) {
       boost::bind(&Server::removeConnection, this, _1)); // FIXME: unsafe
 
   // Run TcpConnection::connectEstablished immediately.
-  ioLoop->runInLoop(boost::bind(&TcpConnection::connectEstablished, conn));
+  ioLoop->runInLoop(boost::bind(&TcpConnection::ConnectionEstablished, conn));
 }
 
 void Server::removeConnection(const TcpConnectionPtr& conn) {
@@ -111,7 +110,7 @@ void Server::removeConnectionInLoop(const TcpConnectionPtr& conn) {
   assert(n == 1);
   Worker* ioLoop = conn->getLoop();
   ioLoop->queueInLoop(
-      boost::bind(&TcpConnection::connectDestroyed, conn));
+      boost::bind(&TcpConnection::ConnectionDestroyed, conn));
 }
 
 }  // namespace cobra

@@ -1,5 +1,5 @@
-#ifndef COBRA_TIMERQUEUE_H
-#define COBRA_TIMERQUEUE_H
+#ifndef COBRA_TIMERQUEUE_H_
+#define COBRA_TIMERQUEUE_H_
 
 #include <set>
 #include <vector>
@@ -67,4 +67,4 @@ class TimerQueue {
 
 }  // namespace cobra
 
-#endif  // COBRA_TIMERQUEUE_H
+#endif  // COBRA_TIMERQUEUE_H_

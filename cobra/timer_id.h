@@ -1,5 +1,5 @@
-#ifndef COBRA_TIMERID_H
-#define COBRA_TIMERID_H
+#ifndef COBRA_TIMERID_H_
+#define COBRA_TIMERID_H_
 
 namespace cobra {
 
@@ -27,4 +27,4 @@ class TimerId {
 
 }  // namespace cobra
 
-#endif  // COBRA_TIMERID_H
+#endif  // COBRA_TIMERID_H_
