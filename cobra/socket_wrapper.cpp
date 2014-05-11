@@ -2,17 +2,20 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <stdio.h>
-#include <strings.h>
+#include <strings.h>  // bzero
 #include <sys/socket.h>
 #include <unistd.h>
 
 #include "base/Logging.h"
 #include "base/Types.h"
 #include "cobra/endian.h"
+#include "cobra/endpoint.h"
+#include "cobra/socket_wrapper.h"
 
 namespace cobra {
-namespace internal {
 
 namespace {
 
@@ -44,29 +47,12 @@ void setNonBlockAndCloseOnExec(int sockfd) {
 
 }  // Anonymous namespace
 
-int createNonblockingOrDie() {
-#if VALGRIND
-  int sockfd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-  if (sockfd < 0) {
-    LOG_SYSFATAL << "createNonblockingOrDie";
-  }
-
-  setNonBlockAndCloseOnExec(sockfd);
-#else
-  int sockfd = ::socket(
-      AF_INET, // only support ipv4 now.
-      SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC,
-      IPPROTO_TCP); // Only support tcp now.
-
-  if (sockfd < 0) {
-    LOG_SYSFATAL << "createNonblockingOrDie";
-  }
-#endif
-  return sockfd;
+Socket::~Socket() {
+  close(sockfd_);
 }
 
-void bindOrDie(int sockfd, const  sockaddr_in& addr) {
-  int ret = ::bind(sockfd,
+void Socket::Bind(const Endpoint& addr) {
+  int ret = ::bind(sockfd_,
                    sockaddr_cast(&addr),
                    static_cast<socklen_t>(sizeof addr));
 
@@ -75,26 +61,28 @@ void bindOrDie(int sockfd, const  sockaddr_in& addr) {
   }
 }
 
-void listenOrDie(int sockfd) {
-  int ret = ::listen(sockfd, SOMAXCONN);
+void Socket::Listen() {
+  int ret = ::listen(sockfd_, SOMAXCONN);
 
   if (ret < 0) {
     LOG_SYSFATAL << "listenOrDie";
   }
 }
 
-int accept(int sockfd,  sockaddr_in* addr) {
+int32 Socket::Accept(Endpoint* peer_addr) {
+  sockaddr_in addr;
+  bzero(&addr, sizeof(addr));
   socklen_t addrlen = static_cast<socklen_t>(sizeof *addr);
 #if VALGRIND
-  int connfd = ::accept(sockfd, sockaddr_cast(addr), &addrlen);
-  setNonBlockAndCloseOnExec(connfd);
+  int conn_fd = ::accept(sockfd, sockaddr_cast(addr), &addrlen);
+  setNonBlockAndCloseOnExec(conn_fd);
 #else
-  int connfd = ::accept4(sockfd,
+  int conn_fd = ::accept4(sockfd,
                          sockaddr_cast(addr),
                          &addrlen,
                          SOCK_NONBLOCK | SOCK_CLOEXEC);
 #endif
-  if (connfd < 0) {
+  if (conn_fd < 0) {
     int savedErrno = errno;
     LOG_SYSERR << "Socket::accept";
     switch (savedErrno) {
@@ -123,7 +111,73 @@ int accept(int sockfd,  sockaddr_in* addr) {
         break;
     }
   }
-  return connfd;
+
+  if (conn_fd >= 0) {
+    peer_addr->setSockAddrInet(addr);
+  }
+
+  return conn_fd;
+}
+
+void Socket::ShutdownWrite() {
+  internal::shutdownWrite(sockfd_);
+}
+
+void Socket::SetTcpNoDelay(bool on) {
+  int optval = on ? 1 : 0;
+  ::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY,
+               &optval, static_cast<socklen_t>(sizeof optval));
+  // FIXME CHECK
+}
+
+void Socket::SetReuseAddr(bool on) {
+  int optval = on ? 1 : 0;
+  ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,
+               &optval, static_cast<socklen_t>(sizeof optval));
+  // FIXME CHECK
+}
+
+void Socket::SetReusePort(bool on) {
+#ifdef SO_REUSEPORT
+  int optval = on ? 1 : 0;
+  int ret = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT,
+                         &optval, static_cast<socklen_t>(sizeof optval));
+  if (ret < 0) {
+    LOG_SYSERR << "SO_REUSEPORT failed.";
+  }
+#else
+  if (on) {
+    LOG_ERROR << "SO_REUSEPORT is not supported.";
+  }
+#endif
+}
+
+void Socket::SetKeepAlive(bool on) {
+  int optval = on ? 1 : 0;
+  ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE,
+               &optval, static_cast<socklen_t>(sizeof optval));
+  // FIXME CHECK
+}
+
+int createNonblockingOrDie() {
+#if VALGRIND
+  int sockfd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+  if (sockfd < 0) {
+    LOG_SYSFATAL << "createNonblockingOrDie";
+  }
+
+  setNonBlockAndCloseOnExec(sockfd);
+#else
+  int sockfd = ::socket(
+      AF_INET, // only support ipv4 now.
+      SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC,
+      IPPROTO_TCP); // Only support tcp now.
+
+  if (sockfd < 0) {
+    LOG_SYSFATAL << "createNonblockingOrDie";
+  }
+#endif
+  return sockfd;
 }
 
 int connect(int sockfd, const  sockaddr_in& addr) {
@@ -220,5 +274,4 @@ bool isSelfConnect(int sockfd) {
          localaddr.sin_addr.s_addr == peeraddr.sin_addr.s_addr;
 }
 
-}  // namespace internal
 }  // namespace cobra

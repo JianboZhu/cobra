@@ -13,7 +13,6 @@
 #include "base/basic_types.h"
 #include "base/macros.h"
 #include "base/Atomic.h"
-#include "base/Types.h"
 #include "cobra/tcp_connection.h"
 
 namespace cobra {
@@ -60,7 +59,7 @@ class Server {
   // Not thread safe.
   //
   // Called when a connection is established.
-  inline void setConnectionCb(const ConnectionCb& cb) {
+  inline void SetConnectionCb(const ConnectionCb& cb) {
     connectionCb_ = cb;
   }
 
@@ -68,7 +67,7 @@ class Server {
   // Not thread safe.
   //
   // Called when a message is readed into the input_buffer.
-  inline void setMessageCb(const MessageCb& cb) {
+  inline void SetMessageCb(const MessageCb& cb) {
     messageCb_ = cb;
   }
 
@@ -76,7 +75,7 @@ class Server {
   // Not thread safe.
   //
   // Called when a message is writed complete.
-  inline void setWriteCompleteCb(const WriteCompleteCb& cb) {
+  inline void SetWriteCompleteCb(const WriteCompleteCb& cb) {
     writeCompleteCb_ = cb;
   }
 
@@ -84,16 +83,16 @@ class Server {
   // Not thread safe, but in loop
   //
   // Establish a connection.
-  // It's used as callback function.
+  // It's used as a callback function.
   void EstablishConnection(int32 sockfd, const Endpoint& peerAddr);
 
   // Thread safe.
-  void removeConnection(const TcpConnectionPtr& conn);
+  void RemoveConnection(const TcpConnectionPtr& conn);
 
   // Not thread safe, but in loop
-  void removeConnectionInLoop(const TcpConnectionPtr& conn);
+  void RemoveConnectionInLoop(const TcpConnectionPtr& conn);
 
-  AtomicInt32 started_;
+  bool started_;
   Worker* loop_;  // the acceptor loop
   const string hostport_;
   const string name_;
@@ -110,8 +109,6 @@ class Server {
   // The established connections
   typedef std::map<string, TcpConnectionPtr> ConnectionMap;
   ConnectionMap connections_;
-  // Always in loop thread
-  uint32 nextConnId_;
 
   DISABLE_COPY_AND_ASSIGN(Server);
 };

@@ -12,7 +12,7 @@
 
 namespace cobra {
 
-Acceptor::Acceptor(Worker* loop, const Endpoint& listenAddr)
+Acceptor::Acceptor(Worker* loop, const Endpoint& listen_address)
   : loop_(loop),
     accept_socket_(internal::createNonblockingOrDie()),
     accept_channel_(loop, accept_socket_.fd()),
@@ -21,12 +21,12 @@ Acceptor::Acceptor(Worker* loop, const Endpoint& listenAddr)
   assert(idle_fd_ >= 0);
   accept_socket_.SetReuseAddr(true);
   //accept_socket_.SetReusePort(reuseport);
-  accept_socket_.Bind(listenAddr);
+  accept_socket_.Bind(listen_address);
 
-  // When there is a connection_request coming on the listening port,
+  // When there is a connection request coming on the listening port,
   // call the callback function. here refers to 'Acceptor::handleRead'.
   accept_channel_.SetReadCb(
-      boost::bind(&Acceptor::handleRead, this));
+      boost::bind(&Acceptor::HandleRead, this));
 }
 
 Acceptor::~Acceptor() {
@@ -46,7 +46,7 @@ void Acceptor::Listen() {
   accept_channel_.enableReading();
 }
 
-void Acceptor::handleRead() {
+void Acceptor::HandleRead() {
   loop_->assertInLoopThread();
 
   Endpoint peer_address(0);

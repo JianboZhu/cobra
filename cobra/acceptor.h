@@ -28,15 +28,15 @@ class Acceptor {
   ~Acceptor();
 
   // Called when a new connecion comes
-  void setNewConnectionCb(const NewConnectionCb& cb) {
+  void SetNewConnectionCb(const NewConnectionCb& cb) {
     new_conn_cb_ = cb;
   }
 
-  inline bool listenning() const { return listenning_; }
+  inline bool Listenning() const { return listenning_; }
   void Listen();
 
  private:
-  void handleRead();
+  void HandleRead();
 
   Worker* loop_;
   Socket accept_socket_;

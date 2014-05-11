@@ -7,7 +7,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "base/macros.h"
-#include "base/Mutex.h"
 #include "base/string_piece.h"
 #include "base/Types.h"
 #include "cobra/callbacks.h"
@@ -56,17 +55,17 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
 
   //////////////////////////////////// begin //////////////////////////////
   // These callback functions are set by user, @see Server::SetConnectionCallBack
-  inline void setConnectionCb(const ConnectionCb& cb) {
+  inline void SetConnectionCb(const ConnectionCb& cb) {
     connectionCb_ = cb;
   }
 
   // @see TcpServer::SetMessageCallBack
-  inline void setMessageCb(const MessageCb& cb) {
+  inline void SetMessageCb(const MessageCb& cb) {
     messageCb_ = cb;
   }
 
   // @see TcpServer::SetWriteCompleteCallBack
-  inline void setWriteCompleteCb(const WriteCompleteCb& cb) { 
+  inline void SetWriteCompleteCb(const WriteCompleteCb& cb) { 
     writeCompleteCb_ = cb;
   }
   /////////////////////////////////// end //////////////////////////////////////
@@ -88,8 +87,7 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   }
 
   // Internal use only.
-  void setCloseCb(const CloseCb& cb)
-  { closeCb_ = cb; }
+  void SetCloseCb(const CloseCb& cb) { closeCb_ = cb; }
 
   // Called when TcpServer accepts a new connection
   void ConnectionEstablished();   // should be called only once
