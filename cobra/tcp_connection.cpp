@@ -3,7 +3,6 @@
 #include "base/Logging.h"
 #include "cobra/channel.h"
 #include "cobra/worker.h"
-#include "cobra/socket.h"
 #include "cobra/socket_wrapper.h"
 
 #include <boost/bind.hpp>
@@ -37,7 +36,7 @@ TcpConnection::TcpConnection(Worker* loop,
   : loop_(CHECK_NOTNULL(loop)),
     name_(connection_name),
     state_(kConnecting),
-    socket_(new Socket(conn_fd)),
+    conn_fd_(conn_fd),
     channel_(new Channel(loop, conn_fd)),
     localAddr_(local_address),
     peerAddr_(peer_address),
@@ -55,7 +54,7 @@ TcpConnection::TcpConnection(Worker* loop,
             << " fd=" << conn_fd;
 
   // Keep the conn-socket alive.
-  socket_->SetKeepAlive(true);
+  SetKeepAlive(conn_fd, true);
 }
 
 TcpConnection::~TcpConnection() {
@@ -120,7 +119,7 @@ void TcpConnection::sendInLoop(const void* data, size_t len) {
   }
   // if no thing in output queue, try writing directly
   if (!channel_->isWriting() && outputBuffer_.readableBytes() == 0) {
-    nwrote = internal::write(channel_->fd(), data, len);
+    nwrote = write(channel_->fd(), data, len);
     if (nwrote >= 0) {
       remaining = len - nwrote;
       if (remaining == 0 && writeCompleteCb_) {
@@ -170,12 +169,12 @@ void TcpConnection::shutdownInLoop()
   if (!channel_->isWriting())
   {
     // we are not writing
-    socket_->ShutdownWrite();
+    ShutdownWrite(conn_fd_);
   }
 }
 
 void TcpConnection::setTcpNoDelay(bool on) {
-  socket_->SetTcpNoDelay(on);
+  SetTcpNoDelay(conn_fd_, on);
 }
 
 // Called when the connetion on the corresponding conn socket is established.
@@ -230,7 +229,7 @@ void TcpConnection::handleRead(Timestamp receiveTime) {
 void TcpConnection::handleWrite() {
   loop_->assertInLoopThread();
   if (channel_->isWriting()) {
-    ssize_t n = internal::write(channel_->fd(),
+    ssize_t n = write(channel_->fd(),
                                outputBuffer_.BeginRead(),
                                outputBuffer_.readableBytes());
     if (n > 0) {
@@ -272,7 +271,7 @@ void TcpConnection::handleClose() {
 }
 
 void TcpConnection::handleError() {
-  int err = internal::getSocketError(channel_->fd());
+  int err = getSocketError(channel_->fd());
   LOG_ERROR << "TcpConnection::handleError [" << name_
             << "] - SO_ERROR = " << err << " " << strerror_tl(err);
 }

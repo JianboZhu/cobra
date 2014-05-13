@@ -79,7 +79,7 @@ void Server::EstablishConnection(int32 conn_fd, const Endpoint& peer_address) {
   LOG_INFO << "Server::EstablishConnection [" << name_
            << "] - new connection [" << connName
            << "] from " << peer_address.toIpPort();
-  Endpoint local_address(internal::getLocalAddr(conn_fd));
+  Endpoint local_address(getLocalAddr(conn_fd));
   // FIXME poll with zero timeout to double confirm the new connection
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(ioLoop,

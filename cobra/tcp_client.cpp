@@ -90,13 +90,13 @@ void TcpClient::stop() {
 // Called after an connection is established.
 void TcpClient::newConnection(int sockfd) {
   loop_->assertInLoopThread();
-  Endpoint peerAddr(internal::getPeerAddr(sockfd));
+  Endpoint peerAddr(getPeerAddr(sockfd));
   char buf[32];
   snprintf(buf, sizeof buf, ":%s#%d", peerAddr.toIpPort().c_str(), nextConnId_);
   ++nextConnId_;
   string connName = name_ + buf;
 
-  Endpoint localAddr(internal::getLocalAddr(sockfd));
+  Endpoint localAddr(getLocalAddr(sockfd));
   // FIXME poll with zero timeout to double confirm the new connection
   // FIXME use make_shared if necessary
   TcpConnectionPtr conn(new TcpConnection(loop_,

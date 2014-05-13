@@ -1,10 +1,17 @@
 #include "cobra/endpoint.h"
 
-#include <strings.h>  // bzero
+#include <errno.h>
+#include <fcntl.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <stdio.h>
+#include <strings.h>  // bzero
+#include <sys/socket.h>
+#include <unistd.h>
 
 #include <boost/static_assert.hpp>
 
+#include "base/Logging.h"
 #include "cobra/endian.h"
 #include "cobra/socket_wrapper.h"
 
@@ -39,18 +46,32 @@ Endpoint::Endpoint(uint16_t port) {
 
 Endpoint::Endpoint(const StringPiece& ip, uint16_t port) {
   bzero(&addr_, sizeof addr_);
-  internal::fromIpPort(ip.data(), port, &addr_);
+
+  addr_.sin_family = AF_INET;
+  addr_.sin_port = hostToNetwork16(port);
+  if (::inet_pton(AF_INET, ip.data(), &addr_.sin_addr) <= 0) {
+    LOG_SYSERR << "fromIpPort";
+  }
 }
 
 string Endpoint::toIpPort() const {
   char buf[32];
-  internal::toIpPort(buf, sizeof buf, addr_);
+  char host[INET_ADDRSTRLEN] = "INVALID";
+  ::inet_ntop(AF_INET,
+              &addr_.sin_addr,
+              buf,
+              static_cast<socklen_t>(sizeof(host)));
+  uint16_t port = networkToHost16(addr_.sin_port);
+  snprintf(buf, sizeof(buf), "%s:%u", host, port);
+
   return buf;
 }
 
 string Endpoint::toIp() const {
   char buf[32];
-  internal::toIp(buf, sizeof buf, addr_);
+  size_t size = sizeof(buf);
+  ::inet_ntop(AF_INET, &addr_.sin_addr, buf, static_cast<socklen_t>(size));
+
   return buf;
 }
 

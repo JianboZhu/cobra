@@ -59,8 +59,8 @@ void Connector::stopInLoop() {
 }
 
 void Connector::connect() {
-  int sockfd = internal::createNonblockingOrDie();
-  int ret = internal::connect(sockfd, serverAddr_.getSockAddrInet());
+  int sockfd = createNonblockingOrDie();
+  int ret = connect(sockfd, serverAddr_.getSockAddrInet());
   int savedErrno = (ret == 0) ? 0 : errno;
   switch (savedErrno)
   {
@@ -87,12 +87,12 @@ void Connector::connect() {
     case EFAULT:
     case ENOTSOCK:
       LOG_SYSERR << "connect error in Connector::startInLoop " << savedErrno;
-      internal::close(sockfd);
+      close(sockfd);
       break;
 
     default:
       LOG_SYSERR << "Unexpected error in Connector::startInLoop " << savedErrno;
-      internal::close(sockfd);
+      close(sockfd);
       // connectErrorCb_();
       break;
   }
@@ -138,12 +138,12 @@ void Connector::handleWrite() {
 
   if (state_ == kConnecting) {
     int sockfd = removeAndResetChannel();
-    int err = internal::getSocketError(sockfd);
+    int err = getSocketError(sockfd);
     if (err) {
       LOG_WARN << "Connector::handleWrite - SO_ERROR = "
                << err << " " << strerror_tl(err);
       retry(sockfd);
-    } else if (internal::isSelfConnect(sockfd)) {
+    } else if (isSelfConnect(sockfd)) {
       LOG_WARN << "Connector::handleWrite - Self connect";
       retry(sockfd);
     } else {
@@ -151,7 +151,7 @@ void Connector::handleWrite() {
       if (connect_) {
         new_conn_cb_(sockfd);
       } else {
-        internal::close(sockfd);
+        close(sockfd);
       }
     }
   } else {
@@ -164,14 +164,14 @@ void Connector::handleError() {
   LOG_ERROR << "Connector::handleError state=" << state_;
   if (state_ == kConnecting) {
     int sockfd = removeAndResetChannel();
-    int err = internal::getSocketError(sockfd);
+    int err = getSocketError(sockfd);
     LOG_TRACE << "SO_ERROR = " << err << " " << strerror_tl(err);
     retry(sockfd);
   }
 }
 
 void Connector::retry(int sockfd) {
-  internal::close(sockfd);
+  close(sockfd);
   setState(kDisconnected);
   if (connect_) {
     LOG_INFO << "Connector::retry - Retry connecting to " << serverAddr_.toIpPort()

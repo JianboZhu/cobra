@@ -8,7 +8,6 @@ cc_library(
   deps = [
     ':channel',
     ':endpoint',
-    ':socket',
     ':socket_wrapper',
   ]
 )
@@ -59,15 +58,6 @@ cc_library(
 )
 
 cc_library(
-  name = 'socket',
-  srcs = 'socket.cpp',
-  deps = [
-    ':endpoint',
-    ':socket_wrapper',
-  ]
-)
-
-cc_library(
   name = 'socket_wrapper',
   srcs = 'socket_wrapper.cpp',
   deps = [
@@ -93,7 +83,6 @@ cc_library(
     ':channel',
     ':worker',
     ':endpoint',
-    ':socket',
     ':socket_wrapper',
   ]
 )

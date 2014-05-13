@@ -6,6 +6,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "base/basic_types.h"
 #include "base/macros.h"
 #include "base/string_piece.h"
 #include "base/Types.h"
@@ -108,8 +109,7 @@ class TcpConnection : public boost::enable_shared_from_this<TcpConnection> {
   Worker* loop_;
   string name_;
   StateE state_;  // FIXME: use atomic variable
-  // we don't expose those classes to client.
-  boost::scoped_ptr<Socket> socket_;
+  int32 conn_fd_;
   boost::scoped_ptr<Channel> channel_;
   Endpoint localAddr_;
   Endpoint peerAddr_;

@@ -183,7 +183,7 @@ void Worker::abortNotInLoopThread() {
 
 void Worker::wakeup() {
   uint64_t one = 1;
-  ssize_t n = internal::write(wakeupFd_, &one, sizeof one);
+  ssize_t n = write(wakeupFd_, &one, sizeof one);
   if (n != sizeof one) {
     LOG_ERROR << "Worker::wakeup() writes " << n << " bytes instead of 8";
   }
@@ -191,7 +191,7 @@ void Worker::wakeup() {
 
 void Worker::handleRead() {
   uint64_t one = 1;
-  ssize_t n = internal::read(wakeupFd_, &one, sizeof one);
+  ssize_t n = read(wakeupFd_, &one, sizeof one);
   if (n != sizeof one) {
     LOG_ERROR << "Worker::handleRead() reads " << n << " bytes instead of 8";
   }

@@ -11,7 +11,6 @@
 #include "base/basic_types.h"
 #include "base/macros.h"
 #include "cobra/channel.h"
-#include "cobra/socket.h"
 
 namespace cobra {
 
@@ -39,7 +38,7 @@ class Acceptor {
   void HandleRead();
 
   Worker* loop_;
-  Socket accept_socket_;
+  int32 listen_fd_;
   Channel accept_channel_;
   NewConnectionCb new_conn_cb_;
   bool listenning_;

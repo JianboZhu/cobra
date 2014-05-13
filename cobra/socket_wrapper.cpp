@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "base/basic_types.h"
 #include "base/Logging.h"
 #include "base/Types.h"
 #include "cobra/endian.h"
@@ -47,44 +48,40 @@ void setNonBlockAndCloseOnExec(int sockfd) {
 
 }  // Anonymous namespace
 
-Socket::~Socket() {
-  close(sockfd_);
-}
-
-void Socket::Bind(const Endpoint& addr) {
-  int ret = ::bind(sockfd_,
-                   sockaddr_cast(&addr),
-                   static_cast<socklen_t>(sizeof addr));
+void Bind(int32 listen_fd, const Endpoint& addr) {
+  int ret = ::bind(listen_fd,
+                   sockaddr_cast(&addr.getSockAddrInet()),
+                   static_cast<socklen_t>(sizeof(addr.getSockAddrInet())));
 
   if (ret < 0) {
     LOG_SYSFATAL << "bindOrDie";
   }
 }
 
-void Socket::Listen() {
-  int ret = ::listen(sockfd_, SOMAXCONN);
+void Listen2(int32 listen_fd) {
+  int ret = ::listen(listen_fd, SOMAXCONN);
 
   if (ret < 0) {
     LOG_SYSFATAL << "listenOrDie";
   }
 }
 
-int32 Socket::Accept(Endpoint* peer_addr) {
+int32 Accept(int32 listen_fd, Endpoint* peer_addr) {
   sockaddr_in addr;
   bzero(&addr, sizeof(addr));
-  socklen_t addrlen = static_cast<socklen_t>(sizeof *addr);
+  socklen_t addrlen = static_cast<socklen_t>(sizeof(addr));
 #if VALGRIND
-  int conn_fd = ::accept(sockfd, sockaddr_cast(addr), &addrlen);
+  int conn_fd = ::accept(listen_fd, sockaddr_cast(&addr), &addrlen);
   setNonBlockAndCloseOnExec(conn_fd);
 #else
-  int conn_fd = ::accept4(sockfd,
-                         sockaddr_cast(addr),
+  int conn_fd = ::accept4(listen_fd,
+                         sockaddr_cast(&addr),
                          &addrlen,
                          SOCK_NONBLOCK | SOCK_CLOEXEC);
 #endif
   if (conn_fd < 0) {
     int savedErrno = errno;
-    LOG_SYSERR << "Socket::accept";
+    LOG_SYSERR << "accept";
     switch (savedErrno) {
       case EAGAIN:
       case ECONNABORTED:
@@ -119,28 +116,24 @@ int32 Socket::Accept(Endpoint* peer_addr) {
   return conn_fd;
 }
 
-void Socket::ShutdownWrite() {
-  internal::shutdownWrite(sockfd_);
-}
-
-void Socket::SetTcpNoDelay(bool on) {
+void SetTcpNoDelay(int32 sock_fd, bool on) {
   int optval = on ? 1 : 0;
-  ::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY,
+  ::setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY,
                &optval, static_cast<socklen_t>(sizeof optval));
   // FIXME CHECK
 }
 
-void Socket::SetReuseAddr(bool on) {
+void SetReuseAddr(int32 sock_fd, bool on) {
   int optval = on ? 1 : 0;
-  ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,
+  ::setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR,
                &optval, static_cast<socklen_t>(sizeof optval));
   // FIXME CHECK
 }
 
-void Socket::SetReusePort(bool on) {
+void SetReusePort(int32 sock_fd, bool on) {
 #ifdef SO_REUSEPORT
   int optval = on ? 1 : 0;
-  int ret = ::setsockopt(sockfd_, SOL_SOCKET, SO_REUSEPORT,
+  int ret = ::setsockopt(sock_fd, SOL_SOCKET, SO_REUSEPORT,
                          &optval, static_cast<socklen_t>(sizeof optval));
   if (ret < 0) {
     LOG_SYSERR << "SO_REUSEPORT failed.";
@@ -152,9 +145,9 @@ void Socket::SetReusePort(bool on) {
 #endif
 }
 
-void Socket::SetKeepAlive(bool on) {
+void SetKeepAlive(int32 sock_fd, bool on) {
   int optval = on ? 1 : 0;
-  ::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE,
+  ::setsockopt(sock_fd, SOL_SOCKET, SO_KEEPALIVE,
                &optval, static_cast<socklen_t>(sizeof optval));
   // FIXME CHECK
 }
@@ -204,35 +197,9 @@ void close(int sockfd) {
   }
 }
 
-void shutdownWrite(int sockfd) {
-  if (::shutdown(sockfd, SHUT_WR) < 0) {
+void ShutdownWrite(int sock_fd) {
+  if (::shutdown(sock_fd, SHUT_WR) < 0) {
     LOG_SYSERR << "shutdownWrite";
-  }
-}
-
-void toIpPort(char* buf,
-              size_t size,
-              const sockaddr_in& addr) {
-  char host[INET_ADDRSTRLEN] = "INVALID";
-  toIp(host, sizeof host, addr);
-  uint16_t port = networkToHost16(addr.sin_port);
-  snprintf(buf, size, "%s:%u", host, port);
-}
-
-void toIp(char* buf,
-          size_t size,
-          const  sockaddr_in& addr) {
-  assert(size >= INET_ADDRSTRLEN);
-  ::inet_ntop(AF_INET, &addr.sin_addr, buf, static_cast<socklen_t>(size));
-}
-
-void fromIpPort(const char* ip,
-                uint16_t port,
-                sockaddr_in* addr) {
-  addr->sin_family = AF_INET;
-  addr->sin_port = hostToNetwork16(port);
-  if (::inet_pton(AF_INET, ip, &addr->sin_addr) <= 0) {
-    LOG_SYSERR << "fromIpPort";
   }
 }
 

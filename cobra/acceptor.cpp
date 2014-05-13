@@ -6,22 +6,22 @@
 #include <boost/bind.hpp>
 
 #include "base/Logging.h"
-#include "cobra/worker.h"
 #include "cobra/endpoint.h"
 #include "cobra/socket_wrapper.h"
+#include "cobra/worker.h"
 
 namespace cobra {
 
 Acceptor::Acceptor(Worker* loop, const Endpoint& listen_address)
   : loop_(loop),
-    accept_socket_(internal::createNonblockingOrDie()),
-    accept_channel_(loop, accept_socket_.fd()),
+    listen_fd_(createNonblockingOrDie()),
+    accept_channel_(loop, listen_fd_),
     listenning_(false),
     idle_fd_(::open("/dev/null", O_RDONLY | O_CLOEXEC)) {
   assert(idle_fd_ >= 0);
-  accept_socket_.SetReuseAddr(true);
-  //accept_socket_.SetReusePort(reuseport);
-  accept_socket_.Bind(listen_address);
+  SetReuseAddr(listen_fd_, true);
+  //SetReusePort(listen_fd_, reuseport);
+  Bind(listen_fd_, listen_address);
 
   // When there is a connection request coming on the listening port,
   // call the callback function. here refers to 'Acceptor::handleRead'.
@@ -39,8 +39,8 @@ void Acceptor::Listen() {
   loop_->assertInLoopThread();
   listenning_ = true;
 
-  // Start listening for connections on 'accept_socket_'.
-  accept_socket_.Listen();
+  // Start listening for connections on 'listen_fd_'.
+  Listen2(listen_fd_);
 
   // Enable the 'read' event of the 'fd'.
   accept_channel_.enableReading();
@@ -51,12 +51,12 @@ void Acceptor::HandleRead() {
 
   Endpoint peer_address(0);
   //FIXME loop until no more
-  int connfd = accept_socket_.Accept(&peer_address);
+  int connfd = Accept(listen_fd_, &peer_address);
   if (connfd >= 0) {
     if (new_conn_cb_) {
       new_conn_cb_(connfd, peer_address);
     } else {
-      internal::close(connfd);
+      close(connfd);
     }
   } else {
     LOG_SYSERR << "in Acceptor::handleRead";
@@ -65,7 +65,7 @@ void Acceptor::HandleRead() {
     // By Marc Lehmann, author of libev.
     if (errno == EMFILE) {
       ::close(idle_fd_);
-      idle_fd_ = ::accept(accept_socket_.fd(), NULL, NULL);
+      idle_fd_ = ::accept(listen_fd_, NULL, NULL);
       ::close(idle_fd_);
       idle_fd_ = ::open("/dev/null", O_RDONLY | O_CLOEXEC);
     }
